@@ -1,0 +1,348 @@
+import React, { Component } from 'react';
+import {
+  View,
+  Image,
+  ScrollView,
+  ImageBackground,
+  TouchableOpacity,
+  ActivityIndicator,
+  TextInput,
+  Platform,
+  Text,
+} from 'react-native';
+
+import { Appbar, Button } from 'react-native-paper';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+import Orientation from 'react-native-orientation-locker';
+import eventBus from '../../../utils/eventBus';
+
+// API
+import HttpRequest from '../../../utils/HTTPRequest';
+import LocalData from '../../../utils/LocalData';
+
+// Redux
+import { connect } from 'react-redux';
+import { userInfo, loginToken } from '../../../Redux/Actions/Actions';
+import { bindActionCreators } from 'redux';
+
+// Components
+import StatusBar from '../../../components/StatusBar/';
+import Alerts from '../../../components/Alerts/';
+
+// Social
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk-next';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
+// Styles
+import styles from './styles';
+
+class Signin extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      secureTextEntry: true,
+      isLoading: false,
+      email: '',
+      password: '',
+      errors: {},
+      isNotify: false,
+      title: '',
+      subtitle: '',
+      type: '',
+      action: '',
+    };
+
+    this.emailRef = this.updateRef.bind(this, 'email');
+    this.passwordRef = this.updateRef.bind(this, 'password');
+  }
+
+  componentDidMount() {
+    eventBus.emit('videoPaused', { isClosed: 'false' });
+    Orientation.lockToPortrait();
+
+    GoogleSignin.configure({
+      scopes: ['profile'],
+      webClientId:
+        Platform.OS === 'ios'
+          ? '483954169009-5qnhg4f6vgvs9flff4il2sgtv8g54oa2.apps.googleusercontent.com'
+          : '483954169009-drvulhadgt228s05snjho8a326pc9bep.apps.googleusercontent.com',
+      offlineAccess: true,
+      forceCodeForRefreshToken: true,
+    });
+  }
+
+  componentWillUnmount() {
+    if (Platform.OS === 'ios') {
+      appleAuth.onCredentialRevoked(async () => {
+        console.log('Apple credentials revoked');
+      });
+    }
+  }
+
+  updateRef(name, ref) {
+    this[name] = ref;
+  }
+
+  onFocus = () => {
+    this.setState({ errors: {} });
+  };
+
+  onChangeText = (text, field) => {
+    this.setState({ [field]: text });
+  };
+
+  onSubmitEmail = () => {
+    this.password?.focus();
+  };
+
+  onSubmitPassword = () => {
+    this.password?.blur();
+    this.onSubmit();
+  };
+
+  onAccessoryPress = () => {
+    this.setState(prev => ({ secureTextEntry: !prev.secureTextEntry }));
+  };
+
+  onSubmit = () => {
+    const { email, password } = this.state;
+    let errors = {};
+    const reg =
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (!email) errors.email = 'Should not be empty';
+    else if (!reg.test(email)) errors.email = 'Invalid Email Address Format.';
+
+    if (!password) errors.password = 'Should not be empty';
+    else if (password.length < 8)
+      errors.password = 'The password must be at least 8 characters.';
+
+    this.setState({ errors });
+
+    if (Object.keys(errors).length === 0) {
+      this.onLoginPressed();
+    }
+  };
+
+  onLoginPressed = () => {
+    const { email, password } = this.state;
+    this.setState({ isLoading: true });
+
+    HttpRequest.login({ email, password })
+      .then(res => {
+        this.setState({ isLoading: false });
+        const result = res.data;
+
+        if (res.status === 200 && result.error === false) {
+          LocalData.setLoginToken(result.token);
+          this.props.loginToken(result.token);
+
+          LocalData.setUserInfo(result.detail);
+          this.props.userInfo(result.detail);
+
+          this.props.navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          });
+        } else {
+          this.notify('danger', 'Oops!', result.message ?? result.status, false);
+        }
+      })
+      .catch(() => {
+        this.setState({ isLoading: false });
+        this.notify('danger', 'Oops!', 'Something Went Wrong!', false);
+      });
+  };
+
+  renderPasswordAccessory() {
+    const icon = this.state.secureTextEntry ? 'visibility' : 'visibility-off';
+
+    return (
+      <MaterialIcons
+        size={24}
+        name={icon}
+        color="#ff0000"
+        onPress={this.onAccessoryPress}
+      />
+    );
+  }
+
+  notify = (type, title, subtitle, action) => {
+    this.setState({
+      isNotify: true,
+      title,
+      subtitle,
+      type,
+      action,
+    });
+  };
+
+  updateNotify = () => {
+    this.setState({ isNotify: false });
+  };
+
+  /* ---------------- RENDER ---------------- */
+
+  render() {
+    const {
+      isLoading,
+      secureTextEntry,
+      email,
+      password,
+      errors,
+      isNotify,
+      title,
+      subtitle,
+      type,
+      action,
+    } = this.state;
+
+    const errorEmail = errors.email ? '#ff0000' : '#fff';
+    const errorPassword = errors.password ? '#ff0000' : '#fff';
+
+    return (
+      <View style={styles.container}>
+        <StatusBar hidden />
+
+        {/* HEADER */}
+        <Appbar.Header style={styles.transparentHeader}>
+          <Appbar.Action
+            icon={() => (
+              <MaterialIcons name="arrow-back" size={25} color="#fff" />
+            )}
+            onPress={() => this.props.navigation.goBack()}
+          />
+
+          <View style={{ flex: 1 }} />
+
+          <Appbar.Action
+            icon={() => (
+              <Image
+                source={require('../../../../assets/icons/help.png')}
+                style={styles.infoIcon}
+              />
+            )}
+            onPress={() => this.props.navigation.navigate('IntroHelp')}
+          />
+
+          <Appbar.Action
+            icon={() => (
+              <Image
+                source={require('../../../../assets/icons/faq.png')}
+                style={styles.infoIcon}
+              />
+            )}
+            onPress={() => this.props.navigation.navigate('IntroFaq')}
+          />
+        </Appbar.Header>
+
+        {isNotify && (
+          <Alerts
+            show
+            type={type}
+            title={title}
+            subtitle={subtitle}
+            navigation={this.props.navigation}
+            action={action}
+            parentReference={this.updateNotify}
+          />
+        )}
+
+        {/* CONTENT */}
+        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 10 }}>
+          <View style={styles.cardStyle}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardTitle}>LOGIN</Text>
+            </View>
+
+            <ImageBackground
+              source={require('../../../../assets/img/auth/signIn.png')}
+              style={styles.bg}
+            >
+              <View style={styles.cardBody}>
+                <View style={{ width: '90%', margin: '5%' }}>
+                  {/* EMAIL */}
+                  <View style={[styles.formItem, { borderColor: errorEmail }]}>
+                    <AntDesign name="mail" size={25} color="#fff" />
+                    <TextInput
+                      ref={this.emailRef}
+                      placeholder="Your@email.com"
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      onFocus={this.onFocus}
+                      onChangeText={text => this.onChangeText(text, 'email')}
+                      onSubmitEditing={this.onSubmitEmail}
+                      value={email}
+                      placeholderTextColor={errorEmail}
+                      style={[styles.inputText, { color: errorEmail }]}
+                    />
+                  </View>
+                  {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+
+                  {/* PASSWORD */}
+                  <View style={[styles.formItem, { borderColor: errorPassword }]}>
+                    <AntDesign name="lock" size={25} color="#fff" />
+                    <TextInput
+                      ref={this.passwordRef}
+                      placeholder="Password"
+                      secureTextEntry={secureTextEntry}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      onFocus={this.onFocus}
+                      onChangeText={text => this.onChangeText(text, 'password')}
+                      onSubmitEditing={this.onSubmitPassword}
+                      value={password}
+                      placeholderTextColor={errorPassword}
+                      style={[styles.inputText, { color: errorPassword }]}
+                    />
+                    {this.renderPasswordAccessory()}
+                  </View>
+                  {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+
+                  {/* LOGIN BUTTON */}
+                  <Button
+                    mode="contained"
+                    buttonColor="#d32f2f"
+                    style={styles.loginBtn}
+                    onPress={this.onSubmit}
+                  >
+                    {isLoading ? (
+                      <ActivityIndicator color="#fff" />
+                    ) : (
+                      <Text style={styles.boldText}>LOGIN</Text>
+                    )}
+                  </Button>
+
+                  <TouchableOpacity
+                    style={styles.forgotPassword}
+                    onPress={() => this.props.navigation.navigate('RecoverPassword')}
+                  >
+                    <Text style={styles.cardFooterText}>Forget password?</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+}
+
+/* ---------------- REDUX ---------------- */
+
+const mapStateToProps = state => ({
+  token: state.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+  userInfo: bindActionCreators(userInfo, dispatch),
+  loginToken: bindActionCreators(loginToken, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signin);
