@@ -22,7 +22,8 @@ const config = {
 
 class App extends React.Component {
   componentDidMount = () => {
-    Orientation.lockToPortrait();
+    console.log('App foreground!');
+    //Orientation.lockToPortrait();
     requestUserPermission();
     notificationListener();
   };

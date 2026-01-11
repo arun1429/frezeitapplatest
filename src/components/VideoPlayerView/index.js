@@ -915,7 +915,7 @@ class VideoPlayerView extends Component {
    */
   componentWillUnmount() {
      deactivateKeepAwake();
-    Orientation.lockToPortrait();
+    //Orientation.lockToPortrait();
     VolumeManager.removeListener(this.volumeListener);
     this.onBlur();
     this.mounted = false;

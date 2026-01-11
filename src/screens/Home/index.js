@@ -81,7 +81,7 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-    Orientation.lockToPortrait();
+    //Orientation.lockToPortrait();
     this.checkNetworkConnectivity();
     this.appStateSubscription = AppState.addEventListener('change', this.handleAppStateChange);
     this.focusListener = this.props.navigation.addListener('focus', () => {

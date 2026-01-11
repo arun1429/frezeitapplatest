@@ -92,7 +92,7 @@ class SideMenu extends Component {
       //             <Image
       //                             style={styles.logo}
       //                             source={require('../../../assets/logo_sidebar.png')}
-      //                             contentFit={Image.resizeMode.contain}
+      //                             contentFit={'contain'}
       //             />
       //         </TouchableOpacity>
       //     </Col>
@@ -103,7 +103,7 @@ class SideMenu extends Component {
       //                     <Image
       //                             style={ props.active == undefined ? styles.activeIcon : styles.icon }
       //                             source={require('../../../assets/icons/sideMenu/home_icon.png')}
-      //                             contentFit={Image.resizeMode.contain}
+      //                             contentFit={'contain'}
       //                     />
       //                 </View>
       //             </TouchableOpacity>
@@ -112,7 +112,7 @@ class SideMenu extends Component {
       //                     <Image
       //                             style={ props.active == "search" ? styles.activeIcon : styles.icon }
       //                             source={require('../../../assets/icons/sideMenu/search_icon.png')}
-      //                             contentFit={Image.resizeMode.contain}
+      //                             contentFit={'contain'}
       //                     />
       //                 </View>
       //             </TouchableOpacity>
@@ -121,7 +121,7 @@ class SideMenu extends Component {
       //                     <Image
       //                             style={ props.active == "wishlist" ? styles.activeIcon : styles.icon }
       //                             source={require('../../../assets/icons/sideMenu/myList_icon.png')}
-      //                             contentFit={Image.resizeMode.contain}
+      //                             contentFit={'contain'}
       //                     />
       //                 </View>
       //             </TouchableOpacity>
@@ -130,7 +130,7 @@ class SideMenu extends Component {
       //                     <Image
       //                             style={ props.active == "download" ? styles.activeIcon : styles.icon }
       //                             source={require('../../../assets/icons/sideMenu/download_icon.png')}
-      //                             contentFit={Image.resizeMode.contain}
+      //                             contentFit={'contain'}
       //                     />
       //                 </View>
       //             </TouchableOpacity>
@@ -139,7 +139,7 @@ class SideMenu extends Component {
       //                     <Image
       //                             style={styles.icon}
       //                             source={require('../../../assets/icons/sideMenu/toggle_icon.png')}
-      //                             contentFit={Image.resizeMode.contain}
+      //                             contentFit={'contain'}
       //                     />
       //                 </View>
       //             </TouchableOpacity>

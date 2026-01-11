@@ -60,7 +60,7 @@ class Signup extends Component {
   }
 
   componentDidMount() {
-    Orientation.lockToPortrait();
+    //Orientation.lockToPortrait();
   }
 
   updateRef(name, ref) {

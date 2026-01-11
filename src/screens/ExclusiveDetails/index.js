@@ -103,7 +103,7 @@ class Details extends Component {
     eventBus.emit('videoPaused', {
       isClosed: 'false',
     });
-    Orientation.lockToPortrait();
+    //Orientation.lockToPortrait();
     this.checkConnectivity();
     this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);
     this._toggleTrailer();

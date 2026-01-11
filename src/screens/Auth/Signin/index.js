@@ -33,7 +33,7 @@ import Alerts from '../../../components/Alerts/';
 
 // Social
 import { appleAuth } from '@invertase/react-native-apple-authentication';
-import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk-next';
+// import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk-next';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 // Styles
@@ -62,7 +62,7 @@ class Signin extends Component {
 
   componentDidMount() {
     eventBus.emit('videoPaused', { isClosed: 'false' });
-    Orientation.lockToPortrait();
+    //Orientation.lockToPortrait();
 
     GoogleSignin.configure({
       scopes: ['profile'],

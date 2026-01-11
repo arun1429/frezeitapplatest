@@ -47,7 +47,7 @@ class Order extends Component {
         eventBus.emit('videoPaused', {
             isClosed: "false"
         })
-        Orientation.lockToPortrait();
+        //Orientation.lockToPortrait();
         this.getOrderResults();
     }
 

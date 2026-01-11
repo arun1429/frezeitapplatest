@@ -14,7 +14,7 @@ export default class IntroHelp extends Component {
         super(props);
     } 
     componentDidMount () {
-        Orientation.lockToPortrait();
+        //Orientation.lockToPortrait();
     }
     
     render() {

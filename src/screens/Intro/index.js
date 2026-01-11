@@ -24,7 +24,7 @@ const { width } = Dimensions.get('window');
 
 export default class Intro extends Component {
   componentDidMount() {
-    Orientation.lockToPortrait();
+    //Orientation.lockToPortrait();
   }
 
   renderItem = ({ item }) => {

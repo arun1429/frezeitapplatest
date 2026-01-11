@@ -28,7 +28,7 @@ export default class TermsCondition extends Component {
         }
     } 
     componentDidMount () {
-        Orientation.lockToPortrait();
+        //Orientation.lockToPortrait();
          //Check internet connectivity
          this.checkNetworkConnectivity()
     }

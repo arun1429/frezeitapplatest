@@ -47,7 +47,7 @@ class ComingSoonDetails extends Component {
   }
 
   componentDidMount() {
-    Orientation.lockToPortrait();
+    //Orientation.lockToPortrait();
     this.checkNetworkConnectivity();
      eventBus.on('onDidFocus', this.handleDidFocus);
     this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);

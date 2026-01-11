@@ -48,7 +48,7 @@ export default class RecoverPassword extends Component {
   }
 
   componentDidMount() {
-    Orientation.lockToPortrait();
+    //Orientation.lockToPortrait();
   }
 
   onFocus() {

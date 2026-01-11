@@ -38,7 +38,7 @@ class Chat extends Component {
         eventBus.emit('videoPaused', {
             isClosed: "false"
         })
-        Orientation.lockToPortrait();
+        //Orientation.lockToPortrait();
         // Dialogflow_V2.setConfiguration(
         //     dialogflow.client_email,
         //     dialogflow.private_key,

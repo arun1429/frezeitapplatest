@@ -335,7 +335,7 @@ class Splash extends Component {
         <StatusBar />
         {isNotify && <Alerts show={true} type={type} title={title} subtitle={subtitle} navigation={this.props.navigation} action={action} onRef={ref => (this.parentReference = ref)} parentReference={this.updateNotify.bind(this)} />}
         <View style={styles.content}>
-          <Image source={require('../../assets/animations/splash_1.gif')} style={styles.logo} contentFit={Image.resizeMode.cover} onLoad={() => this.setState({loaded: true})} />
+          <Image source={require('../../assets/animations/splash_1.gif')} style={styles.logo} contentFit={'cover'} onLoad={() => this.setState({loaded: true})} />
         </View>
       </View>
     );
