@@ -1,20 +1,28 @@
-import React, {Component} from 'react';
-import {View, Dimensions, TouchableOpacity, Text, AppState, ScrollView, Image, TouchableWithoutFeedback, ActivityIndicator} from 'react-native';
-import VideoPlayer from 'react-native-video-player';
+import React, { Component } from 'react';
+import {
+  View,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+  AppState,
+  ActivityIndicator,
+} from 'react-native';
+import Video from 'react-native-video';
 import AppSlider from '../../components/AppSlider';
-//Api
 
+// API
 import HttpRequest from '../../utils/HTTPRequest';
 import LocalData from '../../utils/LocalData';
-//Redux
 
-import {connect} from 'react-redux';
-import {slider} from '../../Redux/Actions/Actions';
-import {bindActionCreators} from 'redux';
-//styles
+// Redux
+import { connect } from 'react-redux';
+import { slider } from '../../Redux/Actions/Actions';
+import { bindActionCreators } from 'redux';
 
+// Styles
 import styles from './styles';
-import eventBus from '../../utils/eventBus';;
+import eventBus from '../../utils/eventBus';
+
 const deviceWidth = Dimensions.get('window').width;
 
 class Slider extends Component {
@@ -22,64 +30,46 @@ class Slider extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      backgroundImage: '',
       appState: AppState.currentState,
-      activeIndex: 0,
       activeSlide: 0,
-      totalItem: '',
-      isStarted: false,
-      isBuffering: false,
+      totalItem: 0,
       isMuted: false,
-      isPaused: false,
-      progress: 0,
-      progressPlayer: 0,
-      videoDuration: 0,
-      video: '',
-      muted: false,
       paused: false,
-      currentIndex: 0,
       sliderData: [],
     };
-    this._renderItem = this._renderItem.bind(this);
-    this._onSnapToItem = this._onSnapToItem.bind(this);
   }
 
-  componentDidMount = () => {
-    //Get Silder Featured Movies Data
+  componentDidMount() {
     this.getSlider();
-    this.setState({
-      isStarted: true,
-      isMuted: false,
-      paused: false
-    });
-     eventBus.on('videoPaused', this.handleDidFocus);
-    this.appStateSubscription = AppState.addEventListener('change', this.handleAppStateChange);
-    this.focusSliderListener = this.props.navigation.addListener('focus', () => {
+
+    eventBus.on('videoPaused', this.handleDidFocus);
+
+    this.appStateSubscription = AppState.addEventListener(
+      'change',
+      this.handleAppStateChange
+    );
+
+    this.focusListener = this.props.navigation.addListener('focus', () => {
       this.setState({ paused: false, isMuted: false });
     });
-  
-    this.blurSliderListener = this.props.navigation.addListener('blur', () => {
+
+    this.blurListener = this.props.navigation.addListener('blur', () => {
       this.setState({ paused: true, isMuted: true });
     });
-  };
-  handleDidFocus = (data) => {
-    if (data.isClosed == 'false') {
-        this.setState({
-          activeSlide: 10001,
-        });
-      }
-  };
+  }
+
   componentWillUnmount() {
     eventBus.off('videoPaused', this.handleDidFocus);
-    this.setState({
-      isStarted: true,
-      isMuted: true,
-      paused: true
-    });
-    this.appStateSubscription.remove();
-    this.focusSliderListener();
-    this.blurSliderListener();
+    this.appStateSubscription?.remove();
+    this.focusListener();
+    this.blurListener();
   }
+
+  handleDidFocus = (data) => {
+    if (data?.isClosed === 'false') {
+      this.setState({ activeSlide: 10001 });
+    }
+  };
 
   handleAppStateChange = (nextAppState) => {
     if (
@@ -87,197 +77,138 @@ class Slider extends Component {
       nextAppState === 'active'
     ) {
       if (this.props.navigation.isFocused()) {
-        this.setState({
-          paused: false,
-          isMuted: false
-        });
+        this.setState({ paused: false, isMuted: false });
       }
     } else if (
       this.state.appState === 'active' &&
       nextAppState.match(/inactive|background/)
     ) {
-      this.setState({
-        paused: true,
-        isMuted: true
-      });
+      this.setState({ paused: true, isMuted: true });
     }
+
     this.setState({ appState: nextAppState });
   };
 
-  onToggleMute = () => {
-    this.setState({
-      isMuted: !this.state.isMuted,
-    });
-  };
-
-  //Get Slider
   getSlider = () => {
-    this.setState({isLoading: true});
-    // if (this.props.token !== '') {
+    this.setState({ isLoading: true });
+
     HttpRequest.getSlider(this.props.token)
       .then(res => {
         const result = res.data;
-        // console.log('Slider API Result: ', result);
-        if (res.status == 200 && result.error == false) {
-          if (result.data.length > 0) {
-            // console.log('resul : ' + JSON.stringify(result.data['0']));
-            this.setState({
-              backgroundImage: result.data['0'].image,
-              activeIndex: 0,
-              isLoading: false,
-            });
-            this.props.slider(result.data);
-            LocalData.setSlider(result.data);
-            this.setState({
-              totalItem: result.data.length,
-              sliderData: result.data,
-            });
-          }
-        } else {
-          console.log('Slider API Error: ', result);
-          LocalData.getSlider().then(info => {
-            if (JSON.parse(info) != null && JSON.parse(info).length != 0) {
-              //Slider
-              this.readSlider();
-            }
+
+        if (res.status === 200 && result?.error === false && result.data?.length) {
+          this.props.slider(result.data);
+          LocalData.setSlider(result.data);
+
+          this.setState({
+            sliderData: result.data,
+            totalItem: result.data.length,
+            isLoading: false,
           });
+        } else {
+          this.loadCachedSlider();
         }
-        this.setState({isLoading: false});
       })
-      .catch(err => {
-        this.setState({isLoading: false});
-        console.log('Slider API Catch Exception: ', err);
-        LocalData.getSlider().then(info => {
-          if (JSON.parse(info) != null && JSON.parse(info).length != 0) {
-            //Slider
-            this.readSlider();
-          }
-        });
+      .catch(() => {
+        this.loadCachedSlider();
       });
   };
 
-  readSlider = () => {
-    LocalData.getSlider().then(info => {
-      if (JSON.parse(info) != null && JSON.parse(info).length != 0) {
-        this.props.slider(JSON.parse(info));
-        this.setState({
-          totalItem: info.data.length,
-        });
-      }
+  loadCachedSlider = async () => {
+    const cached = await LocalData.getSlider();
+    const data = JSON.parse(cached || '[]');
+
+    if (data.length) {
+      this.props.slider(data);
+      this.setState({
+        sliderData: data,
+        totalItem: data.length,
+      });
+    }
+
+    this.setState({ isLoading: false });
+  };
+
+  callDetailsScreen = (item) => {
+    this.setState({ activeSlide: 10001 });
+
+    const route = item.trailer_order && this.props.token ? 'Exclusive' : 'Details';
+
+    this.props.navigation.navigate(route, {
+      itemId: item.id,
+      type: item.type,
     });
   };
 
-  callDetailsScreen = item => {
-    this.setState({activeSlide: 10001});
-    if (item.trailer_order != '') {
-      if (this.props.token != '') {
-        console.log('Exclusive content');
-        this.props.navigation.navigate('Exclusive', {
-          itemId: item.id,
-          type: item.type,
-        });
-      } else {
-        console.log('Details with exclusive content');
+  renderItem = ({ item, index }) => {
+    const { activeSlide, paused, isMuted } = this.state;
 
-        this.props.navigation.navigate('Details', {
-          itemId: item.id,
-          type: item.type,
-        });
-      }
-    } else {
-      console.log('Details content');
+    const shouldPause =
+      index !== activeSlide || paused || activeSlide === 10001;
 
-      this.props.navigation.navigate('Details', {
-        itemId: item.id,
-        type: item.type,
-      });
-    }
-  };
-
-  _renderItem({item, index}) {
-    // console.log({_renderItem: index});
     return (
-      <TouchableOpacity style={styles.imageContainer} key={index} onPress={() => this.callDetailsScreen(item)}>
-        <VideoPlayer
-          video={{uri: item.link}} // Can be a URL or a local file.
-          ref={r => (this._player = r)} // Store reference
+      <TouchableOpacity
+        style={styles.imageContainer}
+        onPress={() => this.callDetailsScreen(item)}
+      >
+        <Video
+          source={{ uri: item.link }}
           style={styles.image}
-          onPress={() => this.callDetailsScreen(item)}
-          muted={this.state.isMuted}
-          paused={index !== this.state.activeSlide || this.state.paused}
-          autoplay={true}
-          videoWidth={1600}
-          videoHeight={900}
-          pauseOnPress
-           contentFit={'cover'}
-          thumbnail={{uri: item.image}}
+          resizeMode="cover"
+          poster={item.image}
+          posterResizeMode="cover"
+          muted={isMuted}
+          paused={shouldPause}
+          repeat
+          playInBackground={false}
+          playWhenInactive={false}
           ignoreSilentSwitch="ignore"
         />
-        <View
-          style={{
-            height: 120,
-            width: '100%',
-            alignSelf: 'center',
-            backgroundColor: 'white',
-            opacity: 0.0,
-            position: 'absolute',
-          }}
-        />
-        {this.state.activeSlide != 10001 && (
+
+        {activeSlide !== 10001 && (
           <Text style={styles.count}>
-            {this.state.activeSlide + 1}/{this.state.totalItem}
+            {activeSlide + 1}/{this.state.totalItem}
           </Text>
         )}
       </TouchableOpacity>
     );
-  }
+  };
 
-  _onSnapToItem(index) {
-    console.log('activeSlide  : ' + index);
-    this.setState({
-      // backgroundImage: this.state.sliderData[index].image,
-      isPaused: true,
-      activeSlide: index,
-    });
-  }
-
-  _onOpenItem() {
-    console.log('activeSlide  : ' + this.state.activeSlide);
-    this.callDetailsScreen(this.state.sliderData[this.state.activeSlide]);
-  }
-  
+  onSnapToItem = (index) => {
+    this.setState({ activeSlide: index });
+  };
 
   render() {
-    const {isLoading, sliderData} = this.state;
-    // console.log('active index ' + this.state.activeSlide);
+    const { isLoading, sliderData } = this.state;
+
+    if (isLoading) {
+      return (
+        <View style={styles.sliderContainer}>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
+      );
+    }
+
+    if (!sliderData?.length) return null;
+
     return (
       <View style={styles.sliderContainer}>
-        {isLoading && (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignSelf: 'center',
-            }}>
-            <ActivityIndicator size="large" color="#fff" style={{justifySelf: 'center'}} />
-          </View>
-        )}
-        {!isLoading && sliderData?.length >= 1 && <AppSlider ref={e => (this.appSlider = e)} renderItem={this._renderItem} slides={sliderData} onSlideChange={(index, lastIndex) => this._onSnapToItem(index)} />}
+        <AppSlider
+          renderItem={this.renderItem}
+          slides={sliderData}
+          onSlideChange={this.onSnapToItem}
+        />
       </View>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    token: state.token,
-    sliderImages: state.slider,
-  };
-};
+const mapStateToProps = state => ({
+  token: state.token,
+  sliderImages: state.slider,
+});
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({slider}, dispatch);
-};
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ slider }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Slider);

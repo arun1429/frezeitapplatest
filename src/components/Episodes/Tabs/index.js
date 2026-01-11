@@ -13,7 +13,7 @@ import LocalData from '../../../utils/LocalData';
 import {connect} from 'react-redux';
 import {userInfo, loginToken, latestMovies} from '../../../Redux/Actions/Actions';
 import {bindActionCreators} from 'redux';
-import eventBus from '../utils/eventBus';
+import eventBus from '../../../utils/eventBus';
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 

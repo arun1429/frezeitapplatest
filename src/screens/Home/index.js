@@ -16,7 +16,7 @@ import {slider, recentlyWatched, latestMovies, latestEvents, bannerAds, videoAds
 import {bindActionCreators} from 'redux';
 
 //components
-import Image from 'expo-imagee';
+import Image from 'expo-image';
 import StatusBar from '../../components/StatusBar';
 import Slider from '../../components/Slider';
 import Alerts from '../../components/Alerts';
