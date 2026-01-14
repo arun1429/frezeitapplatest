@@ -50,24 +50,25 @@ class VideoPlayerView extends Component {
 
   constructor(props) {
     super(props);
+    const safeProps = props ?? {};
     /**
      * All of our values that are updated by the
      * methods and listeners in this class
      */
     this.state = {
       // Video
-      resizeMode: this.props.resizeMode,
-      paused: this.props.videoPaused,
+      resizeMode: safeProps.resizeMode,
+      paused: safeProps.videoPaused,
       isMuted: false,
-      volume: this.props.volume,
-      rate: this.props.rate,
+      volume: safeProps.volume,
+      rate: safeProps.rate,
       // Controls
-      isFullscreen: this.props.isFullScreen || this.props.resizeMode === 'cover' || false,
+      isFullscreen: safeProps.isFullScreen || safeProps.resizeMode === 'cover' || false,
       showTimeRemaining: true,
       volumeTrackWidth: 0,
       volumeFillWidth: 0,
       seekerFillWidth: 0,
-      showControls: this.props.showOnStart,
+      showControls: safeProps.showOnStart,
       volumePosition: 0,
       seekerPosition: 0,
       volumeOffset: 0,
@@ -147,14 +148,14 @@ class VideoPlayerView extends Component {
       iconOffset: 0,
       seekerWidth: 0,
       ref: Video,
-      scrubbingTimeStep: this.props.scrubbing || 0,
-      tapAnywhereToPause: this.props.tapAnywhereToPause,
+      scrubbingTimeStep: safeProps.scrubbing || 0,
+      tapAnywhereToPause: safeProps.tapAnywhereToPause,
     };
 
     /**
      * Various animations
      */
-    const initialValue = this.props.showOnStart ? 1 : 0;
+    const initialValue = safeProps.showOnStart ? 1 : 0;
 
     this.animations = {
       bottomControl: {
@@ -182,8 +183,8 @@ class VideoPlayerView extends Component {
      * Various styles that be added...
      */
     this.styles = {
-      videoStyle: this.props.videoStyle || {},
-      containerStyle: this.props.style || {},
+      videoStyle: safeProps.videoStyle || {},
+      containerStyle: safeProps.style || {},
     };
   }
 
@@ -837,13 +838,17 @@ class VideoPlayerView extends Component {
    * we have to handle possible props changes to state changes
    */
   UNSAFE_componentWillReceiveProps(nextProps) {
+    if (!nextProps) {
+      return;
+    }
+    const safeProps = nextProps ?? {};
 
-    if (this.styles.videoStyle !== nextProps.videoStyle) {
-      this.styles.videoStyle = nextProps.videoStyle;
+    if (this.styles.videoStyle !== safeProps.videoStyle) {
+      this.styles.videoStyle = safeProps.videoStyle || {};
     }
 
-    if (this.styles.containerStyle !== nextProps.style) {
-      this.styles.containerStyle = nextProps.style;
+    if (this.styles.containerStyle !== safeProps.style) {
+      this.styles.containerStyle = safeProps.style || {};
     }
   }
 
