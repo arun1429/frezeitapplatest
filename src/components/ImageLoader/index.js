@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Animated } from 'react-native';
+import { Animated, ImageBackground } from 'react-native';
+
+const AnimatedImageBackground = Animated.createAnimatedComponent(ImageBackground);
 
 export default class ImageLoader extends Component {
 constructor(props){
@@ -18,10 +20,12 @@ constructor(props){
   }
 
   render() {
+    const {style, ...restProps} = this.props ?? {};
+
     return (
-      <Animated.ImageBackground
+      <AnimatedImageBackground
         onLoad={this.onLoad}
-        {...this.props}
+        {...restProps}
         style={[
           {
             opacity: this.state.opacity,
@@ -34,7 +38,7 @@ constructor(props){
               },
             ],
           },
-          this.props.style,
+          style,
         ]}
       />
     );
