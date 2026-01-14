@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, Dimensions, FlatList, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Dimensions, Image, SafeAreaView, TouchableOpacity, View} from 'react-native';
 //components
 import HttpRequest from '../utils/HTTPRequest';
 //style
 import eventBus from '../utils/eventBus';;
-import { Image } from 'expo-image';
 // import { Viewport } from '@skele/components';
 import withSequentialRendering from '../components/withSequentialRendering';
 import Banner from '../components/AdMob/Banner/';

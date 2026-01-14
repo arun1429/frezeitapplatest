@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, NativeModules, Linking, AppState} from 'react-native';
+import {Text, View, TouchableOpacity, NativeModules, Image, AppState} from 'react-native';
 // import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Image } from 'expo-image';
 import LocalData from '../../utils/LocalData';
 
 // import Carousel from 'react-native-snap-carousel';

@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text,  ScrollView, TouchableOpacity, Share, Platform, ActivityIndicator, TouchableWithoutFeedback, AppState, Alert, Button} from 'react-native';
+import {View, Text,  ScrollView,Image, TouchableOpacity, Share, Platform, ActivityIndicator, TouchableWithoutFeedback, AppState, Alert, Button} from 'react-native';
 //Library
 import * as Animatable from 'react-native-animatable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Orientation from 'react-native-orientation-locker';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from 'react-native-video';
-import { Image } from 'expo-image';
 import NetInfo from '@react-native-community/netinfo';
 //API
 import HttpRequest from '../../../utils/HTTPRequest';
@@ -130,7 +129,7 @@ handleDidFocus = (data) => {
       isPaused: true,
       isMuted: true,
     });
-    eventBus.off('whatToDD', this.handleDidFocus);
+    eventBus.off('whatToDO', this.handleDidFocus);
     this.onBlur();
     this.appStateSubscription.remove();
   }

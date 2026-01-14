@@ -8,9 +8,8 @@ import {
     ActivityIndicator,
     Alert, 
     Platform,
-    Button 
+    Button ,Image
 } from 'react-native'
-import Image from 'expo-image'
 import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 import NetInfo from "@react-native-community/netinfo";

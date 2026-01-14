@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { View,  SafeAreaView, TouchableOpacity, FlatList, Text } from 'react-native'
-import Image from 'expo-image'
+import { View,  SafeAreaView, TouchableOpacity, FlatList, Image } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 

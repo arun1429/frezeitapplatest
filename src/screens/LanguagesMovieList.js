@@ -13,9 +13,9 @@ import {
     Platform,
     Button,
     StyleSheet,
+    Image,
     ImageBackground
 } from 'react-native'
-import Image from 'expo-image'
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Orientation from 'react-native-orientation-locker';

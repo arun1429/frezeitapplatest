@@ -1,9 +1,8 @@
 import {XMLParser} from 'fast-xml-parser';
 import moment from 'moment/moment';
 import React, {Component} from 'react';
-import {FlatList, ScrollView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, ScrollView, StatusBar, Text, TouchableOpacity, View, Image} from 'react-native';
 import eventBus from '../../utils/eventBus';
-import { Image } from 'expo-image';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 // import { Viewport } from '@skele/components';

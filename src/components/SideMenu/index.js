@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react';
 import {View, SafeAreaView, TouchableOpacity, FlatList, Text, Image} from 'react-native';
-import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {userInfo, loginToken} from '../../Redux/Actions/Actions';

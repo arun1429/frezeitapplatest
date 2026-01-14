@@ -27,18 +27,19 @@ const RootNavigation = () => {
 
   const routeNameRef = useRef();
 
-  useEffect(() => {
-    setInitialRouteName('splashScreen');
-     eventBus.on('whatToDD', this.handleDidFocus);
-    return () => {
-       eventBus.off('whatToDD', this.handleDidFocus);
-    };
-  }, []);
-handleDidFocus = (data) => {
-   // console.log({data});
+ const handleDidFocus = (data) => {
+   console.log({data});
       setInitialRouteName(data.initialRouteName);
       setUseNavigation(data.useNavigation);
   };
+  useEffect(() => {
+    setInitialRouteName('Screen');
+     eventBus.on('whatToDO', handleDidFocus);
+    return () => {
+       eventBus.off('whatToDO', handleDidFocus);
+    };
+  }, []);
+
   return (
     <>
       <StatusBar translucent={true} backgroundColor={ colors.backgroudColor} barStyle="light-content" />

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {View, SafeAreaView, TouchableOpacity, Keyboard, ScrollView, FlatList, TextInput, Text, ActivityIndicator, Alert, Platform, Button} from 'react-native';
-import { Image } from 'expo-image';
+import {View, SafeAreaView, TouchableOpacity, Image, ScrollView, FlatList, TextInput, Text, ActivityIndicator, Alert, Platform, Button} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';

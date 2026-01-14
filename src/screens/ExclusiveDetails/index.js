@@ -1,9 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {View, Alert, Text,  ScrollView, TouchableOpacity, Share, PermissionsAndroid, Platform, ActivityIndicator, TouchableWithoutFeedback, AppState, Button, SafeAreaView} from 'react-native';
+import {View, Alert, Text,  ScrollView,Image, TouchableOpacity, Share, PermissionsAndroid, Platform, ActivityIndicator, TouchableWithoutFeedback, AppState, Button, SafeAreaView} from 'react-native';
 //Library
 import * as Animatable from 'react-native-animatable';
-import { Image } from 'expo-image';
 import Orientation from 'react-native-orientation-locker';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from 'react-native-video';

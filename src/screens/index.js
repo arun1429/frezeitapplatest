@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Alert, Platform, Linking} from 'react-native';
+import {View, Alert, Platform, Linking,Image} from 'react-native';
 //API
 import GetLocation from 'react-native-get-location';
 import Geocoder from 'react-native-geocoding';
@@ -14,7 +14,6 @@ import messaging, {firebase} from '@react-native-firebase/messaging';
 import DeviceInfo from 'react-native-device-info';
 import NetInfo from '@react-native-community/netinfo';
 import Orientation from 'react-native-orientation-locker';
-import { Image } from 'expo-image';
 import RNBootSplash from 'react-native-bootsplash';
 //Components
 import StatusBar from '../components/StatusBar/';

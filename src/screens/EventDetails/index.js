@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {View, Alert, Text, Dimensions, ScrollView, TouchableOpacity, Platform, ActivityIndicator, AppState, Button, SafeAreaView, FlatList} from 'react-native';
+import {View, Alert, Text, Dimensions, ScrollView,Image, TouchableOpacity, Platform, ActivityIndicator, AppState, Button, SafeAreaView, FlatList} from 'react-native';
 //Library
 import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 import LinearGradient from 'react-native-linear-gradient';
 import YoutubePlayer from "react-native-youtube-iframe";
 import NetInfo from '@react-native-community/netinfo';
-import { Image } from 'expo-image';
 // import { Viewport } from '@skele/components';
 
 //Redux

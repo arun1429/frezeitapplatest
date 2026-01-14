@@ -5,10 +5,9 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
-  useWindowDimensions,
+  Image,
   View,
 } from 'react-native';
-import { Image } from 'expo-image';
 import RenderHTML from 'react-native-render-html';
 // import { Viewport } from '@skele/components';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';

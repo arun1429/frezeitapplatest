@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View,  TouchableOpacity, ActivityIndicator, Keyboard, Button, TextInput, Alert, Platform} from 'react-native';
+import {StyleSheet, Text, View,  TouchableOpacity, Image, Keyboard, Button, TextInput, Alert, Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import { Image } from 'expo-image';
 import Orientation from 'react-native-orientation-locker';
 import NetInfo from '@react-native-community/netinfo';
 import eventBus from '../../utils/eventBus';

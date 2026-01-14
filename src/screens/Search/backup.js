@@ -11,9 +11,8 @@ import {
     ActivityIndicator,
     Alert, 
     Platform,
-    Button 
+    Button , Image
 } from 'react-native'
-import Image from 'expo-image'
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient  from 'react-native-linear-gradient';

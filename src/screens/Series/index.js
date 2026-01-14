@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, FlatList, ScrollView, ActivityIndicator, Button, Alert, Platform} from 'react-native';
+import {View, TouchableOpacity, Text, FlatList, ScrollView, ActivityIndicator, Button, Image, Alert, Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { Image } from 'expo-image';
 import Orientation from 'react-native-orientation-locker';
 //API
 import HttpRequest from '../../utils/HTTPRequest';

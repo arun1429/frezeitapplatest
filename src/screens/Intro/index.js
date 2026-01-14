@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  ImageBackground,
+  ImageBackground,Image,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
 
-import { Image } from 'expo-image';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import Orientation from 'react-native-orientation-locker';
 

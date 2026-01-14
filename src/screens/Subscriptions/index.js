@@ -4,13 +4,12 @@ import {
   View,
   TouchableOpacity,
   NativeModules,
-
+ Image,
   Linking,
   AppState
 } from 'react-native';
 // import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Image } from 'expo-image';
 // import Carousel from 'react-native-snap-carousel';
 // import Orientation from 'react-native-orientation-locker';
 // import NetInfo from "@react-native-community/netinfo";

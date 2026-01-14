@@ -3,9 +3,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Dimensions
+  Dimensions,Image
 } from 'react-native';
-import { Image } from 'expo-image';
 
 //style
 import styles from './styles'

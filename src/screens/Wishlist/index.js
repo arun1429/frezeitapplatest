@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react';
-import {View, SafeAreaView, TouchableOpacity, Text, FlatList, Button, Alert, Platform} from 'react-native';
-import { Image } from 'expo-image';
+import {View, SafeAreaView, TouchableOpacity, Text, Image, FlatList, Button, Alert, Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 import NetInfo from '@react-native-community/netinfo';

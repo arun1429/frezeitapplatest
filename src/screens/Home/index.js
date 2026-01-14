@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react';
-import {View, Text, ScrollView, TouchableOpacity, AppState, ActivityIndicator, Alert, Platform, Dimensions, FlatList, SafeAreaView} from 'react-native';
+import {View, Text, ScrollView,Image, TouchableOpacity, AppState, ActivityIndicator, Alert, Platform, Dimensions, FlatList, SafeAreaView} from 'react-native';
 // import { Viewport } from '@skele/components';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -16,7 +16,6 @@ import {slider, recentlyWatched, latestMovies, latestEvents, bannerAds, videoAds
 import {bindActionCreators} from 'redux';
 
 //components
-import Image from 'expo-image';
 import StatusBar from '../../components/StatusBar';
 import Slider from '../../components/Slider';
 import Alerts from '../../components/Alerts';
