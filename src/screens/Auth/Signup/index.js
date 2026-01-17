@@ -240,7 +240,9 @@ class Signup extends Component {
         <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 10 }}>
           <View style={styles.cardStyle}>
             <View style={styles.cardHeader}>
+            <View style={styles.cardHeaderContent}>
               <Text style={styles.cardTitle}>Create Account</Text>
+            </View>
             </View>
 
             <ImageBackground

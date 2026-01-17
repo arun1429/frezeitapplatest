@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StyleSheet, Dimensions } from "react-native";
 import {
   View,
   Image,
@@ -10,7 +11,13 @@ import {
   Platform,
   Text,
 } from 'react-native';
+import COLORS from "../../../constants/colors";
 
+// Retrieve initial screen's width
+let screenWidth = Dimensions.get('window').width;
+
+// Retrieve initial screen's height
+let screenHeight = Dimensions.get('window').height;
 import { Appbar, Button } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -37,7 +44,6 @@ import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 // Styles
-import styles from './styles';
 
 class Signin extends Component {
   constructor(props) {
@@ -206,7 +212,7 @@ class Signin extends Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar hidden />
+        <StatusBar  />
 
         {/* HEADER */}
         <Appbar.Header style={styles.transparentHeader}>
@@ -256,7 +262,9 @@ class Signin extends Component {
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 10 }}>
           <View style={styles.cardStyle}>
             <View style={styles.cardHeader}>
+               <View style={styles.cardHeaderContent}>
               <Text style={styles.cardTitle}>LOGIN</Text>
+              </View>
             </View>
 
             <ImageBackground
@@ -324,6 +332,27 @@ class Signin extends Component {
                   >
                     <Text style={styles.cardFooterText}>Forget password?</Text>
                   </TouchableOpacity>
+                  <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10}}>
+                    <TouchableOpacity onPress={() => this.googleLogin()}>
+                      <Image source={require('../../../components/images/Google-plus.png')} style={{height: 35, width: 35, alignSelf: 'center'}} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.FbLoginButton()}>
+                      <Image source={require('../../../components/images/facebook-logo.png')} style={{height: 40, width: 40, marginLeft: 15}} />
+                    </TouchableOpacity>
+                    {Platform.OS === 'ios' ? (
+                      <TouchableOpacity onPress={() => this.onAppleButtonPress()}>
+                        <Image source={require('../../../components/images/apple_icon.png')} style={{height: 40, width: 40, marginLeft: 15}} />
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                  <View style={styles.cardFooter}>
+                  <Text style={styles.cardFooterText}>
+                    Don't have an account?
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
+                    <Text style={styles.labelBold}>  Sign up!</Text>
+                    </TouchableOpacity>
+                  </Text>
+                </View>
                 </View>
               </View>
             </ImageBackground>
@@ -345,4 +374,145 @@ const mapDispatchToProps = dispatch => ({
   loginToken: bindActionCreators(loginToken, dispatch),
 });
 
+
+const styles = StyleSheet.create({
+    container: {
+        height:'100%',
+        backgroundColor: COLORS.backgroudColor,
+    }, 
+    transparentHeader: {
+  backgroundColor: 'transparent',
+  elevation: 0,          // Android
+  shadowOpacity: 0,      // iOS
+},
+    logo:{
+        width: screenWidth - screenWidth/3,
+        height:screenHeight/7,
+        resizeMode:'contain',
+        alignSelf:'center',
+        margin: 20
+    },
+    headerLogo:{
+        height: Platform.OS == 'ios' ? '60%' : '50%',
+        resizeMode: "contain",
+    },
+    infoIcon: {
+        height: '60%',
+        resizeMode: "contain"
+    },
+    content: {
+        alignItems: 'center',
+        justifyContent:'center',
+    },
+    cardStyle: {
+        height: '87%',
+        borderRadius:20,
+        backgroundColor: COLORS.cardGrey,
+        borderColor: COLORS.cardGrey,
+    },
+    cardHeader: {
+        height: '15%',
+        borderTopLeftRadius:20,
+        borderTopRightRadius:20,
+        backgroundColor: COLORS.primary
+    },
+    cardHeaderContent: {
+        flex:1,
+        justifyContent: 'center',
+        alignItems:'center' 
+    },
+    cardTitle: {
+        color: COLORS.white,
+        fontWeight:'bold',
+        fontSize: 25
+    },
+    buttonTitle: {
+        color: COLORS.white,
+        fontWeight:'bold',
+        marginLeft : 20,
+        fontSize: 18
+    },
+    buttonTitle2: {
+        color: COLORS.black,
+        fontWeight:'bold',
+        marginLeft : 20,
+        fontSize: 18
+    },
+    cardBody: {
+        height: '100%',
+        alignItems: 'center',
+        backgroundColor: "transparent" 
+    },
+    bg:{
+        flex:1,
+        width: '100%',
+        height: '100%',
+        resizeMode:'contain',
+    },
+    formItem: {
+        flex:1,
+        flexDirection:'row',
+        height : 60,
+        justifyContent:'flex-start',
+        alignItems:'center',
+        borderBottomWidth: 1,
+    },
+    label: {
+        flex:1,
+        color: COLORS.white,
+    },
+    labelBold: {
+        color: COLORS.primary,
+        fontWeight:'bold',
+        alignSelf :'center',
+        paddingTop :10,
+      
+    },
+    loginBtn: {
+        backgroundColor: COLORS.primary,
+        width:screenWidth/3,
+        alignSelf:'center',
+        padding: '5%',
+        justifyContent:'center',
+        margin: screenHeight/20
+    },
+    boldText: {
+        color: COLORS.white,
+        fontWeight:'bold',
+        textAlign:'center'
+    },
+    cardFooter: {
+        justifyContent:'center',
+        borderBottomLeftRadius:20,
+        borderBottomRightRadius:20,
+        backgroundColor: "transparent"
+    },
+    cardFooterText:{
+        color: COLORS.white,
+        fontWeight:'600',
+        margin :10,
+    
+    },
+    inputText: {
+        flex:1,
+        height:'100%',
+        fontSize: 16,
+        padding: 5,
+        marginLeft: '2%'
+    },
+    error: {
+        fontSize: 12,
+        padding: 5,
+        color: COLORS.primary,
+    },
+    forgotPassword:{
+        marginTop: -screenHeight/20,
+        padding: 10,
+        alignSelf:'center'
+    }
+
+
+});
 export default connect(mapStateToProps, mapDispatchToProps)(Signin);
+
+

@@ -21,7 +21,7 @@ import Slider from '../../components/Slider';
 import Alerts from '../../components/Alerts';
 import Banner from '../../components/AdMob/Banner';
 import ChatboxImage from '../../../assets/Chatbox.png';
-import withSequentialRendering from '../../components/withSequentialRendering';
+// import withSequentialRendering from '../../components/withSequentialRendering';
 
 //style
 import styles from './styles';
@@ -30,7 +30,7 @@ import HomeHeader from '../../components/Header/HomeHeader';
 import {interstitial, bannerAdUnitId} from '../../utils/animations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SequentialBanner = withSequentialRendering(Banner);
+// const SequentialBanner = withSequentialRendering(Banner);
 
 class Home extends Component {
   constructor(props) {
@@ -952,7 +952,7 @@ class Home extends Component {
               })}
             </ScrollView>
           </View>
-          {index % 2 == 0 && <SequentialBanner/>}
+          {/* {index % 2 == 0 && <SequentialBanner/>} */}
         </View>
       );
     }
@@ -1098,7 +1098,7 @@ class Home extends Component {
                   )}
                 </View>
               )}
-              <SequentialBanner/>
+              {/* <SequentialBanner/> */}
 
               {trendingnow.length > 0 && (
                 <View animation={this.state.isSideBarHidden ? 'slideInLeft' : 'slideInLeft'} delay={4} style={[styles.middleContainer, {margin: 10}]}>
@@ -1237,7 +1237,7 @@ class Home extends Component {
                 </View>
               )}
 
-              <SequentialBanner/>
+              {/* <SequentialBanner/> */}
               
               {allMovieData != 0 ? null : (
                 <Animatable.View animation={'slideInRight'} style={styles.noResultContainer}>

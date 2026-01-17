@@ -1,27 +1,15 @@
-import {createNavigationContainerRef, NavigationContainer} from '@react-navigation/native';
-import {StyleSheet, StatusBar, View, Text} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {useSelector} from 'react-redux';
 import eventBus from '../utils/eventBus';
+import SplashScreen from '../screens/Splash/Splash';
+import AuthNavigator from './AuthNavigator';
+import AppNavigator from './AppNavigator';
 
-//Navigator
-export const navigationRef = createNavigationContainerRef();
-import AuthNavigation from './AuthNavigation';
-import AppNavigation from './AppNavigation';
-import colors from '../constants/colors';
-export const navigate = (name, params) => {
-  if (navigationRef.isReady()) {
-    navigationRef.navigate(name, params);
-  }
-};
-
-const defaultStackSettings = {
-  headerShown: false,
-  gestureEnabled: false,
-};
-
+const Stack = createNativeStackNavigator();
 const RootNavigation = () => {
-  const [initialRouteName, setInitialRouteName] = useState('Splash');
+   const [initialRouteName, setInitialRouteName] = useState('Splash');
   const [useNavigation, setUseNavigation] = useState('Auth');
   const [currentRouteName, setCurrentRouteName] = useState('');
 
@@ -39,40 +27,18 @@ const RootNavigation = () => {
        eventBus.off('whatToDO', handleDidFocus);
     };
   }, []);
-
+  const [isLoading, setIsLoading] = useState(true); useEffect(() => { 
+    const t = setTimeout(() => setIsLoading(false), 1200); return () => clearTimeout(t); }, []);
   return (
-    <>
-      <StatusBar translucent={true} backgroundColor={ colors.backgroudColor} barStyle="light-content" />
-      <SafeAreaProvider>
-        <SafeAreaView style={[styles.container, {backgroundColor: currentRouteName != 'Splash' && currentRouteName != 'Video'  ? colors.backgroudColor : currentRouteName == 'Video' ? colors.black : colors.splash}]}>
-          <NavigationContainer
-            ref={navigationRef}
-            onReady={() => {
-              routeNameRef.current = navigationRef.current.getCurrentRoute().name;
-              setCurrentRouteName( routeNameRef.current);
-            }}
-            onStateChange={async () => {
-              const previousRouteName = routeNameRef.current;
-              const currentRouteName = navigationRef.current.getCurrentRoute().name;
-              eventBus.emit('onDidFocus', {
-                check: '',force: true 
-              });
-              routeNameRef.current = currentRouteName;
-              setCurrentRouteName( routeNameRef.current);
-            }}>
-             
-            {useNavigation && useNavigation == 'Auth' ? <AuthNavigation initialRouteName={initialRouteName} /> : <AppNavigation initialRouteName={initialRouteName} />}
-          </NavigationContainer>
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </>
-  );
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {isLoading ?
+          (<Stack.Screen name="Splash" component={SplashScreen} />
+          ) : useNavigation && useNavigation == 'Auth' ?
+            (<Stack.Screen name="App" component={AppNavigator} />
+
+            ) : (
+              <Stack.Screen name="Auth" component={AppNavigator} />)} 
+    </Stack.Navigator> </NavigationContainer>);
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
 export default RootNavigation;

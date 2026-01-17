@@ -13,6 +13,11 @@ export default styles = StyleSheet.create({
         height:'100%',
         backgroundColor: COLORS.backgroudColor,
     }, 
+        transparentHeader: {
+  backgroundColor: 'transparent',
+  elevation: 0,          // Android
+  shadowOpacity: 0,      // iOS
+},
     logo:{
         width: screenWidth - screenWidth/3,
         height:screenHeight/7,
