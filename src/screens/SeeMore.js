@@ -48,7 +48,7 @@ class SeeMore extends Component {
       .then(res => {
         this.setState({isDataFetched: true});
         const result = res.data;
-        // console.log('All Content length  : ', result);
+         console.log('All Content length  : ', result);
         if (res.status == 200 && result.error == false) {
           this.setState({data: result.data});
         } else {
@@ -111,7 +111,11 @@ class SeeMore extends Component {
             </View>
           </View>
         )}
-        {/* {isDataFetched && data.length != 0 && <Viewport.Tracker><FlatList data={createSubArray(data)} style={{height: '100%'}} keyExtractor={item => item?.[0]?.id} renderItem={this.renderItem} /></Viewport.Tracker>} */}
+        {isDataFetched && data.length != 0 &&
+        //  <Viewport.Tracker>
+          <FlatList data={createSubArray(data)} style={{height: '100%'}} keyExtractor={item => item?.[0]?.id} renderItem={this.renderItem} />
+          // </Viewport.Tracker>
+          }
       </SafeAreaView>
     );
   }

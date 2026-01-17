@@ -10,6 +10,40 @@ import Search from '../screens/Search';
 import Signup from '../screens/Auth/Signup/';
 import Signin from '../screens/Auth/Signin/';
 import Profile from '../screens/MyProfile/';
+import Subscriptions from '../screens/Subscriptions';
+// Auth Screens
+import RecoverPassword from '../screens/Auth/RecoverPassword';
+
+// Dashboard Main Screens
+import EventDetails from '../screens/EventDetails';
+import Movies from '../screens/Movies/';
+import Series from '../screens/Series/';
+import ComingSoon from '../screens/ComingSoon';
+import ComingSoonDetails from '../screens/ComingSoon/Details/';
+import TrendingNow from '../screens/TrendingNow';
+import VideoPlayer from '../screens/VideoPlayer/';
+
+//Other Screens
+import Wishlist from '../screens/Wishlist/';
+import Download from '../screens/Downloads/';
+import Help from '../screens/Help/';
+import Privacy from '../screens/Privacy/';
+import TermsConditions from '../screens/TermsCondition/';
+import SideMenu from '../components/SideMenu/';
+import More from '../screens/More/';
+import SeeMore from '../screens/SeeMore';
+import Plans from '../screens/Plans';
+import Chat from '../screens/Chat';
+import Support from '../screens/Support';
+
+//Navigator
+import Languages from '../screens/Language';
+import ExclusiveDetails from '../screens/ExclusiveDetails';
+import Plan from '../screens/Plan';
+import OrderHistory from '../screens/OrderHistory';
+import ConnectDevices from '../screens/ConnectDevices';
+import TvMovies from '../screens/TvMovies';
+import Live from '../screens/Live';
 const Stack = createNativeStackNavigator();
 import DrawerNavigator from './DrawerNavigator';
 const defaultStackSettings = {
@@ -17,11 +51,6 @@ const defaultStackSettings = {
   gestureEnabled: false,
 };
 const AppNavigator  = (props) => {
-  const commonProps = {
-    appSource: 'AppNavigator',
-    environment: 'production',
-    ...props, // anything coming from root
-  };
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -34,6 +63,34 @@ const AppNavigator  = (props) => {
       <Stack.Screen name="Settings" component={Settings} options={defaultStackSettings} />
       <Stack.Screen name="NewsDetail" component={NewsDetail} options={defaultStackSettings} />
       <Stack.Screen name="MoviesByLanguages" component={MovieLanguages} options={defaultStackSettings}/>
+
+      <Stack.Screen name="RecoverPassword" component={RecoverPassword} options={defaultStackSettings} />
+      <Stack.Screen name="Subscriptions" component={Subscriptions} options={defaultStackSettings} />
+      <Stack.Screen name="Movies" component={Movies} options={defaultStackSettings} />
+      <Stack.Screen name="Live" component={Live} options={{ headerShown: false, gestureEnabled: false, orientation: 'landscape' }} />
+      <Stack.Screen name="TvMovies" component={TvMovies} options={defaultStackSettings} />
+      <Stack.Screen name="Series" component={Series} options={defaultStackSettings} />
+      <Stack.Screen name="ComingSoon" component={ComingSoon} options={defaultStackSettings} />
+      <Stack.Screen name="ComingSoonDetails" component={ComingSoonDetails} options={defaultStackSettings} />
+      <Stack.Screen name="TrendingNow" component={TrendingNow} options={defaultStackSettings} />
+      <Stack.Screen name="EventDetails" component={EventDetails} options={defaultStackSettings} />
+      <Stack.Screen name="Video" component={VideoPlayer} options={defaultStackSettings} />
+      <Stack.Screen name="Wishlist" component={Wishlist} options={defaultStackSettings} />
+      <Stack.Screen name="Download" component={Download} options={defaultStackSettings} />
+      <Stack.Screen name="Help" component={Help} options={defaultStackSettings} />
+      <Stack.Screen name="ConnectDevices" component={ConnectDevices} options={defaultStackSettings} />
+      <Stack.Screen name="Privacy" component={Privacy} options={defaultStackSettings} />
+      <Stack.Screen name="TermsConditions" component={TermsConditions} options={defaultStackSettings} />
+      <Stack.Screen name="SideMenu" component={SideMenu} options={defaultStackSettings} />
+      <Stack.Screen name="More" component={More} options={defaultStackSettings} />
+      <Stack.Screen name="SeeMore" component={SeeMore} options={defaultStackSettings} />
+      <Stack.Screen name="Plans" component={Plans} options={defaultStackSettings} />
+      <Stack.Screen name="Chat" component={Chat} options={defaultStackSettings} />
+      <Stack.Screen name="Language" component={Languages} options={defaultStackSettings} />
+      <Stack.Screen name="Exclusive" component={ExclusiveDetails} options={defaultStackSettings} />
+      <Stack.Screen name="Support" component={Support} options={defaultStackSettings} />
+      <Stack.Screen name="Order" component={OrderHistory} options={defaultStackSettings} />
+      <Stack.Screen name="Plan" component={Plan} options={defaultStackSettings} />
     </Stack.Navigator>
   );
 };
