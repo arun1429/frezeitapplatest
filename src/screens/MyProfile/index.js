@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View,  TouchableOpacity, Image, Keyboard, Button, TextInput, Alert, Platform} from 'react-native';
+import {StyleSheet, Text, View,  TouchableOpacity, Image, Keyboard, useWindowDimensions , TextInput, Alert, Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -17,8 +17,11 @@ import BottomLine from '../../components/BottomHorizontalLine/';
 import StatusBar from '../../components/StatusBar/';
 import Alerts from '../../components/Alerts/';
 //style
-import styles from './styles';
+import { createStyles } from './styles';
+import { Dimensions } from 'react-native';
 
+const { width, height } = Dimensions.get('window');
+const styles = createStyles(width, height);
 const drawerImage = require('../../../assets/default_user.png');
 
 class Profile extends Component {
@@ -38,6 +41,8 @@ class Profile extends Component {
     };
   }
   componentDidMount() {
+    
+   
     eventBus.emit('videoPaused', {
       isClosed: 'false',
     });
@@ -184,6 +189,7 @@ class Profile extends Component {
   }
 
   render() {
+    
     const {isConnected, isLoading, isNotify, title, subtitle, type, action} = this.state;
     return (
       <View style={styles.container}>

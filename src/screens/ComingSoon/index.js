@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { 
     View, 
-    SafeAreaView, 
+
     TouchableOpacity, 
     FlatList, 
     Text,
@@ -10,6 +10,7 @@ import {
     Platform,
     Button ,Image
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 import NetInfo from "@react-native-community/netinfo";

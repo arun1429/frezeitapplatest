@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, SafeAreaView, TouchableOpacity, Image, ScrollView, FlatList, TextInput, Text, ActivityIndicator, Alert, Platform, Button} from 'react-native';
+import {View, TouchableOpacity, Image, ScrollView, FlatList, TextInput, Text, ActivityIndicator, Alert, Platform, Button} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
@@ -7,6 +7,7 @@ import Orientation from 'react-native-orientation-locker';
 import NetInfo from '@react-native-community/netinfo';
 import eventBus from '../../utils/eventBus';;
 // import { Viewport } from '@skele/components';
+import { SafeAreaView } from 'react-native-safe-area-context';
 //API
 import HttpRequest from '../../utils/HTTPRequest';
 //Redux
@@ -310,7 +311,7 @@ class Search extends Component {
                       onChangeText={this.onChangeText}
                     />
                     {isLoading && <ActivityIndicator size="small" color="#fff" style={{justifySelf: 'center'}} />}
-                    {!isLoading && <AntDesign name="search1" style={{fontSize: 23, color: COLORS.white}} />}
+                    {!isLoading && <AntDesign name="search1" style={{fontSize: 23, color: COLORS.white ,alignSelf: 'center',}} />}
                   </View>
                 </View>
                 <TouchableOpacity onPress={() => this.remove()} style={styles.removeView}>

@@ -3,7 +3,7 @@ import {View, Alert, Text, TouchableOpacity, Share, PermissionsAndroid, Platform
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // import RNBackgroundDownloader from 'react-native-background-downloader';
 import NetInfo from '@react-native-community/netinfo';
-import ProgressCircle from 'react-native-progress-circle';
+import * as Progress from 'react-native-progress';
 import {removeHtmlTags} from '../../../lib';
 import RBSheet from 'react-native-raw-bottom-sheet';
 //API
@@ -399,7 +399,7 @@ handleDidFocus = (data) => {
                 {Math.round(progress) == 0 && <ActivityIndicator size="small" color="#ff0000" />}
                 {Math.round(progress) > 0 && (
                   <TouchableOpacity onPress={() => this.cancelDownload(item.id)}>
-                    <ProgressCircle percent={Math.round(progress)} radius={12} borderWidth={2} color="#ff0000" shadowColor="#bbb" bgColor="rgba(50,52,54,1)" />
+                    <Progress.Circle progress={Math.round(progress)} borderRadius={12} borderWidth={2} color="#ff0000" shadowColor="#bbb" unfilledColor="rgba(50,52,54,1)" />
                   </TouchableOpacity>
                 )}
               </View>

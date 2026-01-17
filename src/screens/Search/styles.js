@@ -36,6 +36,7 @@ export default styles = StyleSheet.create({
   },
   searchView: {
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'space-between',
     borderColor: 'transparent',
     marginLeft: '2%',

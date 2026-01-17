@@ -3,12 +3,17 @@ import colors from "../../constants/colors";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
-
 export default (styles = StyleSheet.create({
     container:{
         flex: 1,
         flexDirection:'row',
     },
+         loaderShow:{
+            flex:1,
+            justifyContent:'center',
+            alignItems:'center',
+            backgroundColor:colors.backgroudColor
+        },
     leftContainer: {
         width: '12%',
     },

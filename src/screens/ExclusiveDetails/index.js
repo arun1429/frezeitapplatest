@@ -1,14 +1,15 @@
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {View, Alert, Text,  ScrollView,Image, TouchableOpacity, Share, PermissionsAndroid, Platform, ActivityIndicator, TouchableWithoutFeedback, AppState, Button, SafeAreaView} from 'react-native';
+import {View, Alert, Text,  ScrollView,Image, TouchableOpacity, Share, PermissionsAndroid, Platform, ActivityIndicator, TouchableWithoutFeedback, AppState, Button} from 'react-native';
 //Library
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from 'react-native-video';
 // import RNBackgroundDownloader from 'react-native-background-downloader';
 import NetInfo from '@react-native-community/netinfo';
-import ProgressCircle from 'react-native-progress-circle';
+import * as Progress from 'react-native-progress';
 import { v4 as uuidv4 } from 'uuid';
 import RazorpayCheckout from 'react-native-razorpay';
 
@@ -1265,7 +1266,7 @@ class Details extends Component {
                           {Math.round(progress) == 0 && <ActivityIndicator size="small" color="#ff0000" />}
                           {Math.round(progress) > 0 && (
                             <TouchableOpacity onPress={() => this.cancelDownload(details.id)}>
-                              <ProgressCircle percent={Math.round(progress)} radius={12} borderWidth={2} color="#ff0000" shadowColor="#bbb" bgColor="rgba(50,52,54,1)" />
+                              <Progress.Circle progress={Math.round(progress)} borderRadius={12} borderWidth={2} color="#ff0000" shadowColor="#bbb" unfilledColor="rgba(50,52,54,1)" />
                             </TouchableOpacity>
                           )}
                         </View>

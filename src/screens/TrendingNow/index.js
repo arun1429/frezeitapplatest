@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { View,  SafeAreaView, TouchableOpacity, FlatList, Image } from 'react-native'
+import { View, TouchableOpacity, FlatList, Image } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 
 import HttpRequest from '../../utils/HTTPRequest';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { loginToken, allSeries } from '../../Redux/Actions/Actions';
 import { bindActionCreators } from 'redux';

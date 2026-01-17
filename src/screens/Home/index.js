@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react';
-import {View, Text, ScrollView,Image, TouchableOpacity, AppState, ActivityIndicator, Alert, Platform, Dimensions, FlatList, SafeAreaView} from 'react-native';
+import {View, Text, ScrollView,Image, TouchableOpacity, AppState, ActivityIndicator, Alert, Platform, Dimensions, FlatList} from 'react-native';
 // import { Viewport } from '@skele/components';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';

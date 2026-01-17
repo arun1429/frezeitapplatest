@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, SafeAreaView, TouchableOpacity, FlatList, Text, Image, ImageBackground, ActivityIndicator, Dimensions} from 'react-native';
+import {View, TouchableOpacity, FlatList, Text, Image, ImageBackground, ActivityIndicator, Dimensions} from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';

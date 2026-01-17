@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react';
-import {View, SafeAreaView, TouchableOpacity, Text, Image, FlatList, Button, Alert, Platform} from 'react-native';
+import {View, TouchableOpacity, Text, Image, FlatList, Button, Alert, Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 import NetInfo from '@react-native-community/netinfo';
 import eventBus from '../../utils/eventBus';
+import { SafeAreaView } from 'react-native-safe-area-context';
 // import { Viewport } from '@skele/components';
 //API
 import HttpRequest from '../../utils/HTTPRequest';

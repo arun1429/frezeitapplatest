@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { WebView } from 'react-native-webview';
-import { View, SafeAreaView, TouchableOpacity, Text, ActivityIndicator } from 'react-native'
+import { View, TouchableOpacity, Text, ActivityIndicator } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Orientation from 'react-native-orientation-locker';
 //components
 import BottomLine from '../../../../components/BottomHorizontalLine/';

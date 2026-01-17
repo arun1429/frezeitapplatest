@@ -124,3 +124,53 @@ export const lastAdLoggedTime = data => ({
   lastAdLoggedTime: data,
 }); 
 
+export const storeBundleId = data => ({
+  type: types.BUNDLEID,
+  bundleId: data,
+});
+export const latestGame = data => ({
+  type: types.GAME_ALL,
+ latestGame: data
+});
+
+export const Exclusive = (data) => {
+    return {
+        type: types.EXCLUSIVE_ALL,
+        Exclusive: data
+    }
+}
+export const setDisplayedAds = (data) => {
+    return {
+        type: types.DISPLAYED_ADS,
+        displayedAds: data
+    }
+}
+
+export const setCurrentIndex = (data) => {
+    return {
+        type: types.CURRENT_INDEX,
+        currentIndex: data
+    }
+}
+
+export const setVideoDisplayedAds = (data) => {
+    return {
+        type: types.VIDEO_ADS_DISPLAYED,
+        displayedVideoAds: data
+    }
+}
+
+export const setVideoCurrentIndex = (data) => {
+    return {
+        type: types.CURRENT_VIDEO_INDEX,
+        currentVideoAdIndex: data
+    }
+}
+
+export const setLastAdLoggedTime = (data) => {
+    return {
+        type: types.LAST_AD_LOGGED_TIME,
+        lastAdLoggedTime: data
+    }
+}
+

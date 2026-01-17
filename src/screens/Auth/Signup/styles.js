@@ -102,11 +102,11 @@ export default styles = StyleSheet.create({
     },
     loginBtn: {
         backgroundColor: COLORS.primary,
-        width:screenWidth/3,
+        width:screenWidth/2,
         alignSelf:'center',
         padding: '5%',
         justifyContent:'center',
-        margin: screenHeight/25
+        margin: screenHeight/30
     },
     boldText: {
         color: COLORS.white,

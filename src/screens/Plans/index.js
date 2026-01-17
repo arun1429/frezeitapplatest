@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {
     View,
-    SafeAreaView,
     TouchableOpacity,
     Keyboard,
     ScrollView,
@@ -13,6 +12,7 @@ import {
     Platform,
     Button
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Orientation from 'react-native-orientation-locker';

@@ -76,33 +76,39 @@ class Signup extends Component {
   };
 
   onSubmit = () => {
-    const { name, email, phone, password, repeatPass } = this.state;
-    let errors = {};
-    const reg =
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+     this.notify(
+            'success',
+            'Great!',
+            'A verification link has been sent to your email address.',
+            true
+          );
+    // const { name, email, phone, password, repeatPass } = this.state;
+    // let errors = {};
+    // const reg =
+    //   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-    if (!name) errors.name = 'Should not be empty';
-    if (!email) errors.email = 'Should not be empty';
-    else if (!reg.test(email))
-      errors.email = 'Invalid Email Address Format.';
+    // if (!name) errors.name = 'Should not be empty';
+    // if (!email) errors.email = 'Should not be empty';
+    // else if (!reg.test(email))
+    //   errors.email = 'Invalid Email Address Format.';
 
-    if (!phone) errors.phone = 'Should not be empty';
-    else if (phone.length < 10)
-      errors.phone = 'The phone must be between 9 and 10 digits.';
+    // if (!phone) errors.phone = 'Should not be empty';
+    // else if (phone.length < 10)
+    //   errors.phone = 'The phone must be between 9 and 10 digits.';
 
-    if (!password) errors.password = 'Should not be empty';
-    else if (password.length < 8)
-      errors.password = 'The password must be of atleast 8 characters.';
+    // if (!password) errors.password = 'Should not be empty';
+    // else if (password.length < 8)
+    //   errors.password = 'The password must be of atleast 8 characters.';
 
-    if (!repeatPass) errors.repeatPass = 'Should not be empty';
-    else if (repeatPass !== password)
-      errors.repeatPass = 'Password did not match.';
+    // if (!repeatPass) errors.repeatPass = 'Should not be empty';
+    // else if (repeatPass !== password)
+    //   errors.repeatPass = 'Password did not match.';
 
-    this.setState({ errors });
+    // this.setState({ errors });
 
-    if (Object.keys(errors).length === 0) {
-      this.onSignupPressed();
-    }
+    // if (Object.keys(errors).length === 0) {
+    //   this.onSignupPressed();
+    // }
   };
 
   onSignupPressed = () => {

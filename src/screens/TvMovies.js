@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {ActivityIndicator,Image, Dimensions, FlatList, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator,Image, Dimensions, FlatList, TouchableOpacity, View} from 'react-native';
 //components
+import { SafeAreaView } from 'react-native-safe-area-context';
 import HttpRequest from '../utils/HTTPRequest';
 //style
 import eventBus from '../utils/eventBus';;

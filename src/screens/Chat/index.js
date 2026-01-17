@@ -1,7 +1,7 @@
 import React, { Component, useLayoutEffect } from 'react'
-import {
-    SafeAreaView, TextInput, StyleSheet, View, TouchableOpacity, Text
+import { TextInput, StyleSheet, View, TouchableOpacity, Text
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Orientation from 'react-native-orientation-locker';
 import { GiftedChat } from 'react-native-gifted-chat'
 // import { Dialogflow_V2 } from 'react-native-dialogflow'

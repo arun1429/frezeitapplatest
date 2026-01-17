@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {
     View,
-    SafeAreaView,
     TouchableOpacity,
     FlatList,
     Text,
@@ -9,6 +8,7 @@ import {
     Alert,
     Platform,
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Orientation from 'react-native-orientation-locker';
 import NetInfo from "@react-native-community/netinfo";

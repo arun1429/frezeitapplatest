@@ -13,8 +13,10 @@ const Splash = () => {
   useEffect(() => {
     const bootstrap = async () => {
       try {
-        const token = await AsyncStorage.getItem('token');
+        const token = await AsyncStorage.getItem('loginToken');
         const info = await AsyncStorage.getItem('userInfo');
+        console.log('Splash token:', token);  
+        console.log('Splash info:', info);
 
         if (token) {
           dispatch(loginToken(token));

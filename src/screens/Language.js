@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, SafeAreaView, TouchableOpacity, Image, ScrollView, FlatList, TextInput, Text, ActivityIndicator, Alert, Platform, Button, StyleSheet} from 'react-native';
-
+import {View, TouchableOpacity, Image, ScrollView, FlatList, TextInput, Text, ActivityIndicator, Alert, Platform, Button, StyleSheet} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Orientation from 'react-native-orientation-locker';

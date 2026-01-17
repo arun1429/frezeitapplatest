@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { View, SafeAreaView, TouchableOpacity, Text, FlatList, TextInput, StyleSheet ,ScrollView} from 'react-native';
+import { View, TouchableOpacity, Text, FlatList, TextInput, StyleSheet ,ScrollView} from 'react-native';
 import HeaderWithTittle from '../../components/Header/HeaderWithText';
 import colors from '../../constants/colors';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 

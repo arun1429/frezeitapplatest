@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { WebView } from 'react-native-webview';
 import { 
     View, 
-    SafeAreaView, 
     TouchableOpacity, 
     ActivityIndicator,
     Alert, 
@@ -10,6 +9,7 @@ import {
     Button, 
     Text
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Orientation from 'react-native-orientation-locker';

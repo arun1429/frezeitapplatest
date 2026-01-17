@@ -1,16 +1,14 @@
 import moment from 'moment';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Dimensions,
-  SafeAreaView,
   ScrollView,
   Text,
   Image,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import RenderHTML from 'react-native-render-html';
-// import { Viewport } from '@skele/components';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Banner from '../../components/AdMob/Banner';
 import HeaderWithTittle from '../../components/Header/HeaderWithText';
 import withSequentialRendering from '../../components/withSequentialRendering';
@@ -19,8 +17,15 @@ import styles from './styles';
 
 const SequentialBanner = withSequentialRendering(Banner);
 
+// ✅ STATIC (no rerenders)
+const HTML_BASE_STYLE = {
+  color: colors.white,
+};
+
 export default function NewsDetail(props) {
-  const {item: newsDetail} = props.navigation.state.params;
+  const { width: contentWidth } = useWindowDimensions();
+  const { item: newsDetail } = props.route.params;
+
   const {
     image,
     title,
@@ -29,65 +34,50 @@ export default function NewsDetail(props) {
     'content:encoded': content,
   } = newsDetail;
 
-  const [imageSize, setImageSize] = useState({width: null, heigth: null});
+  const [imageSize, setImageSize] = useState({ width: contentWidth, height: 200 });
 
-  const source = {
-    html: content,
-  };
-
+  // ✅ runs ONLY when image or width changes
   useEffect(() => {
+    if (!image) return;
+
     Image.getSize(image, (width, height) => {
-      // calculate image width and height
-      const screenWidth = Dimensions.get('window').width;
-      const scaleFactor = width / screenWidth;
+      const scaleFactor = width / contentWidth;
       const imageHeight = height / scaleFactor;
-      setImageSize({width: screenWidth, height: imageHeight});
+      setImageSize({ width: contentWidth, height: imageHeight });
     });
-  });
+  }, [image, contentWidth]);
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroudColor}}>
-      <HeaderWithTittle name={'News'} navigation={props.navigation} />
-      {/* <Viewport.Tracker> */}
-      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 20}}>
-        <View style={{flex: 1}}>
-          {/* <Image
-            style={styles.thumbnailImage}
-            source={{
-              uri: image,
-            }}
-            contentFit={'cover'}
-          /> */}
-          {/* <Image
-            source={{uri: image}}
-            style={{width: '100%', height: '40%'}}
-            resizeMode="contain"
-          /> */}
-          <Image
-            style={{width: imageSize.width, height: imageSize.height}}
-            source={{uri: image}}
-          />
-          <View style={styles.newsText}>
-            <Text style={styles.newsTitle}>{title}</Text>
-            <Text style={styles.newsMeta}>
-              {creator ?? ''} &middot;{' '}
-              {pubDate
-                ? // "Fri, 16 Dec 2022 13:50:14 GMT"
-                  moment(pubDate, 'ddd, D MMM YYYY HH:mm:ss').fromNow() //.format('ddd, D MMM YYYY')
-                : null}
-            </Text>
-            <SequentialBanner />
-            <View style={{marginTop: 10}}>
-              <RenderHTML
-                source={source}
-                enableCSSInlineProcessing={false}
-                baseStyle={{color: colors.white}}
-              />
-            </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.backgroudColor }}>
+      <HeaderWithTittle name="News" navigation={props.navigation} />
+
+      <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+        <Image
+          style={{ width: imageSize.width, height: imageSize.height }}
+          source={{ uri: image }}
+        />
+
+        <View style={styles.newsText}>
+          <Text style={styles.newsTitle}>{title}</Text>
+          <Text style={styles.newsMeta}>
+            {creator ?? ''} ·{' '}
+            {pubDate
+              ? moment(pubDate, 'ddd, D MMM YYYY HH:mm:ss').fromNow()
+              : null}
+          </Text>
+
+          <SequentialBanner />
+
+          <View style={{ marginTop: 10 }}>
+            <RenderHTML
+              contentWidth={contentWidth}
+              source={{ html: content }}
+              baseStyle={HTML_BASE_STYLE}
+              enableCSSInlineProcessing={false}
+            />
           </View>
         </View>
       </ScrollView>
-      {/* </Viewport.Tracker> */}
     </SafeAreaView>
   );
 }

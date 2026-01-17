@@ -14,6 +14,8 @@ export default {
   drawerHeader: {
     backgroundColor: colors.backgroudColor,
     height: 180,
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 25,
   },
   customerPicture: {
@@ -25,8 +27,8 @@ export default {
     alignSelf: 'center',
   },
   scrollViewContainer: {
-    // flexGrow: 1,
-    // margin: '2%',
+    flexGrow: 1,
+    margin: '5%',
   },
   contentPicture: {
     width: 200,
@@ -40,6 +42,7 @@ export default {
   },
   headerText: {
     color: '#fff',
+    paddingTop: 12,
     fontSize: 18,
     fontWeight: Platform.OS === 'android' ? 'bold' : '800',
   },
@@ -49,6 +52,12 @@ export default {
     backgroundColor: '#000',
     flexDirection: 'column',
     paddingTop: 5,
+  },
+   profileButton: {
+    flexGrow: 1,
+    flexDirection: 'row',
+    marginTop : "5%",
+    marginBottom : "5%",
   },
 
   drawerCover: {
@@ -79,7 +88,12 @@ export default {
     fontSize: 18,
     color: 'white',
   },
-  text: {
+    textProfile: {
+    fontSize: Platform.OS === 'android' ? 14 : 15,
+    marginLeft: 34,
+    color: '#fff',
+  },
+  text:{
     fontSize: Platform.OS === 'android' ? 14 : 15,
     marginLeft: 20,
     color: '#fff',
@@ -89,6 +103,14 @@ export default {
     fontWeight: '400',
     textAlign: 'center',
     marginTop: Platform.OS === 'android' ? -3 : undefined,
+  },
+  referTitle: {
+    fontSize: Platform.OS === 'ios' ? 23 : 23,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginLeft : 10,
+    color: '#fff',
+   
   },
   leftContainer: {
     padding: '1%',
@@ -108,6 +130,15 @@ export default {
     width: 25,
     height: 25,
     resizeMode: 'contain',
+  },
+    referContainer: {
+    flexGrow: 1,
+    marginTop : "5%",
+     marginTop: 20,
+  },
+  referHeader: {
+    flexDirection: 'row',
+    marginBottom: 20,
   },
   footerContainer: {
     backgroundColor: colors.backgroudColor,
@@ -130,5 +161,24 @@ export default {
   },
   removeView: {
     alignSelf: 'flex-end',
+  },
+     referButton: {
+    width: 200,
+    height: 50,
+    borderRadius: 5,
+    alignItems: 'center',
+    alignSelf : 'center',
+    justifyContent: 'center',
+    borderWidth: .7,
+    borderColor: '#c26568',
+    flexDirection: 'row',
+    marginTop : "5%",
+    marginBottom : "5%",
+  },
+      logoutButton: {
+    flexGrow: 1,
+    flexDirection: 'row',
+     marginTop: 20,
+     marginBottom : 100,
   },
 };

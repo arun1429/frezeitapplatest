@@ -67,6 +67,7 @@ export default class NewsScreen extends Component {
   };
 
   openDetailPage = item => {
+      console.log('NewsDetail props :: ',item);
     this.props.navigation.push('NewsDetail', {item});
   };
 

@@ -1,5 +1,6 @@
-import {ActivityIndicator, Alert, AppState, Dimensions, FlatList, Modal, Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Alert, AppState, Dimensions, FlatList, Modal, Platform, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import React, {Component} from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {latestMovies, loginToken, userInfo} from '../../Redux/Actions/Actions';

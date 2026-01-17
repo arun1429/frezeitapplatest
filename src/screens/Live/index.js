@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import { Pressable, View, Alert, Dimensions, SafeAreaView, Image } from "react-native";
+import { Pressable, View, Alert, Dimensions, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import YoutubePlayer from "react-native-youtube-iframe";
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './styles';
 
 const Live = (props) =>  {

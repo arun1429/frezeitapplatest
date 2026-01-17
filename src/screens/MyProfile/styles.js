@@ -1,11 +1,7 @@
 import { StyleSheet, Platform, Dimensions } from "react-native";
-import { color } from "react-native-reanimated";
 import colors from "../../constants/colors";
-
-const deviceHeight = Dimensions.get("window").height;
-const deviceWidth = Dimensions.get("window").width;
-
-export default (styles = StyleSheet.create({
+export const createStyles = (width, height) =>
+  StyleSheet.create({
     container: {
         flex:1,
         backgroundColor: colors.backgroudColor,
@@ -13,21 +9,21 @@ export default (styles = StyleSheet.create({
     },
     header:{
         backgroundColor:colors.backgroudColor,
-        height: deviceHeight/4.5,
+        height: height/4.5,
         justifyContent:'flex-start',
         alignItems:'flex-end',
         padding:'5%'
       },
       avatar: {
-        width: deviceWidth/3.5,
-        height: deviceWidth/3.5,
-        borderRadius: (deviceWidth/3.5)/2,
+        width: width/3.5,
+        height: width/3.5,
+        borderRadius: (width/3.5)/2,
         borderWidth: 4,
         borderColor: "#ff0000",
         marginBottom:10,
         alignSelf:'center',
         position: 'absolute',
-        marginTop: deviceHeight/4.5 - (deviceWidth/3.5)/2,
+        marginTop: height/4.5 - (width/3.5)/2,
       },
       name:{
         fontSize:22,
@@ -38,7 +34,7 @@ export default (styles = StyleSheet.create({
         flex: 0.3,
         justifyContent:'center',
         alignItems:'center',
-        marginTop: (deviceWidth/3.5)/2
+        marginTop: (width/3.5)/2
       },
       bodyContent: {
         flex: 0.5,
@@ -84,15 +80,16 @@ export default (styles = StyleSheet.create({
         marginBottom: 20
     },
     buttonContainer: {
-        height: deviceHeight/8,
+        height: height/8,
         margin: 10,
     },
     updateBtn: {
       backgroundColor:'#ff0000',
-        width:deviceWidth,
+        width:width,
         padding: 5,
         alignSelf:'center',
         justifyContent:'center',
-        margin: deviceHeight/25
+        margin: height/25
     }
-}));
+,
+  });

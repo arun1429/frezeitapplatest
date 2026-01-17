@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { 
     View, 
-    SafeAreaView, 
     TouchableOpacity, 
     Keyboard, 
     ScrollView, 
@@ -13,6 +12,7 @@ import {
     Platform,
     Button , Image
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient  from 'react-native-linear-gradient';

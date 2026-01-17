@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {
     View,
-    SafeAreaView,
     TouchableOpacity,
     Keyboard,
     ScrollView,
@@ -16,12 +15,13 @@ import {
     Image,
     ImageBackground
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Orientation from 'react-native-orientation-locker';
 import NetInfo from "@react-native-community/netinfo";
 
-
+import eventBus from '../utils/eventBus';
 //API
 import { connect } from 'react-redux';
 import { userInfo, loginToken } from '../Redux/Actions/Actions';

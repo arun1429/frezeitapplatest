@@ -11,7 +11,6 @@ import {
   Modal, 
   PanResponder, 
   Platform, 
-  SafeAreaView, 
   StyleSheet, 
   Text, 
   TouchableHighlight, 
@@ -19,6 +18,7 @@ import {
   TouchableWithoutFeedback, 
   View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
 import Orientation from 'react-native-orientation-locker';
 import  VolumeManager from 'react-native-volume-manager';

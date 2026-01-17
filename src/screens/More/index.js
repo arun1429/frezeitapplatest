@@ -138,7 +138,7 @@ class More extends Component {
               }
             >
               <Ionicons name="person-add" size={22} color="#fff" />
-              <Text style={styles.text}>PROFILE</Text>
+              <Text style={styles.textProfile}>PROFILE</Text>
             </TouchableOpacity>
           ) : null}
 
@@ -154,7 +154,6 @@ class More extends Component {
                 }
                 style={styles.items}
               />
-              <Divider />
             </View>
           ))}
 
@@ -174,7 +173,7 @@ class More extends Component {
 
             <Button
               mode="outlined"
-              textColor="#ff0000"
+              textColor="#c26568"
               style={styles.referButton}
               onPress={this.referAFriend}
             >

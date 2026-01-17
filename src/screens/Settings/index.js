@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import {
   View,
-  SafeAreaView,
   TouchableOpacity,
   Switch,
   Alert,
   Platform,
   Text,
 } from 'react-native';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 import * as Animatable from 'react-native-animatable';
