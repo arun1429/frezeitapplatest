@@ -12,7 +12,6 @@ import {connect} from 'react-redux';
 import {loginToken, allMovies} from '../../Redux/Actions/Actions';
 import {bindActionCreators} from 'redux';
 import DrawerEvents from '../../components/Drawer/DrawerEvents';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 //components
 import withSequentialRendering from '../../components/withSequentialRendering';
 import Alerts from '../../components/Alerts/';
@@ -266,9 +265,7 @@ class Movies extends Component {
 
   loader = () => {
     return (
-      <SkeletonPlaceholder backgroundColor={'#191a1f'} highlightColor={'#e1e9ee'}>
-        <View style={styles.thumbnailView}></View>
-      </SkeletonPlaceholder>
+      <View style={[styles.thumbnailView, styles.skeleton]} />
     );
   };
 

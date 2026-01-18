@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-
+import COLORS from "../../../constants/colors";
 export default StyleSheet.create({
   bannerAds: {
     flex: 1,
@@ -8,5 +8,9 @@ export default StyleSheet.create({
     // height: 100,
     marginVertical: 10,
     marginTop: 16,
+  },
+    skeletonRow: {
+    backgroundColor: COLORS.inactiveGrey,
+    borderRadius: 2,
   },
 });

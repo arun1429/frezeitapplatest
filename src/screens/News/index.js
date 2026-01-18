@@ -4,7 +4,6 @@ import React, {Component} from 'react';
 import {FlatList, ScrollView, StatusBar, Text, TouchableOpacity, View, Image} from 'react-native';
 import eventBus from '../../utils/eventBus';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 // import { Viewport } from '@skele/components';
 import Banner from '../../components/AdMob/Banner';
 import withSequentialRendering from '../../components/withSequentialRendering';
@@ -108,7 +107,20 @@ export default class NewsScreen extends Component {
       </>
     );
   };
+ SkeletonRow = () => {
+  return (
+    <View style={styles.skeletonRow}>
+      {/* Image placeholder */}
+      <View style={styles.skeletonImage} />
 
+      {/* Text placeholder */}
+      <View style={styles.newsText}>
+        <View style={styles.skeletonLineLarge} />
+        <View style={styles.skeletonLineSmall} />
+      </View>
+    </View>
+  );
+};
   render() {
     const {newsData, isLoading} = this.state;
     return (
@@ -134,27 +146,8 @@ export default class NewsScreen extends Component {
         <View animation={this.state.isSideBarHidden ? 'slideInLeft' : 'slideInLeft'} delay={4} style={styles.categoryContainer}>
           {isLoading ? (
             <ScrollView style={{flex: 1}}>
-              {new Array(10).fill(1).map((_, index) => (
-                <SkeletonPlaceholder key={index}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginBottom: 20,
-                    }}>
-                    <View style={{width: 120, height: 130, borderRadius: 20}} />
-                    <View style={styles.newsText}>
-                      <View style={{height: 20, borderRadius: 4}} />
-                      <View
-                        style={{
-                          marginTop: 6,
-                          width: 80,
-                          height: 20,
-                          borderRadius: 4,
-                        }}
-                      />
-                    </View>
-                  </View>
-                </SkeletonPlaceholder>
+              {Array.from({length: 10}).map((_, index) => (
+                <SkeletonRow key={index} />
               ))}
             </ScrollView>
           ) : (

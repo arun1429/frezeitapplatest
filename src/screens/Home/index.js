@@ -1258,7 +1258,7 @@ class Home extends Component {
             // </Viewport.Tracker>
           )}
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Chat')} animation={'slideInUp'} style={styles.footerContainer}>
-            <Image style={{width: 35, height: 40, alignSelf: 'center', marginTop: 3}} source={ChatboxImage} resizeMode={'contain'} />
+            <Image style={{width: 35, height: 40, alignSelf: 'center', marginTop: 3}} source={ChatboxImage} contentFit={'contain'}  />
           </TouchableOpacity>
         </View>
       </SafeAreaView>

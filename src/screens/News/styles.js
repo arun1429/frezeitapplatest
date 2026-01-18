@@ -92,4 +92,37 @@ export default StyleSheet.create({
     // backgroundColor: 'red',
     justifyContent: 'center',
   },
+  skeletonRow: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    backgroundColor: '#121212',
+  },
+
+  skeletonImage: {
+    width: 120,
+    height: 130,
+    borderRadius: 20,
+    backgroundColor: '#2a2a2a',
+  },
+
+  newsText: {
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: 'center',
+  },
+
+  skeletonLineLarge: {
+    height: 20,
+    borderRadius: 4,
+    backgroundColor: '#2f2f2f',
+    width: '90%',
+  },
+
+  skeletonLineSmall: {
+    marginTop: 8,
+    width: 80,
+    height: 20,
+    borderRadius: 4,
+    backgroundColor: '#2f2f2f',
+  },
 });

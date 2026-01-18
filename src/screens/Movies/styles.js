@@ -110,6 +110,9 @@ export default (styles = StyleSheet.create({
         marginBottom:10,
         marginRight:10
     },
+    skeleton: {
+    backgroundColor: '#191a1f',
+  },
     thumbnailHeaderDivider : {
         backgroundColor: COLORS.primary,
         height: 1.5,

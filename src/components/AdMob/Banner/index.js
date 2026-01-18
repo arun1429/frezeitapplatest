@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {Image, View, TouchableOpacity, Dimensions, Linking} from 'react-native';
 //Libraries
 // import { Viewport } from '@skele/components';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import analytics from '@react-native-firebase/analytics';
 //Api
 import HttpRequest from '../../../utils/HTTPRequest';
@@ -147,11 +146,16 @@ const Banner = (props) => {
   return (
       <View style={styles.bannerAds}>
         {isLoading ? 
-        <SkeletonPlaceholder backgroundColor={colors.inactiveGrey} >
-          <SkeletonPlaceholder.Item flexDirection="row" alignItems="center" marginHorizontal={10}>
-            <SkeletonPlaceholder.Item width={Dimensions.get('window').width - 20} height={60} borderRadius={2} />
-          </SkeletonPlaceholder.Item>
-        </SkeletonPlaceholder>
+       <View
+          style={[
+            styles.skeletonRow,
+            {
+              width: Dimensions.get('window').width - 20,
+              height: 60,
+              marginHorizontal: 10,
+            },
+          ]}
+        />
         :
         (allBannerAds.length > 0 ?
         <TouchableOpacity activeOpacity={0.8} style={{width: '100%', height: 50}} onPress={handleAdBannerCta}>
