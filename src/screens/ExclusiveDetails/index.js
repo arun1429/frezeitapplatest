@@ -59,7 +59,7 @@ function getNewOrderID() {
   }
 }
 
-class Details extends Component {
+class ExclusiveDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -799,11 +799,17 @@ class Details extends Component {
   renderRelatedItems = () => {
     return this.state.related_items.map(item => {
       return (
-        <View style={styles.thumbnailView} key={item.id}>
+        <View>
+         {item != null ? (
+ <View style={styles.thumbnailView} key={item.id}>
           <TouchableOpacity onPress={() => this.navigate(item._id, '1')}>
+           
             <Image style={styles.thumbnailImage} source={{uri: item.image}} contentFit={'cover'} />
-          </TouchableOpacity>
+              </TouchableOpacity>
         </View>
+         ) : <></>}
+
+       </View>
       );
     });
   };
@@ -1391,4 +1397,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Details);
+export default connect(mapStateToProps, mapDispatchToProps)(ExclusiveDetails);
