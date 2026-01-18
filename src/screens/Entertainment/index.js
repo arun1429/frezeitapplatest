@@ -86,7 +86,7 @@ export default class EntertaimentScreen extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroudColor}}>
+      <SafeAreaView edges={['top']}  style={{flex: 1, backgroundColor: colors.backgroudColor}}>
         <StatusBar backgroundColor={colors.backgroudColor} />
         <HomeHeader {...this.props} />
         {/* <View

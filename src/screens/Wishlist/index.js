@@ -262,7 +262,7 @@ class Wishlist extends Component {
   render() {
     const {isConnected, result, data, isNotify, title, subtitle, type, action} = this.state;
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView edges={['top']}  style={styles.container}>
         <HomeHeader {...this.props} />
         {/* <View animation={'slideInLeft'} style={styles.leftContainer}>
                 <SideMenu navigation={this.props.navigation} active={'wishlist'} />

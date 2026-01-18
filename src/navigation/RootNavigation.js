@@ -34,11 +34,9 @@ const RootNavigation = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isLoading ?
           (<Stack.Screen name="Splash" component={SplashScreen} />
-          ) : useNavigation && useNavigation == 'Auth' ?
-            (<Stack.Screen name="App" component={AppNavigator} />
-
-            ) : (
-              <Stack.Screen name="Auth" component={AppNavigator} />)} 
-    </Stack.Navigator> </NavigationContainer>);
+          ) : (<Stack.Screen name="App" component={AppNavigator} />
+            ) } 
+    </Stack.Navigator>
+     </NavigationContainer>);
 };
 export default RootNavigation;

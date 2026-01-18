@@ -1026,7 +1026,7 @@ class Home extends Component {
       }
     });
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView edges={['top']}   style={styles.container}>
         <StatusBar hidden={false} />
         <View style={styles.rightContainer}>
           {/* Header */}

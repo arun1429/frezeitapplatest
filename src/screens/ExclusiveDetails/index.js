@@ -12,7 +12,7 @@ import NetInfo from '@react-native-community/netinfo';
 import * as Progress from 'react-native-progress';
 import { v4 as uuidv4 } from 'uuid';
 import RazorpayCheckout from 'react-native-razorpay';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 //API
 import HttpRequest from '../../utils/HTTPRequest';
 import LocalData from '../../utils/LocalData';
@@ -1129,7 +1129,7 @@ class ExclusiveDetails extends Component {
                   <Animatable.View animation={'slideInLeft'} style={styles.bannerContainer}>
                     <View style={{height: 50, width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: colors.backgroudColor}}>
                       <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center', height: 50, width: 60}} onPress={() => this.props.navigation.goBack()}>
-                        <Image source={require('../../components/images/left.png')} style={{height: 25, width: 25, tintColor: '#fff'}} />
+                        <Ionicons  name="arrow-back" style={{ fontSize : 25,color: '#fff'}} />
                       </TouchableOpacity>
                       <Text ellipsizeMode="tail" numberOfLines={1} style={{color: '#fff', paddingLeft: 15, fontSize: 20, width: '65%'}}>
                         {'Premium Content'}

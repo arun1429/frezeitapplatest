@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   Switch,
   Alert,
-  Platform,
+  ScrollView,
   Text,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -208,7 +208,7 @@ class Settings extends Component {
         )}
 
         <SafeAreaView style={styles.rightContainer}>
-          <View style={styles.marginContainer}>
+          <ScrollView style={styles.marginContainer}>
             <Animatable.View animation="slideInRight" style={styles.resultContainer}>
               {!isConnected && (
                 <View style={styles.noResultContainer}>
@@ -343,7 +343,7 @@ class Settings extends Component {
                 </View>
               )}
             </Animatable.View>
-          </View>
+          </ScrollView>
         </SafeAreaView>
       </View>
     );

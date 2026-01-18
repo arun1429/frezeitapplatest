@@ -441,7 +441,7 @@ class Download extends Component {
   render() {
     const {isLoading, result, isNotify, title, subtitle, type, action, data, deleteData} = this.state;
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView edges={['top']}  style={styles.container}>
         {/* <View animation={'slideInLeft'} style={styles.leftContainer}>
                 <SideMenu navigation={this.props.navigation} active={'download'} />
             </View> */}

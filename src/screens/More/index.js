@@ -118,7 +118,7 @@ class More extends Component {
     const menuData = token ? MENU_AUTH : MENU_GUEST;
 
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.backgroudColor }}>
+      <SafeAreaView  edges={['top']}  style={{ flex: 1, backgroundColor: colors.backgroudColor }}>
         <HomeHeader {...this.props} />
         <StatusBar hidden={false} />
 

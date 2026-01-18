@@ -74,7 +74,20 @@ export default class NewsScreen extends Component {
     const paddingToBottom = 20;
     return layoutMeasurement.width + contentOffset.x >= contentSize.width - paddingToBottom;
   };
+SkeletonRow = () => {
+  return (
+    <View style={styles.skeletonRow}>
+      {/* Image placeholder */}
+      <View style={styles.skeletonImage} />
 
+      {/* Text placeholder */}
+      <View style={styles.newsText}>
+        <View style={styles.skeletonLineLarge} />
+        <View style={styles.skeletonLineSmall} />
+      </View>
+    </View>
+  );
+};
   renderNewsItem = ({item, index}) => {
     const {image, title, pubDate, 'dc:creator': creator} = item;
 
@@ -107,24 +120,11 @@ export default class NewsScreen extends Component {
       </>
     );
   };
- SkeletonRow = () => {
-  return (
-    <View style={styles.skeletonRow}>
-      {/* Image placeholder */}
-      <View style={styles.skeletonImage} />
-
-      {/* Text placeholder */}
-      <View style={styles.newsText}>
-        <View style={styles.skeletonLineLarge} />
-        <View style={styles.skeletonLineSmall} />
-      </View>
-    </View>
-  );
-};
+ 
   render() {
     const {newsData, isLoading} = this.state;
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroudColor}}>
+      <SafeAreaView edges={['top']}  style={{flex: 1, backgroundColor: colors.backgroudColor}}>
         <StatusBar backgroundColor={colors.backgroudColor} />
         <HomeHeader {...this.props} />
         <View style={{position: 'relative'}}>
@@ -147,7 +147,7 @@ export default class NewsScreen extends Component {
           {isLoading ? (
             <ScrollView style={{flex: 1}}>
               {Array.from({length: 10}).map((_, index) => (
-                <SkeletonRow key={index} />
+                <this.SkeletonRow key={index} />
               ))}
             </ScrollView>
           ) : (
