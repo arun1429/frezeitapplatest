@@ -203,7 +203,7 @@ class Signup extends Component {
             icon={() => (
               <MaterialIcons name="arrow-back" size={25} color="#fff" />
             )}
-            onPress={() => this.props.navigation.navigate('Signin')}
+            onPress={() => this.props.navigation.goBack()}
           />
 
           <View style={{ flex: 1 }} />

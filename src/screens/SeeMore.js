@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, Dimensions, Image, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Dimensions, Image, TouchableOpacity, View,FlatList} from 'react-native';
 //components
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HttpRequest from '../utils/HTTPRequest';

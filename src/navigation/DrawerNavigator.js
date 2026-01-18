@@ -43,7 +43,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="OrderDraw" component={OrderHistory} options={defaultStackSettings} />
       <Drawer.Screen name="MoviesDraw" component={Movies} options={defaultStackSettings} />
       <Drawer.Screen name="LanguageDraw" component={Languages} options={defaultStackSettings} />
-      <Drawer.Screen name="PrivacyDraw" component={Help} options={defaultStackSettings} />
+      <Drawer.Screen name="PrivacyDraw" component={Privacy} options={defaultStackSettings} />
       <Drawer.Screen name="HelpDraw" component={Help} options={defaultStackSettings} />
     </Drawer.Navigator>
   );

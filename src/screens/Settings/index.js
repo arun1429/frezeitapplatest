@@ -222,9 +222,9 @@ class Settings extends Component {
               )}
 
               {isConnected && (
-                <>
+                <View style={styles.foundResultContainer}>
                   {/* HEADER */}
-                  <View style={styles.rowHeader}>
+                  <View style={[styles.row, {justifyContent: 'space-between'}]}>
                     <Text style={styles.thumbnailHeader}>App Settings</Text>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                       <AntDesign name="close" size={18} color="red" />
@@ -261,13 +261,13 @@ class Settings extends Component {
                     />
                   </View>
 
-                  <View style={styles.items}>
+                  <View style={styles.itemsQuality}>
                     <TouchableOpacity
                       style={styles.row}
                       onPress={this.openPicker}
                     >
                       <FontAwesome name="video-camera" size={18} color="#fff" />
-                      <Text style={styles.label}>Video Quality</Text>
+                      <Text style={styles.label2}>Video Quality</Text>
                       <MaterialIcons name="navigate-next" size={28} color="#fff" />
                     </TouchableOpacity>
 
@@ -340,7 +340,7 @@ class Settings extends Component {
                   </TouchableOpacity>
 
                   <SequentialBanner />
-                </>
+                </View>
               )}
             </Animatable.View>
           </View>

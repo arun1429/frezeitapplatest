@@ -758,6 +758,7 @@ class Home extends Component {
                   style={styles.thumbnailImage}
                   source={{
                     uri: item.thumbnail,
+                    cache: 'force-cache',
                   }}
                   contentFit={'cover'}
                 />
@@ -781,6 +782,7 @@ class Home extends Component {
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
+                  cache: 'force-cache',
                 }}
                 contentFit={'cover'}
               />
@@ -797,6 +799,7 @@ class Home extends Component {
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
+                  cache: 'force-cache',
                 }}
                 contentFit={'cover'}
               />
@@ -813,6 +816,7 @@ class Home extends Component {
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
+                  cache: 'force-cache',
                 }}
                 contentFit={'cover'}
               />
@@ -829,6 +833,7 @@ class Home extends Component {
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
+                  cache: 'force-cache',
                 }}
                  contentFit={'cover'}
               />
@@ -845,6 +850,7 @@ class Home extends Component {
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
+                  cache: 'force-cache',
                 }}
                  contentFit={'cover'}
               />
@@ -864,6 +870,7 @@ class Home extends Component {
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
+                  cache: 'force-cache',
                 }}
                  contentFit={'cover'}
               />
@@ -883,6 +890,7 @@ class Home extends Component {
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
+                  cache: 'force-cache',
                 }}
                  contentFit={'cover'}
               />
@@ -902,6 +910,7 @@ class Home extends Component {
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
+                  cache: 'force-cache',
                 }}
                  contentFit={'cover'}
               />
@@ -943,6 +952,7 @@ class Home extends Component {
                         style={styles.thumbnailImage}
                         source={{
                           uri: childItem.thumbnail,
+                          cache: 'force-cache',
                         }}
                          contentFit={'cover'}
                       />
@@ -1146,6 +1156,7 @@ class Home extends Component {
                                 style={styles.thumbnailImage}
                                 source={{
                                   uri: item.thumbnail,
+                                  cache: 'force-cache',
                                 }}
                                  contentFit={'cover'}
                               />

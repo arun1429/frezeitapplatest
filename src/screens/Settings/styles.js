@@ -22,6 +22,7 @@ export default (styles = StyleSheet.create({
     },
     marginContainer: {
         flex:1,
+        margin : '5%',
     },
     mainContainer: {
         flexDirection:'row',
@@ -98,6 +99,11 @@ export default (styles = StyleSheet.create({
         flexDirection:'row',
         marginBottom:10
     },
+     rowHeader: {
+    flexGrow: 1,
+    margin: '5%',
+    flexDirection: 'row',
+  },
     thumbnailHeader:{
         color:'#FFF',
         fontSize:20,
@@ -105,7 +111,6 @@ export default (styles = StyleSheet.create({
         marginTop:10,
         marginBottom:10,
         marginRight:10,
-        marginLeft:13
     },
     thumbnailHeaderDivider : {
         backgroundColor: 'red',
@@ -151,10 +156,37 @@ export default (styles = StyleSheet.create({
     items: {
         backgroundColor:'#1716164d',
         height: 60,
+        alignItems:'center',
+        width: '100%',
+        marginTop :10,
+        flexDirection:'row',
         marginLeft: 0, paddingLeft: 15, paddingRight: 0, marginRight: 0
+    },
+     itemsQuality: {
+        backgroundColor:'#1716164d',
+        height: 60,
+        alignItems:'center',
+        width: '90%',
+        marginTop :10,
+        flexDirection:'row',
+        marginLeft: 0, paddingLeft: 15, paddingRight: 0, marginRight: 0
+    },
+    itemBody: {
+        width: '85%',
+        height: 60,
     },
     label: {
         color:'#fff',
+          width: '75%',
+        marginTop : 5,
+           marginLeft: 15,
+        fontSize:14,
+    },
+     label2: {
+        color:'#fff',
+          width: '80%',
+        marginTop : 5,
+           marginLeft: 15,
         fontSize:14,
     }
 }));

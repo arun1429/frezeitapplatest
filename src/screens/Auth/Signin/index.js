@@ -68,7 +68,7 @@ class Signin extends Component {
 
   componentDidMount() {
     eventBus.emit('videoPaused', { isClosed: 'false' });
-    //Orientation.lockToPortrait();
+    Orientation.lockToPortrait();
 
     GoogleSignin.configure({
       scopes: ['profile'],
@@ -191,6 +191,217 @@ class Signin extends Component {
     this.setState({ isNotify: false });
   };
 
+    getInfoFromToken = token => {
+    const PROFILE_REQUEST_PARAMS = {
+      fields: {
+        string: 'id,name,email',
+      },
+    };
+    const profileRequest = new GraphRequest('/me', {token, parameters: PROFILE_REQUEST_PARAMS}, (error, user) => {
+      if (error) {
+        console.log('login info has error: ' + error);
+      } else {
+        console.log('user  : ' + JSON.stringify(user));
+        const emailmodified = user.email === undefined ? user.id + '@gmail.com' : user.email;
+        console.log('login with modifoed email : ' + emailmodified);
+        this.setState({isLoading: true});
+        const dataSend = {
+          email: emailmodified,
+          phone: '1234567890',
+          password: user.id,
+          login_type: 'Facebook',
+          name: user.name,
+        };
+        console.log('dataSend : ' + JSON.stringify(dataSend));
+        HttpRequest.loginSocial(dataSend)
+          .then(res => {
+            this.setState({isLoading: false});
+            const result = res.data;
+            if (res.status == 200 && result.error == false) {
+              console.log(result);
+              LocalData.setLoginToken(result.token);
+              this.props.loginToken(result.token);
+
+              //Get Info of the Logged in user
+              LocalData.setUserInfo(result.detail);
+              this.props.userInfo(result.detail);
+
+              this.props.navigation.reset({
+                index: 0,
+                routes: [{name: 'Home'}],
+              });
+            } else {
+              this.setState({isLoading: false});
+              console.log('Signin API Error : ', result);
+              this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, false);
+            }
+          })
+          .catch(err => {
+            this.setState({isLoading: false});
+            console.log('Signin API Catch Exception: ', err);
+            this.notify('danger', 'Oops!', 'Something Went Worng!', false);
+          });
+        console.log('result:', user);
+      }
+    });
+    new GraphRequestManager().addRequest(profileRequest).start();
+  };
+
+  FbLoginButton = () => {
+    // Attempt a login using the Facebook login dialog asking for default permissions.
+    LoginManager.setLoginBehavior('web_only');
+    if (AccessToken.getCurrentAccessToken() != null) {
+      LoginManager.logOut();
+      LoginManager.logInWithPermissions(['public_profile']).then(
+        login => {
+          if (login.isCancelled) {
+            console.log('Login cancelled');
+            alert('Login cancelled');
+          } else {
+            AccessToken.getCurrentAccessToken().then(data => {
+              const accessToken = data.accessToken.toString();
+              this.getInfoFromToken(accessToken);
+            });
+          }
+        },
+        error => {
+          console.log('Login fail with error: ' + error);
+        },
+      );
+    }
+  };
+
+  googleLogin = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const googleUser = await GoogleSignin.signIn();
+      console.log('googleUser : ' + JSON.stringify(googleUser));
+
+      this.setState({isLoading: true});
+      const dataSend = {
+        email: googleUser.data.user.email,
+        phone: '1234567890',
+        login_type: 'Google',
+        password: googleUser.data.user.id,
+        name: googleUser.data.user.name,
+      };
+      console.log('dataSend : ' + JSON.stringify(dataSend));
+      HttpRequest.loginSocial(dataSend)
+        .then(res => {
+          this.setState({isLoading: false});
+          const result = res.data;
+          if (res.status == 200 && result.error == false) {
+            console.log(result);
+            LocalData.setLoginToken(result.token);
+            this.props.loginToken(result.token);
+
+            //Get Info of the Logged in user
+            LocalData.setUserInfo(result.detail);
+            this.props.userInfo(result.detail);
+
+            this.props.navigation.reset({
+              index: 0,
+              routes: [{name: 'Home'}],
+            });
+          } else {
+            this.setState({isLoading: false});
+            console.log('Signin API Error : ', result);
+            this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, false);
+          }
+        })
+        .catch(err => {
+          this.setState({isLoading: false});
+          console.log('Signin API Catch Exception: ', err);
+          this.notify('danger', 'Oops!', 'Something Went Worng!', false);
+        });
+    } catch (e) {
+      if (e.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User cancelled google login');
+      } else if (e.code === statusCodes.IN_PROGRESS) {
+        console.log('Sign in in progress');
+      } else if (e.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Play service not available');
+      } else {
+        console.log('Unknown google sign in error' + JSON.stringify(e));
+      }
+    }
+  };
+
+  onAppleButtonPress = async () => {
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+
+    // get current authentication state for user
+    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+
+    console.log('cred : ' + JSON.stringify(credentialState));
+    // use credentialState response to ensure the user is authenticated
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      // user is authenticated
+      console.log('appleAuthRequestResponse : ' + JSON.stringify(appleAuthRequestResponse));
+
+      try {
+        this.setState({isLoading: true});
+        var dataSendAll = '';
+        if (appleAuthRequestResponse.realUserStatus == 2) {
+          var name = appleAuthRequestResponse.fullName.givenName + ' ' + appleAuthRequestResponse.fullName.familyName;
+          const dataSend = {
+            email: appleAuthRequestResponse.email,
+            phone: '1234567890',
+            password: appleAuthRequestResponse.user,
+            login_type: 'Apple',
+            name: name,
+          };
+          dataSendAll = dataSend;
+        } else {
+          const dataSend = {
+            email: '',
+            phone: '1234567890',
+            password: appleAuthRequestResponse.user,
+            login_type: 'Apple',
+            name: '',
+          };
+          dataSendAll = dataSend;
+        }
+
+        console.log('dataSendAll : ' + JSON.stringify(dataSendAll));
+        HttpRequest.loginSocial(dataSendAll)
+          .then(res => {
+            this.setState({isLoading: false});
+            const result = res.data;
+            if (res.status == 200 && result.error == false) {
+              console.log(result);
+              LocalData.setLoginToken(result.token);
+              this.props.loginToken(result.token);
+
+              //Get Info of the Logged in user
+              LocalData.setUserInfo(result.detail);
+              this.props.userInfo(result.detail);
+
+              this.props.navigation.reset({
+                index: 0,
+                routes: [{name: 'Home'}],
+              });
+            } else {
+              this.setState({isLoading: false});
+              console.log('Signin API Error : ', result);
+              this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, false);
+            }
+          })
+          .catch(err => {
+            this.setState({isLoading: false});
+            console.log('Signin API Catch Exception: ', err);
+            this.notify('danger', 'Oops!', 'Something Went Worng!', false);
+          });
+      } catch (e) {
+        console.log('Unknown apple sign in error' + JSON.stringify(e));
+      }
+    }
+  };
   /* ---------------- RENDER ---------------- */
 
   render() {
@@ -411,7 +622,7 @@ const styles = StyleSheet.create({
         borderColor: COLORS.cardGrey,
     },
     cardHeader: {
-        height: '15%',
+        height: '10%',
         borderTopLeftRadius:20,
         borderTopRightRadius:20,
         backgroundColor: COLORS.primary
@@ -469,13 +680,13 @@ const styles = StyleSheet.create({
       
     },
     loginBtn: {
-        backgroundColor: COLORS.primary,
-        width:screenWidth/3,
-        alignSelf:'center',
-        padding: '5%',
-        justifyContent:'center',
-        margin: screenHeight/20
-    },
+            backgroundColor: COLORS.primary,
+            width:screenWidth/2,
+            alignSelf:'center',
+            padding: '2%',
+            justifyContent:'center',
+            margin: screenHeight/30
+        },
     boldText: {
         color: COLORS.white,
         fontWeight:'bold',
@@ -506,7 +717,7 @@ const styles = StyleSheet.create({
         color: COLORS.primary,
     },
     forgotPassword:{
-        marginTop: -screenHeight/20,
+        marginTop: 10,
         padding: 10,
         alignSelf:'center'
     }

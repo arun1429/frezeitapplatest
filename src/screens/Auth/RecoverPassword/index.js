@@ -157,7 +157,7 @@ export default class RecoverPassword extends Component {
               />
             )}
             onPress={() =>
-              this.props.navigation.navigate('Signin')
+              this.props.navigation.goBack()
             }
           />
 
@@ -211,9 +211,11 @@ export default class RecoverPassword extends Component {
         >
           <View style={styles.cardStyle}>
             <View style={styles.cardHeader}>
+               <View style={styles.cardHeaderContent}>
               <Text style={styles.cardTitle}>
                 FORGET PASSWORD
               </Text>
+              </View>
             </View>
 
             <ImageBackground

@@ -32,7 +32,7 @@ const ToolBar = ({ navigation }) => {
                 style={styles.infoIcon}
               />
             )}
-            onPress={() => navigation.navigate('IntroHelp')}
+            onPress={() => navigation.navigate('Help')}
           />
 
           <Appbar.Action

@@ -12,6 +12,11 @@ export default styles = StyleSheet.create({
         backgroundColor: COLORS.backgroudColor,
         flex: 1,
     }, 
+        transparentHeader: {
+  backgroundColor: 'transparent',
+  elevation: 0,          // Android
+  shadowOpacity: 0,      // iOS
+},
     logo:{
         width: screenWidth - screenWidth/3,
         height:'10%',
@@ -34,7 +39,7 @@ export default styles = StyleSheet.create({
         borderColor: COLORS.cardGrey,
     },
     cardHeader: {
-        height: '15%',
+        height: '10%',
         borderTopLeftRadius:20,
         borderTopRightRadius:20,
         backgroundColor: COLORS.primary
@@ -77,9 +82,12 @@ export default styles = StyleSheet.create({
         fontWeight:'bold'
     },
     loginBtn: {
-        backgroundColor: COLORS.primary,
-        alignSelf:'center',
-        justifyContent:'center',
+          backgroundColor: COLORS.primary,
+                    width:screenWidth/2,
+                    alignSelf:'center',
+                    padding: '2%',
+                    justifyContent:'center',
+                    margin: screenHeight/30
     },
     boldText: {
         color: COLORS.white,
@@ -103,18 +111,19 @@ export default styles = StyleSheet.create({
         flex:1,
         height:'100%',
         fontSize: 16,
-        padding: 2,
+        padding: 10,
         marginLeft: '2%'
     },
     error: {
         fontSize: 12,
-        padding: 2,
+        padding: 10,
         color: COLORS.primary,
     },
     backButton: {
         width: 40, 
         height: 40,
         borderRadius: 20, 
+        marginTop: 10,
         borderWidth:1, 
         backgroundColor:'#272a2f8f',
         justifyContent:'center', 

@@ -127,7 +127,7 @@ export default class TermsCondition extends Component {
                         </TouchableOpacity>
                         }
                         { !this.props.route?.params?.auth &&
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate("Intro")} >
+                            <TouchableOpacity onPress={() => this.props.navigation.goBack()} >
                                 <AntDesign name='close' style={{fontSize: 35, color: 'red', alignSelf:'flex-end'}}  />
                             </TouchableOpacity>
                         }

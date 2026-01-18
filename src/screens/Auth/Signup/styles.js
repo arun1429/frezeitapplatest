@@ -50,7 +50,7 @@ export default styles = StyleSheet.create({
         borderColor: COLORS.cardGrey,
     },
     cardHeader: {
-        height: '15%',
+        height: '10%',
         borderTopLeftRadius:20,
         borderTopRightRadius:20,
         backgroundColor: COLORS.primary
@@ -66,7 +66,7 @@ export default styles = StyleSheet.create({
         fontSize: 25
     },
     cardBody: {
-        flex:1,
+        flex:.6,
         flexDirection:'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -104,7 +104,7 @@ export default styles = StyleSheet.create({
         backgroundColor: COLORS.primary,
         width:screenWidth/2,
         alignSelf:'center',
-        padding: '5%',
+        padding: '2%',
         justifyContent:'center',
         margin: screenHeight/30
     },

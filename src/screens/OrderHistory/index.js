@@ -22,7 +22,7 @@ import { bindActionCreators } from 'redux';
 import { StyleSheet } from 'react-native';
 import HeaderWithTittle from '../../components/Header/HeaderWithText';
 import colors from '../../constants/colors';
-
+import eventBus from '../../utils/eventBus';
 //style
 
 class Order extends Component {
