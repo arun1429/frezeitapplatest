@@ -40,7 +40,7 @@ import Alerts from '../../../components/Alerts/';
 
 // Social
 import { appleAuth } from '@invertase/react-native-apple-authentication';
-// import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk-next';
+import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk-next';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 // Styles
@@ -248,15 +248,14 @@ class Signin extends Component {
   };
 
   FbLoginButton = () => {
-    // Attempt a login using the Facebook login dialog asking for default permissions.
-    LoginManager.setLoginBehavior('web_only');
+    try{
+      LoginManager.setLoginBehavior('web_only');
     if (AccessToken.getCurrentAccessToken() != null) {
       LoginManager.logOut();
       LoginManager.logInWithPermissions(['public_profile']).then(
         login => {
           if (login.isCancelled) {
             console.log('Login cancelled');
-            alert('Login cancelled');
           } else {
             AccessToken.getCurrentAccessToken().then(data => {
               const accessToken = data.accessToken.toString();
@@ -269,6 +268,11 @@ class Signin extends Component {
         },
       );
     }
+    }catch(e){
+      console.log('Facebook login error : ' + JSON.stringify(e));
+    }
+    // Attempt a login using the Facebook login dialog asking for default permissions.
+    
   };
 
   googleLogin = async () => {
