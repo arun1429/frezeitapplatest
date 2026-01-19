@@ -7,7 +7,7 @@ import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from 'react-native-video';
-// import RNBackgroundDownloader from 'react-native-background-downloader';
+import RNBackgroundDownloader from 'react-native-background-downloader';
 import NetInfo from '@react-native-community/netinfo';
 import * as Progress from 'react-native-progress';
 import { v4 as uuidv4 } from 'uuid';
@@ -294,42 +294,42 @@ class ExclusiveDetails extends Component {
   checkBackgroundDownloadPending = async () => {
     // console.log('Called To check pending downloads')
    
-    // let lostTasks = await RNBackgroundDownloader.checkForExistingDownloads();
-    // for (this.task of lostTasks) {
-    //   //if the task is pending for the respective id
-    //   if (this.task.id == this.props.route?.params?.itemId) {
-    //     let videoDest = `${RNBackgroundDownloader.directories.documents}/content/data/util/sync/.dir/${this.task.id}.mp4`;
-    //     // console.log(`Task ${this.task.id} was found!`);
-    //     this.task
-    //       .progress(percent => {
-    //         this.setState({
-    //           isDownloading: true,
-    //           progress: percent * 100,
-    //         });
-    //       })
-    //       .done(() => {
-    //         this.task.stop();
-    //         this.setState({
-    //           progress: 100,
-    //           isDownloading: false,
-    //           isDownloaded: 1,
-    //           video: videoDest,
-    //         });
-    //         this.downloadDetailsToServer(this.task.id, videoDest);
-    //         //Store Donwloaded File Details in Local Storage
-    //         this.storeInLocalStorage(videoDest);
-    //       })
-    //       .error(error => {
-    //         console.log('Download canceled due to error: ', error);
-    //         this.setState({
-    //           progress: 0,
-    //           isDownloading: false,
-    //           isDownloaded: 0,
-    //           video: videoDest,
-    //         });
-    //       });
-    //   }
-    // }
+    let lostTasks = await RNBackgroundDownloader.checkForExistingDownloads();
+    for (this.task of lostTasks) {
+      //if the task is pending for the respective id
+      if (this.task.id == this.props.route?.params?.itemId) {
+        let videoDest = `${RNBackgroundDownloader.directories.documents}/content/data/util/sync/.dir/${this.task.id}.mp4`;
+        // console.log(`Task ${this.task.id} was found!`);
+        this.task
+          .progress(percent => {
+            this.setState({
+              isDownloading: true,
+              progress: percent * 100,
+            });
+          })
+          .done(() => {
+            this.task.stop();
+            this.setState({
+              progress: 100,
+              isDownloading: false,
+              isDownloaded: 1,
+              video: videoDest,
+            });
+            this.downloadDetailsToServer(this.task.id, videoDest);
+            //Store Donwloaded File Details in Local Storage
+            this.storeInLocalStorage(videoDest);
+          })
+          .error(error => {
+            console.log('Download canceled due to error: ', error);
+            this.setState({
+              progress: 0,
+              isDownloading: false,
+              isDownloaded: 0,
+              video: videoDest,
+            });
+          });
+      }
+    }
   };
   // Get Details of Movie From Server
   getMovieDetails = () => {
@@ -630,49 +630,49 @@ class ExclusiveDetails extends Component {
   };
   //Initiat Donwload
   backgroundDownloader = id => {
-    // let {details} = this.state;
-    // this.setState({
-    //   isDownloading: true,
-    //   isDownloaded: 0,
-    //   progress: 0,
-    // });
-    // let videoDest = `${RNBackgroundDownloader.directories.documents}/content/data/util/sync/.dir/${id}.mp4`;
-    // this.task = RNBackgroundDownloader.download({
-    //   id: id,
-    //   url: details.link,
-    //   destination: videoDest,
-    // })
-    //   .begin(expectedBytes => {
-    //     // console.log(`Going to download ${expectedBytes} bytes!`);
-    //   })
-    //   .progress(percent => {
-    //     // console.log(`Downloaded: ${percent * 100}%`);
-    //     this.setState({
-    //       progress: percent * 100,
-    //     });
-    //   })
-    //   .done(() => {
-    //     this.task.stop();
-    //     this.setState({
-    //       isDownloading: false,
-    //       isDownloaded: 1,
-    //       progress: 100,
-    //       video: videoDest,
-    //     });
-    //     //Store Donwloaded File Details on Server
-    //     this.downloadDetailsToServer(id, videoDest);
-    //     //Store Donwloaded File Details in Local Storage
-    //     this.storeInLocalStorage(videoDest);
-    //   })
-    //   .error(error => {
-    //     console.log('Download canceled due to error: ', error);
-    //     this.setState({
-    //       isDownloading: false,
-    //       isDownloaded: 0,
-    //       progress: 0,
-    //       video: videoDest,
-    //     });
-    //   });
+    let {details} = this.state;
+    this.setState({
+      isDownloading: true,
+      isDownloaded: 0,
+      progress: 0,
+    });
+    let videoDest = `${RNBackgroundDownloader.directories.documents}/content/data/util/sync/.dir/${id}.mp4`;
+    this.task = RNBackgroundDownloader.download({
+      id: id,
+      url: details.link,
+      destination: videoDest,
+    })
+      .begin(expectedBytes => {
+        // console.log(`Going to download ${expectedBytes} bytes!`);
+      })
+      .progress(percent => {
+        // console.log(`Downloaded: ${percent * 100}%`);
+        this.setState({
+          progress: percent * 100,
+        });
+      })
+      .done(() => {
+        this.task.stop();
+        this.setState({
+          isDownloading: false,
+          isDownloaded: 1,
+          progress: 100,
+          video: videoDest,
+        });
+        //Store Donwloaded File Details on Server
+        this.downloadDetailsToServer(id, videoDest);
+        //Store Donwloaded File Details in Local Storage
+        this.storeInLocalStorage(videoDest);
+      })
+      .error(error => {
+        console.log('Download canceled due to error: ', error);
+        this.setState({
+          isDownloading: false,
+          isDownloaded: 0,
+          progress: 0,
+          video: videoDest,
+        });
+      });
   };
   //Store Downloaded File Details on Server
   downloadDetailsToServer = (file_name, path) => {
