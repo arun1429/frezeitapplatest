@@ -11,7 +11,6 @@ import {bindActionCreators} from 'redux';
 import DrawerEvents from '../../components/Drawer/DrawerEvents';
 import NetInfo from '@react-native-community/netinfo';
 import eventBus from '../../utils/eventBus';
-// import { Viewport } from '@skele/components';
 //components
 import SideMenu from '../../components/SideMenu';
 import BottomLine from '../../components/BottomHorizontalLine/';
@@ -319,9 +318,7 @@ class Series extends Component {
             <Animatable.View animation={'slideInRight'} style={styles.resultContainer}>
               <View style={styles.foundResultContainer}>
                 {activeGenre == '' &&
-                // <Viewport.Tracker>
                   <FlatList data={sortedObj} style={{height: '100%'}} renderItem={this.renderItem} />
-                  // </Viewport.Tracker>
                   }
                 {activeGenre != '' && <FlatList data={formatData(data, numColumns)} style={{marginBottom: 20, flex: 1}} renderItem={this.renderGenreSpecificItems} numColumns={numColumns} />}
               </View>

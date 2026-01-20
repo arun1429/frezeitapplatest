@@ -10,7 +10,6 @@ import RNBlobUtil from 'react-native-blob-util';
 import NetInfo from '@react-native-community/netinfo';
 import * as Progress from 'react-native-progress';
 import RazorpayCheckout from 'react-native-razorpay';
-// import { Viewport } from '@skele/components';
 //API
 import HttpRequest from '../../utils/HTTPRequest';
 import LocalData from '../../utils/LocalData';
@@ -275,7 +274,6 @@ class Details extends Component {
             } else {
               this.getMovieDetails();
             }
-            this.checkBackgroundDownloadPending();
           } else {
             if (this.props.token != '') {
               this.getUserSeriesDetails();
@@ -323,7 +321,6 @@ class Details extends Component {
           } else {
             this.getMovieDetails();
           }
-          this.checkBackgroundDownloadPending();
         } else {
           if (this.props.token != '') {
             this.getUserSeriesDetails();
@@ -1224,7 +1221,6 @@ class Details extends Component {
               </View>
             )}
             {isConnected && (
-              // <Viewport.Tracker>
               <ScrollView contentContainerStyle={styles.scrollViewContainer}>
                 <Animatable.View animation={'slideInLeft'} style={styles.bannerContainer}>
                   <HeaderWithTittle name={details.name} navigation={this.props.navigation} />
@@ -1522,7 +1518,6 @@ class Details extends Component {
                   </Animatable.View>
                 )}
               </ScrollView>
-              // </Viewport.Tracker>
             )}
           </View>
         </LinearGradient>

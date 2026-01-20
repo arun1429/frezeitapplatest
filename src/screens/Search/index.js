@@ -6,7 +6,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import Orientation from 'react-native-orientation-locker';
 import NetInfo from '@react-native-community/netinfo';
 import eventBus from '../../utils/eventBus';;
-// import { Viewport } from '@skele/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //API
 import HttpRequest from '../../utils/HTTPRequest';
@@ -338,9 +337,7 @@ class Search extends Component {
                 {result && !isLoading && isConnected && (
                   <View style={styles.foundResultContainer}>
                     <Text style={styles.thumbnailHeader}> Results</Text>
-                    {/* <Viewport.Tracker> */}
                       <FlatList data={formatData(data, numColumns)} style={{height: '100%'}} renderItem={this.renderItem} numColumns={numColumns} />
-                      {/* </Viewport.Tracker> */}
                   </View>
                 )}
               </View>

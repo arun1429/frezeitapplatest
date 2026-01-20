@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react';
 import {View, Text, ScrollView,Image, TouchableOpacity, AppState, ActivityIndicator, Alert, Platform, Dimensions, FlatList} from 'react-native';
-// import { Viewport } from '@skele/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
@@ -21,7 +20,7 @@ import Slider from '../../components/Slider';
 import Alerts from '../../components/Alerts';
 import Banner from '../../components/AdMob/Banner';
 import ChatboxImage from '../../../assets/Chatbox.png';
-// import withSequentialRendering from '../../components/withSequentialRendering';
+ import withSequentialRendering from '../../components/withSequentialRendering';
 
 //style
 import styles from './styles';
@@ -30,7 +29,7 @@ import HomeHeader from '../../components/Header/HomeHeader';
 import {interstitial, bannerAdUnitId} from '../../utils/animations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// const SequentialBanner = withSequentialRendering(Banner);
+ const SequentialBanner = withSequentialRendering(Banner);
 
 class Home extends Component {
   constructor(props) {
@@ -73,6 +72,7 @@ class Home extends Component {
       isBuffering: false,
       insertitalAdsShowCount: 0,
       loaded: false,
+      
     };
     this.offset = 0;
     this.threshold = 150;
@@ -962,7 +962,7 @@ class Home extends Component {
               })}
             </ScrollView>
           </View>
-          {/* {index % 2 == 0 && <SequentialBanner/>} */}
+          {index % 2 == 0 && <SequentialBanner/>} 
         </View>
       );
     }
@@ -1039,7 +1039,6 @@ class Home extends Component {
             </View>
           )}
           {isConnected && isDataFetched && (
-            // <Viewport.Tracker>
             <ScrollView
               onScroll={this.onScroll}
               scrollEventThrottle={16}
@@ -1108,7 +1107,7 @@ class Home extends Component {
                   )}
                 </View>
               )}
-              {/* <SequentialBanner/> */}
+              {<SequentialBanner/>}
 
               {trendingnow.length > 0 && (
                 <View animation={this.state.isSideBarHidden ? 'slideInLeft' : 'slideInLeft'} delay={4} style={[styles.middleContainer, {margin: 10}]}>
@@ -1248,7 +1247,7 @@ class Home extends Component {
                 </View>
               )}
 
-              {/* <SequentialBanner/> */}
+              {<SequentialBanner/>}
               
               {allMovieData != 0 ? null : (
                 <Animatable.View animation={'slideInRight'} style={styles.noResultContainer}>
@@ -1266,7 +1265,6 @@ class Home extends Component {
                 />
               )}
             </ScrollView>
-            // </Viewport.Tracker>
           )}
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Chat')} animation={'slideInUp'} style={styles.footerContainer}>
             <Image style={{width: 35, height: 40, alignSelf: 'center', marginTop: 3}} source={ChatboxImage} contentFit={'contain'}  />

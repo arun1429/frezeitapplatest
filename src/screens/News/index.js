@@ -4,7 +4,6 @@ import React, {Component} from 'react';
 import {FlatList, ScrollView, StatusBar, Text, TouchableOpacity, View, Image} from 'react-native';
 import eventBus from '../../utils/eventBus';
 import {SafeAreaView} from 'react-native-safe-area-context';
-// import { Viewport } from '@skele/components';
 import Banner from '../../components/AdMob/Banner';
 import withSequentialRendering from '../../components/withSequentialRendering';
 import HomeHeader from '../../components/Header/HomeHeader';
@@ -152,10 +151,7 @@ SkeletonRow = () => {
             </ScrollView>
           ) : (
             newsData?.length > 0 &&
-            //  <Viewport.Tracker>
               <FlatList data={newsData} renderItem={this.renderNewsItem} keyExtractor={item => item.image} showsVerticalScrollIndicator={false} />
-
-              // </Viewport.Tracker>
           )}
         </View>
       </SafeAreaView>

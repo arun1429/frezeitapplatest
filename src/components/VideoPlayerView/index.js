@@ -24,6 +24,8 @@ import Orientation from 'react-native-orientation-locker';
 import  VolumeManager from 'react-native-volume-manager';
 import Video from 'react-native-video';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Octicons from 'react-native-vector-icons/Octicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import StatusBar from '../StatusBar/';
 import colors from '../../constants/colors';
 
@@ -1216,7 +1218,7 @@ class VideoPlayerView extends Component {
         {this.state.isMuted === false ? <View style={[styles.volume.track, {width: this.state.volumeTrackWidth}]} /> : null}
         {this.state.isMuted === false ? (
           <View style={[styles.volume.handle, {left: this.state.volumePosition, marginLeft: 2}]} {...this.player.volumePanResponder.panHandlers}>
-            <Icon type="Octicons" name="primitive-dot" style={{fontSize: 20, color: '#fff'}} />
+            <Octicons name="primitive-dot" style={{fontSize: 20, color: '#fff'}} />
           </View>
         ) : null}
       </View>
@@ -1395,7 +1397,7 @@ class VideoPlayerView extends Component {
     let source = require('../../../assets/player/forward.png');
     return this.renderControl(
       // <Image source={ source } />,
-      <Icon type="AntDesign" name="forward" style={{fontSize: 13, color: '#fff'}} />,
+      <AntDesign name="forward" style={{fontSize: 13, color: '#fff'}} />,
       this.methods.toggleFastForward,
       styles.controls.FastForward,
     );
@@ -1407,7 +1409,7 @@ class VideoPlayerView extends Component {
     let source = require('../../../assets/player/forward.png');
     return this.renderControl(
       // <Image source={ source } />,
-      <Icon type="AntDesign" name="banckward" style={{fontSize: 13, color: '#fff'}} />,
+      <AntDesign name="banckward" style={{fontSize: 13, color: '#fff'}} />,
       this.methods.toggleFastRewind,
       styles.controls.FastForward,
     );
@@ -1588,7 +1590,7 @@ class VideoPlayerView extends Component {
                       alignItems: 'center',
                     }}>
                     <TouchableOpacity onPress={() => this._toggleModal()}>
-                      <Icon type="AntDesign" name="close" style={{fontSize: 50, color: 'white', marginLeft: 5}} />
+                      <AntDesign name="close" style={{fontSize: 50, color: 'white', marginLeft: 5}} />
                     </TouchableOpacity>
                   </View>
                 </View>

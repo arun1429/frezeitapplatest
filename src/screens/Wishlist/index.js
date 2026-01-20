@@ -6,7 +6,6 @@ import Orientation from 'react-native-orientation-locker';
 import NetInfo from '@react-native-community/netinfo';
 import eventBus from '../../utils/eventBus';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import { Viewport } from '@skele/components';
 //API
 import HttpRequest from '../../utils/HTTPRequest';
 //Redux
@@ -301,9 +300,9 @@ class Wishlist extends Component {
                             <Icon type= "AntDesign" name='close'style={{fontSize: 35, color: COLORS.primary, alignSelf:'flex-end'}}  />
                             </TouchableOpacity> */}
                     </View>
-                    {/* <Viewport.Tracker> */}
+                   
                       <FlatList data={formatData(data, numColumns)} style={{height: '100%'}} renderItem={this.renderItem} numColumns={3} />
-                      {/* </Viewport.Tracker> */}
+                     
                   </View>
                 )}
               </View>

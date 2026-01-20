@@ -5,7 +5,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import HttpRequest from '../utils/HTTPRequest';
 //style
 import eventBus from '../utils/eventBus';;
-// import { Viewport } from '@skele/components';
 import withSequentialRendering from '../components/withSequentialRendering';
 import Banner from '../components/AdMob/Banner/';
 import HeaderWithTittle from '../components/Header/HeaderWithText';
@@ -112,9 +111,7 @@ class SeeMore extends Component {
           </View>
         )}
         {isDataFetched && data.length != 0 &&
-        //  <Viewport.Tracker>
           <FlatList data={createSubArray(data)} style={{height: '100%'}} keyExtractor={item => item?.[0]?.id} renderItem={this.renderItem} />
-          // </Viewport.Tracker>
           }
       </SafeAreaView>
     );

@@ -4,7 +4,6 @@ import * as Animatable from 'react-native-animatable';
 import Orientation from 'react-native-orientation-locker';
 import NetInfo from '@react-native-community/netinfo';
 import eventBus from '../../utils/eventBus';
-// import { Viewport } from '@skele/components';
 //API
 import HttpRequest from '../../utils/HTTPRequest';
 import {connect} from 'react-redux';
@@ -368,8 +367,8 @@ class Movies extends Component {
           {isDataFetched && isConnected && (
             <Animatable.View animation={'slideInRight'} style={styles.resultContainer}>
               <View style={styles.foundResultContainer}>
-                {/* {activeGenre == '' &&  <Viewport.Tracker><FlatList data={sortedObj} style={{height: '100%'}} renderItem={this.renderItem} /></Viewport.Tracker>}
-                {activeGenre != '' &&  <Viewport.Tracker><FlatList data={formatData(data, numColumns)} style={{height: '100%'}} renderItem={this.renderGenreSpecificItems} numColumns={numColumns} /></Viewport.Tracker>} */}
+                {activeGenre == '' && <FlatList data={sortedObj} style={{height: '100%'}} renderItem={this.renderItem} />}
+                {activeGenre != '' &&  <FlatList data={formatData(data, numColumns)} style={{height: '100%'}} renderItem={this.renderGenreSpecificItems} numColumns={numColumns} />} 
               </View>
             </Animatable.View>
           )}

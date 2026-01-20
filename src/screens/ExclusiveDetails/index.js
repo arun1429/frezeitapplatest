@@ -214,7 +214,6 @@ class ExclusiveDetails extends Component {
             } else {
               this.getMovieDetails();
             }
-            this.checkBackgroundDownloadPending();
           } else {
             this.getSeriesDetails();
           }
@@ -256,7 +255,6 @@ class ExclusiveDetails extends Component {
           if (this.props.route?.params?.tvMovies) {
             this.getTVMovieDetails();
           } else this.getMovieDetails();
-          this.checkBackgroundDownloadPending();
         } else {
           this.getSeriesDetails();
         }
@@ -290,47 +288,7 @@ class ExclusiveDetails extends Component {
     //     console.log("Setting Details Error: Token not found");
     // }
   };
-  //Initial Background Downloader To check any pending Dowloads for respective movies
-  checkBackgroundDownloadPending = async () => {
-    // console.log('Called To check pending downloads')
-   
-    let lostTasks = await RNBackgroundDownloader.checkForExistingDownloads();
-    for (this.task of lostTasks) {
-      //if the task is pending for the respective id
-      if (this.task.id == this.props.route?.params?.itemId) {
-        let videoDest = `${RNBlobUtil.fs.dirs.DocumentDir}/content/data/util/sync/.dir/${this.task.id}.mp4`;
-        // console.log(`Task ${this.task.id} was found!`);
-        this.task
-          .progress(percent => {
-            this.setState({
-              isDownloading: true,
-              progress: percent * 100,
-            });
-          })
-          .done(() => {
-            this.task.stop();
-            this.setState({
-              progress: 100,
-              isDownloading: false,
-              isDownloaded: 1,
-              video: videoDest,
-            });
-            this.downloadDetailsToServer(this.task.id, videoDest);
-            //Store Donwloaded File Details in Local Storage
-            this.storeInLocalStorage(videoDest);
-          })
-          .error(error => {
-            console.log('Download canceled due to error: ', error);
-            this.setState({
-              progress: 0,
-              isDownloading: false,
-              isDownloaded: 0,
-              video: videoDest,
-            });
-          });
-      }
-    }
-  };
+
   // Get Details of Movie From Server
   getMovieDetails = () => {
     this.setState({isDataFetched: false, isDownloaded: 0, details: {}});

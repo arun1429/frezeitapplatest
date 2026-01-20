@@ -7,7 +7,6 @@ import Orientation from 'react-native-orientation-locker';
 import LinearGradient from 'react-native-linear-gradient';
 import YoutubePlayer from "react-native-youtube-iframe";
 import NetInfo from '@react-native-community/netinfo';
-// import { Viewport } from '@skele/components';
 
 //Redux
 import {connect} from 'react-redux';
@@ -251,7 +250,6 @@ class EventDetails extends Component {
               </View>
             )}
             {isConnected && (
-              // <Viewport.Tracker>
               <ScrollView contentContainerStyle={styles.scrollViewContainer} overScrollMode="never">
                 <Animatable.View style={styles.bannerContainer}>
                   <HeaderWithTittle name={this.props.route.params.title} navigation={this.props.navigation} isPop={true} />
@@ -338,7 +336,6 @@ class EventDetails extends Component {
                   </Animatable.View>
                 )}
               </ScrollView>
-              // </Viewport.Tracker>
             )}
           </View>
         </LinearGradient>
