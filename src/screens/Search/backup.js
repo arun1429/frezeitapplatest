@@ -70,7 +70,7 @@ class Search extends Component {
         eventBus.emit('videoPaused', {
             isClosed: "false"
         })
-        //Orientation.lockToPortrait();
+        Orientation.lockToPortrait();
     }
 
     checkNetworkConnectivity = () => {

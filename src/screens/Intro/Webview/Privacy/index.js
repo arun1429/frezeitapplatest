@@ -15,7 +15,7 @@ export default class IntroPrivacy extends Component {
         super(props);
     } 
     componentDidMount () {
-        //Orientation.lockToPortrait();
+        Orientation.lockToPortrait();
     }
     render() {
     return (

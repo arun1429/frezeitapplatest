@@ -279,7 +279,7 @@ export class ConnectDevices extends Component {
     eventBus.emit('videoPaused', {
       isClosed: 'false',
     });
-    //Orientation.lockToPortrait();
+    Orientation.lockToPortrait();
     //Check internet connectivity
     this.checkNetworkConnectivity();
     eventBus.on('onDidFocus', this.handleDidFocus);

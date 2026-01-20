@@ -67,7 +67,7 @@ class EventDetails extends Component {
   }
 
   componentDidMount = () => {
-    //Orientation.lockToPortrait();
+    Orientation.lockToPortrait();
     this.checkConnectivity();
     this.appEventStateSubscription = AppState.addEventListener('change', this.handleAppStateChange);
   };

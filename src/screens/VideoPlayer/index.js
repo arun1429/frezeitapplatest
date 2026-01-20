@@ -87,7 +87,7 @@ class VideoPlayerScreen extends Component {
     this.getNextLink();
   
     // Don't work on android
-    Orientation.addSpecificOrientationListener(this.orientationChangeHandler);
+    Orientation.addOrientationListener(this.orientationChangeHandler);
   }
 
   StartImageRotateFunction() {
@@ -127,7 +127,7 @@ class VideoPlayerScreen extends Component {
     this.appStateSubscription.remove();
     // Remember to remove listener
 
-    Orientation.removeSpecificOrientationListener(this.orientationChangeHandler);
+    Orientation.removeOrientationListener(this.orientationChangeHandler);
 
     const {progress, duration} = this.state;
     const {goBack} = this.props.navigation;

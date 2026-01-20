@@ -19,9 +19,9 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
+import KeepAwake from 'react-native-keep-awake';
 import Orientation from 'react-native-orientation-locker';
-import  VolumeManager from 'react-native-volume-manager';
+import SystemSetting from 'react-native-system-setting';
 import Video from 'react-native-video';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -574,10 +574,10 @@ class VideoPlayerView extends Component {
     state.paused = !state.paused;
     if (state.paused) {
       typeof this.events.onPause === 'function' && this.events.onPause();
-       deactivateKeepAwake();
+       KeepAwake.deactivate();
     } else {
       typeof this.events.onPlay === 'function' && this.events.onPlay();
-      activateKeepAwake();
+      KeepAwake.activate();
     }
     this.setState(state);
   }
@@ -590,10 +590,10 @@ class VideoPlayerView extends Component {
     state.externalPaused = !state.externalPaused;
     if (state.externalPaused) {
       typeof this.events.onPause === 'function' && this.events.onPause();
-       deactivateKeepAwake();
+       KeepAwake.deactivate();
     } else {
       typeof this.events.onPlay === 'function' && this.events.onPlay();
-      activateKeepAwake();
+      KeepAwake.activate();
     }
 
     this.setState(state);
@@ -633,7 +633,7 @@ class VideoPlayerView extends Component {
    */
   _onBack() {
     if (this.props.navigator && this.props.navigator.goBack) {
-       deactivateKeepAwake();
+      KeepAwake.deactivate();
       // showNavigationBar();
       this.props.navigator.goBack();
     } else {
@@ -866,10 +866,10 @@ class VideoPlayerView extends Component {
     this.setState({
       textTrack: this.props.objSelected,
     });
- activateKeepAwake();
+    KeepAwake.activate();
     // hideNavigationBar();
     //System Default Volume
-    VolumeManager.getVolume(this.state.volType).then(volume => {
+    SystemSetting.getVolume(this.state.volType).then(volume => {
       this.setState({volume: volume === 0 ? 0.5 : volume}, () => {
         //Volume
         const position = this.calculateVolumePositionFromVolume();
@@ -880,7 +880,7 @@ class VideoPlayerView extends Component {
     });
 
     // Volume Listner
-    this.volumeListener = VolumeManager.addVolumeListener(data => {
+    this.volumeListener = SystemSetting.addVolumeListener(data => {
       this.setState({
         volume: Platform.OS == 'android' ? data['music'] : data.value,
       });
@@ -891,7 +891,7 @@ class VideoPlayerView extends Component {
     });
     this.mounted = true;
     this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);
-    Orientation.addSpecificOrientationListener(this._specificOrientationChange);
+    Orientation.addOrientationListener(this._specificOrientationChange);
   }
 
   _specificOrientationChange = specificOrientation => {
@@ -921,14 +921,14 @@ class VideoPlayerView extends Component {
    * timeout less it fire in the prev/next scene
    */
   componentWillUnmount() {
-     deactivateKeepAwake();
-    //Orientation.lockToPortrait();
-    VolumeManager.removeListener(this.volumeListener);
+     KeepAwake.deactivate();
+    Orientation.lockToPortrait();
+    SystemSetting.removeListener(this.volumeListener);
     this.onBlur();
     this.mounted = false;
     this.clearControlTimeout();
     this.appStateSubscription.remove();
-    Orientation.removeSpecificOrientationListener(this._specificOrientationChange);
+    Orientation.removeOrientationListener(this._specificOrientationChange);
     this._onBack();
   }
 
@@ -949,13 +949,13 @@ class VideoPlayerView extends Component {
       state.paused = false;
       state.appState = nextAppState;
       typeof this.events.onPlay === 'function' && this.events.onPlay();
-      activateKeepAwake();
+      KeepAwake.activate();
       // console.log('IsPaused: ', false)
     } else {
       state.paused = true;
       state.appState = nextAppState;
       typeof this.events.onPause === 'function' && this.events.onPause();
-       deactivateKeepAwake();
+       KeepAwake.deactivate();
       // console.log('IsPaused: ', true)
     }
     this.setState(state);
@@ -1072,7 +1072,7 @@ class VideoPlayerView extends Component {
         } else {
           state.muted = false;
         }
-        VolumeManager.setVolume(state.volume, {
+        SystemSetting.setVolume(state.volume, {
           type: 'music',
           playSound: false,
           showUI: false,

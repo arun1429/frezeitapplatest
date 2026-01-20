@@ -76,7 +76,7 @@ class MovieLanguages extends Component {
             isClosed: "false"
         })
 
-        //Orientation.lockToPortrait();
+        Orientation.lockToPortrait();
         this.getMoviesLangugaes()
     }
 

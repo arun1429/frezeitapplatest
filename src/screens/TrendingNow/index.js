@@ -47,7 +47,7 @@ class TrendingNow extends Component {
         }
     }
     componentDidMount () {
-        //Orientation.lockToPortrait();
+        Orientation.lockToPortrait();
         this.getTrendingNow();
     }
 

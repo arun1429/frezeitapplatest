@@ -53,7 +53,7 @@ class Plans extends Component {
 
     }
     componentDidMount() {
-        //Orientation.lockToPortrait();
+        Orientation.lockToPortrait();
         // this.checkNetworkConnectivity()
         this.getPlansResults();
     }

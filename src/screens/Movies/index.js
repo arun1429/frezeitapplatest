@@ -64,7 +64,7 @@ class Movies extends Component {
             isClosed: 'false',
           });
     }
-    //Orientation.lockToPortrait();
+    Orientation.lockToPortrait();
     //Check internet connectivity
     this.checkNetworkConnectivity();
   }

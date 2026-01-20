@@ -64,7 +64,7 @@ class Settings extends Component {
   }
 
   componentDidMount() {
-    //Orientation.lockToPortrait();
+    Orientation.lockToPortrait();
     this.checkNetworkConnectivity();
   }
 

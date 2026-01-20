@@ -58,7 +58,7 @@ class Download extends Component {
     eventBus.emit('videoPaused', {
       isClosed: 'false',
     });
-    //Orientation.lockToPortrait();
+    Orientation.lockToPortrait();
     this.getDownloads();
     this.willFocusSubscription = this.props.navigation.addListener('willFocus', () => {
       this.getDownloads();
