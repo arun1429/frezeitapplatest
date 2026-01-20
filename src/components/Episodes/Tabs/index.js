@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Alert, Text, TouchableOpacity, Share, PermissionsAndroid, Platform, ActivityIndicator, StyleSheet, TouchableWithoutFeedback, ImageBackground, Dimensions} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-// import RNBackgroundDownloader from 'react-native-background-downloader';
+import RNBlobUtil from 'react-native-blob-util';
 import NetInfo from '@react-native-community/netinfo';
 import * as Progress from 'react-native-progress';
 import {removeHtmlTags} from '../../../lib';
@@ -51,48 +51,6 @@ handleDidFocus = (data) => {
     this.setState({
       isDownloaded: this.props.item.isDownloaded,
     });
-  };
-
-  checkBackgroundDownloadPending = async () => {
-    // console.log('Called To check pending downloads')
-   
-   
-    // let lostTasks = await RNBackgroundDownloader.checkForExistingDownloads();
-    // for (this.task of lostTasks) {
-    //   //if the task is pending for the respective id
-    //   if (this.task.id == this.props.series_id) {
-    //     let videoDest = `${RNBackgroundDownloader.directories.documents}/content/data/util/sync/.dir/${this.task.id}.mp4`;
-    //     // console.log(`Task ${this.task.id} was found!`);
-    //     this.task
-    //       .progress(percent => {
-    //         this.setState({
-    //           isDownloading: true,
-    //           progress: percent * 100,
-    //         });
-    //       })
-    //       .done(() => {
-    //         this.stopDownload();
-    //         this.setState({
-    //           progress: 100,
-    //           isDownloading: false,
-    //           isDownloaded: 1,
-    //           video: videoDest,
-    //         });
-    //         this.downloadSpecificVideo(this.task.id, videoDest);
-    //         //Store Donwloaded File Details in Local Storage
-    //         this.storeInLocalStorage(videoDest);
-    //       })
-    //       .error(error => {
-    //         console.log('Download canceled due to error: ', error);
-    //         this.setState({
-    //           progress: 0,
-    //           isDownloading: false,
-    //           isDownloaded: 0,
-    //           video: videoDest,
-    //         });
-    //       });
-    //   }
-    // }
   };
 
   downloadtButton = id => {
@@ -172,54 +130,50 @@ handleDidFocus = (data) => {
   };
 
   backgroundDownloader = id => {
-    // let {item} = this.props;
-    // console.log('download data', item, id);
-    // this.setState({
-    //   isDownloading: true,
-    //   isDownloaded: 0,
-    //   progress: 0,
-    // });
-    // let videoDest = `${RNBackgroundDownloader.directories.documents}/content/data/util/sync/.dir/${id}.mp4`;
-    // this.task = RNBackgroundDownloader.download({
-    //   id: id,
-    //   url: item.url,
-    //   destination: videoDest,
-    // })
-    //   .begin(expectedBytes => {
-    //     // console.log(`Going to download ${expectedBytes} bytes!`);
-    //   })
-    //   .progress(percent => {
-    //     // console.log(`Downloaded: ${percent * 100}%`);
-    //     this.setState({
-    //       progress: percent * 100,
-    //     });
-    //   })
-    //   .done(() => {
-    //     // console.log('Download is done!',this.task);
-    //     // console.log('Downloaded file path:',`${RNBackgroundDownloader.directories.documents}/${id}.mp4`);
-    //     this.task.stop();
-    //     // Downloaded successfully
-    //     this.setState({
-    //       isDownloading: false,
-    //       isDownloaded: 1,
-    //       progress: 100,
-    //       video: videoDest,
-    //     });
-    //     console.log('Download is done 3333!', id, videoDest);
-    //     this.downloadSpecificVideo(id, videoDest);
-    //     //Store Donwloaded File Details in Local Storage
-    //     this.storeInLocalStorage(videoDest);
-    //   })
-    //   .error(error => {
-    //     console.log('Download canceled due to error: ', error);
-    //     this.setState({
-    //       isDownloading: false,
-    //       isDownloaded: 0,
-    //       progress: 0,
-    //       video: videoDest,
-    //     });
-    //   });
-  };
+  const { details } = this.state;
+
+  this.setState({
+    isDownloading: true,
+    isDownloaded: 0,
+    progress: 0,
+  });
+
+  const videoDest =
+    RNBlobUtil.fs.dirs.DocumentDir +
+    `/content/data/util/sync/.dir/${id}.mp4`;
+
+  this.downloadTask = RNBlobUtil.config({
+    path: videoDest,
+    fileCache: true,
+    overwrite: true,
+  })
+    .fetch('GET', details.link)
+    .progress({ interval: 500 }, (received, total) => {
+      const percent = (received / total) * 100;
+      this.setState({ progress: percent });
+    })
+    .then(res => {
+      this.setState({
+        isDownloading: false,
+        isDownloaded: 1,
+        progress: 100,
+        video: videoDest,
+      });
+
+      this.downloadDetailsToServer(id, videoDest);
+      this.storeInLocalStorage(videoDest);
+    })
+    .catch(err => {
+      console.log('Download error:', err);
+      this.setState({
+        isDownloading: false,
+        isDownloaded: 0,
+        progress: 0,
+        video: '',
+      });
+    });
+};
+
 
   downloadSpecificVideo = (file_name, path) => {
     let {item, series_id, type} = this.props;
@@ -288,7 +242,10 @@ handleDidFocus = (data) => {
 
   stopDownload = () => {
     console.log('Stopped');
-    this.task.stop();
+   if (this.downloadTask) {
+    RNBlobUtil.cancelFetch(this.downloadTask.taskId);
+  }
+
     this.setState({
       isDownloading: false,
       isDownloaded: 0,
@@ -399,7 +356,7 @@ handleDidFocus = (data) => {
                 {Math.round(progress) == 0 && <ActivityIndicator size="small" color="#ff0000" />}
                 {Math.round(progress) > 0 && (
                   <TouchableOpacity onPress={() => this.cancelDownload(item.id)}>
-                    <Progress.Circle progress={Math.round(progress)} borderRadius={12} borderWidth={2} color="#ff0000" shadowColor="#bbb" unfilledColor="rgba(50,52,54,1)" />
+                    <Progress.Circle progress={Math.round(progress)} borderRadius={6} borderWidth={2} color="#ff0000" shadowColor="#bbb" unfilledColor="rgba(50,52,54,1)" />
                   </TouchableOpacity>
                 )}
               </View>
