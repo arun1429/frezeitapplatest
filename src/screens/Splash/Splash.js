@@ -1,62 +1,64 @@
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
-import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
 import {loginToken, userInfo} from '../../Redux/Actions/Actions';
-import eventBus from '../../utils/eventBus';
 
 const Splash = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   useEffect(() => {
+    // ✅ Hide native splash immediately
+    RNBootSplash.hide({fade: false});
+
     const bootstrap = async () => {
-      try {
-        const token = await AsyncStorage.getItem('loginToken');
-        const info = await AsyncStorage.getItem('userInfo');
-        console.log('Splash token:', token);  
-        console.log('Splash info:', info);
+      // ⏳ Show animation for 5 seconds
+      await new Promise(resolve => setTimeout(resolve, 5000));
 
-        if (token) {
-          dispatch(loginToken(token));
+      const token = await AsyncStorage.getItem('loginToken');
+      const info = await AsyncStorage.getItem('userInfo');
 
-          if (info) {
-            dispatch(userInfo(JSON.parse(info)));
-          }
+      if (token) {
+        dispatch(loginToken(token));
+        if (info) dispatch(userInfo(JSON.parse(info)));
 
-          // Switch to App navigation
-          eventBus.emit('whatToDO', {
-            initialRouteName: 'Home',
-            useNavigation: 'App',
-          });
-        } else {
-          // Switch to Auth navigation
-          eventBus.emit('whatToDO', {
-            initialRouteName: 'Signin',
-            useNavigation: 'Auth',
-          });
-        }
-      } catch (e) {
-        console.log('Splash bootstrap error:', e);
-      } finally {
-        RNBootSplash.hide({fade: true});
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'App'}],
+        });
+      } else {
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Auth'}],
+        });
       }
     };
 
     bootstrap();
-  }, [dispatch]);
+  }, []);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <ActivityIndicator size="large" color="#fff" />
+    <View style={styles.container}>
+      <LottieView
+        source={require('../../../assets/animations/splash.json')}
+        autoPlay
+        loop
+        resizeMode="cover"
+        style={StyleSheet.absoluteFillObject}
+      />
     </View>
   );
 };
 
 export default Splash;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000', // match BootSplash background
+  },
+});

@@ -43,10 +43,10 @@ export default (styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-evenly',
     },
-    // scrollView: {
-    //     flexGrow: 1,
-    //     marginBottom: 10
-    // },
+    scrollView: {
+        flexGrow: 1,
+        margin: 5
+    },
     text: {
         color: COLORS.white,
         fontSize: 20,
