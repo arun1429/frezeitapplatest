@@ -1266,9 +1266,9 @@ class Home extends Component {
               )}
             </ScrollView>
           )}
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Chat')} animation={'slideInUp'} style={styles.footerContainer}>
+          {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('Chat')} animation={'slideInUp'} style={styles.footerContainer}>
             <Image style={{width: 35, height: 40, alignSelf: 'center', marginTop: 3}} source={ChatboxImage} contentFit={'contain'}  />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </SafeAreaView>
     );

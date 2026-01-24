@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Orientation from 'react-native-orientation-locker';
 import { GiftedChat } from 'react-native-gifted-chat'
 // import { Dialogflow_V2 } from 'react-native-dialogflow'
+import { dialogflow } from '../../../chatServer'
 
 
 //style

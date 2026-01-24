@@ -551,9 +551,9 @@ class Signin extends Component {
                     <TouchableOpacity onPress={() => this.googleLogin()}>
                       <Image source={require('../../../components/images/Google-plus.png')} style={{height: 35, width: 35, alignSelf: 'center'}} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.FbLoginButton()}>
+                    {/* <TouchableOpacity onPress={() => this.FbLoginButton()}>
                       <Image source={require('../../../components/images/facebook-logo.png')} style={{height: 40, width: 40, marginLeft: 15}} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {Platform.OS === 'ios' ? (
                       <TouchableOpacity onPress={() => this.onAppleButtonPress()}>
                         <Image source={require('../../../components/images/apple_icon.png')} style={{height: 40, width: 40, marginLeft: 15}} />
