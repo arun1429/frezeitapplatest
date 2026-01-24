@@ -10,7 +10,6 @@ import Video from 'react-native-video';
 import RNBlobUtil from 'react-native-blob-util';
 import NetInfo from '@react-native-community/netinfo';
 import * as Progress from 'react-native-progress';
-import { v4 as uuidv4 } from 'uuid';
 import RazorpayCheckout from 'react-native-razorpay';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 //API
@@ -38,26 +37,21 @@ import colors from '../../constants/colors';
 const localImage = require('../../../assets/img/fzlogo.jpg');
 const uuid = require('uuid');
 
-function getNewOrderID() {
+const getNewOrderID = () => {
   try {
-    const timestamp = new Date().getTime()?.toString();
-    // console.log({timestamp});
-    const uniqueID = uuidv4()
-    // .replace(/-/g, ''); // Remove dashes from UUID
-    console.log({uniqueID});
-    let r = Math.floor(Math.random() * 5) + 1;
-    console.log({r});
-    const orderID = `FZ${timestamp?.substring(timestamp?.length - 6, timestamp?.length - 1)}b${uniqueID?.substring(r, r + 5)}`;
-    console.log('====================================');
-    console.log({orderID});
-    console.log('====================================');
+    const timestamp = Date.now().toString(); // milliseconds
+    const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+    
+    const orderID = `FZ${timestamp.slice(-6)}${randomPart}`;
+    
+    console.log({ orderID });
     return orderID;
   } catch (error) {
-    console.log('====================================');
-    console.log({getNewOrderID_error: error});
-    console.log('====================================');
+    console.log({ getNewOrderID_error: error });
+    return null;
   }
-}
+};
+
 
 class ExclusiveDetails extends Component {
   constructor(props) {
