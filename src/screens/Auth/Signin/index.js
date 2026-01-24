@@ -152,7 +152,7 @@ class Signin extends Component {
 
           this.props.navigation.reset({
             index: 0,
-            routes: [{ name: 'Home' }],
+            routes: [{ name: 'App' }],
           });
         } else {
           this.notify('danger', 'Oops!', result.message ?? result.status, false);
@@ -228,7 +228,7 @@ class Signin extends Component {
 
               this.props.navigation.reset({
                 index: 0,
-                routes: [{name: 'Home'}],
+                routes: [{name: 'App'}],
               });
             } else {
               this.setState({isLoading: false});
@@ -305,7 +305,7 @@ class Signin extends Component {
 
             this.props.navigation.reset({
               index: 0,
-              routes: [{name: 'Home'}],
+              routes: [{name: 'App'}],
             });
           } else {
             this.setState({isLoading: false});
@@ -388,7 +388,7 @@ class Signin extends Component {
 
               this.props.navigation.reset({
                 index: 0,
-                routes: [{name: 'Home'}],
+                routes: [{name: 'App'}],
               });
             } else {
               this.setState({isLoading: false});

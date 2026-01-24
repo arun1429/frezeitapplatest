@@ -37,7 +37,7 @@ import styles from './styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const drawerImage = require('../../../assets/default_user.png');
-const drawerLogo = require('../../../assets/img/logo/signInLogo.png');
+const drawerLogo = require('../../../assets/img/logo/more_logo.png');
 
 /* ---------------- MENU DATA ---------------- */
 
@@ -162,7 +162,7 @@ class More extends Component {
             <View style={styles.referHeader}>
               <FontAwesome name="wechat" size={24} color="#fff" />
               <Text style={styles.referTitle}>
-                Tell Friends about Freizeit
+                Tell Friends about Jai Ho
               </Text>
             </View>
 

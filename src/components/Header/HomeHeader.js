@@ -21,7 +21,7 @@ class HomeHeader extends Component {
           <Image style={{height: 14, width: 14}} source={require('../../../assets/icons/sideMenu/toggle_icon.png')} />
         </TouchableOpacity>
         <Image style={{height: 25, width: 25}} source={require('../../../assets/logo_sidebar.png')} />
-        <Text style={{color: '#fff', paddingLeft: 15, fontSize: 20}}>Freizeit Media</Text>
+        <Text style={{color: '#fff', paddingLeft: 15, fontSize: 20}}>Jai Ho</Text>
        
         <TouchableOpacity onPress={() => this.props.navigation.navigate('Search')} style={{position: 'absolute', right: 20}}>
           <Image style={{height: 18, width: 18}} source={require('../../../assets/icons/sideMenu/search_icon.png')} />

@@ -82,8 +82,8 @@ android {
         applicationId "com.freizeitMedia"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 64
-        versionName "3.50"
+        versionCode 65
+        versionName "3.51"
     }
     signingConfigs {
         debug {
