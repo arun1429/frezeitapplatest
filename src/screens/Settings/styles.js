@@ -18,7 +18,7 @@ export default (styles = StyleSheet.create({
     },
     rightContainer: {
         flex: 1,
-        marginTop:20
+        marginTop: Platform.OS == 'ios' ? 0: 20
     },
     marginContainer: {
         flex:1,
@@ -147,7 +147,8 @@ export default (styles = StyleSheet.create({
     seperatorText: {
         fontSize: 18,
         color:'#fff',
-        fontWeight:'800'
+        fontWeight:'800',
+         marginTop: Platform.OS == 'ios' ? 10: 0
     },
     separator: {
         backgroundColor:'#333',

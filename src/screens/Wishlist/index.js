@@ -267,7 +267,7 @@ class Wishlist extends Component {
                 <SideMenu navigation={this.props.navigation} active={'wishlist'} />
             </View> */}
         {/* <LinearGradient colors={['rgba(0,0,0,1)', 'rgba(52,52,54,1) 20%', 'rgba(0,0,0,1)']} style={{flex:1}}> */}
-        <SafeAreaView style={styles.rightContainer}>
+      
           {isNotify && <Alerts show={isNotify} type={type} title={title} subtitle={subtitle} navigation={this.props.navigation} action={action} onRef={ref => (this.parentReference = ref)} parentReference={this.updateNotify.bind(this)} />}
           {!isConnected && (
             <View style={{flexGrow: 2, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '2%'}}>
@@ -311,7 +311,6 @@ class Wishlist extends Component {
           {/* <Animatable.View  animation={'slideInUp'} style={styles.footerContainer}>
                     <BottomLine />
                 </Animatable.View> */}
-        </SafeAreaView>
         {/* </LinearGradient> */}
       </SafeAreaView>
     );

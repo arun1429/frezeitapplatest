@@ -9,7 +9,6 @@ import Orientation from 'react-native-orientation-locker';
 import NetInfo from '@react-native-community/netinfo';
 import styles from './styles';
 import moment from 'moment';
-import HomeHeader from '../../components/Header/HomeHeader';
 import {Button} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Alerts from '../../components/Alerts';
@@ -20,6 +19,7 @@ const deviceHeight = Dimensions.get('window').height;
 import {RadioButton} from 'react-native-paper';
 import colors from '../../constants/colors';
 import HTTPRequest from '../../utils/HTTPRequest';
+import HeaderWithTittle from '../../components/Header/HeaderWithText';
 
 export class ConnectDevices extends Component {
   constructor(props) {
@@ -302,14 +302,13 @@ handleDidFocus = (data) => {
     console.log('====================================');
     return (
       <SafeAreaView style={styles.container}>
-        <HomeHeader {...this.props} />
+          <HeaderWithTittle name={"Connected Devices"} navigation={this.props.navigation} />
         {isNotify && <Alerts show={isNotify} type={type} title={title} subtitle={subtitle} navigation={this.props.navigation} action={action} onRef={ref => (this.parentReference = ref)} parentReference={this.updateNotify.bind(this)} />}
         {this.state.loading ? (
           <View style={{marginTop: '10%'}}>
             <ActivityIndicator size="large" color="#fff" />
           </View>
         ) : (
-          <SafeAreaView style={{flex: 1}}>
             <View style={styles.marginContainer}>
               <Animatable.View animation={'slideInRight'} delay={2} style={styles.resultContainer}>
                 {!isConnected && (
@@ -453,7 +452,6 @@ handleDidFocus = (data) => {
                 </View>
               </Modal>
             </View>
-          </SafeAreaView>
         )}
       </SafeAreaView>
     );

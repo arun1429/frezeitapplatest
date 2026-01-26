@@ -79,7 +79,7 @@ class Order extends Component {
         return (
 
             <TouchableOpacity style={styles.item}>
-                <LinearGradient colors={[colors.black, 'rgba(52,52,54,1) 20%', colors.brandPrimary]} style={{ padding: 10, width: "95%", alignSelf: 'center', borderRadius: 5 }}>
+                <LinearGradient colors={[colors.black, 'rgba(52,52,54,1) 20%', colors.brandPrimary]} style={{  width: "95%", alignSelf: 'center', borderRadius: 5 }}>
                     <View style={{ flexDirection: 'row',justifyContent:'space-between',alignItems:'center' }}>
                         <Text style={{ color: colors.white, padding: 10 }}>
                            Order ID 

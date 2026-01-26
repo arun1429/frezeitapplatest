@@ -12,7 +12,8 @@ export const createStyles = (width, height) =>
         height: height/4.5,
         justifyContent:'flex-start',
         alignItems:'flex-end',
-        padding:'5%'
+         marginTop: Platform.OS == 'ios'? 30 : 0,
+        padding: '5%'
       },
       avatar: {
         width: width/3.5,
