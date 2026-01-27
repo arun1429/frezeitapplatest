@@ -18,53 +18,58 @@
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-  <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>fb257494005875143</string>
-        </array>
-      </dict>
-      <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>com.FreizeitMedia.Freizeit</string>
-        </array>
-      </dict>
-      <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>com.googleusercontent.apps.483954169009-5qnhg4f6vgvs9flff4il2sgtv8g54oa2</string>
-        </array>
-      </dict>
-    </array>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb257494005875143</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.FreizeitMedia.Freizeit</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.483954169009-5qnhg4f6vgvs9flff4il2sgtv8g54oa2</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FacebookAppID</key>
+	<string>257494005875143</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-1598339780627586~1896859152</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fbauth</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+		<string>razorpay</string>
+		<string>upi</string>
+		<string>paytm</string>
+		<string>phonepe</string>
+		<string>gpay</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-  <key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-1598339780627586~1896859152</string>
-    <key>ITSAppUsesNonExemptEncryption</key>
-    <false/>
-  <key>FacebookAppID</key>
-    <string>257494005875143</string>
-  <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>fbapi</string>
-      <string>fbauth</string>
-      <string>fb-messenger-share-api</string>
-      <string>fbauth2</string>
-      <string>fbshareextension</string>
-    </array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -72,24 +77,18 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>App access </string>
+	<key>NSCameraUsageDescription</key>
+	<string>App access </string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>App access </string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App access </string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>App access </string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
-  <key>NSAppleMusicUsageDescription</key>
-    <string>App access </string>
-    <key>NSCameraUsageDescription</key>
-    <string>App access </string>
-    <key>NSLocationUsageDescription</key>
-    <string>Turning on location services allows us to show you your current address in app</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Turning on location services allows us to show you your current address in app</string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>App access </string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>App access </string>
-    <key>NSSpeechRecognitionUsageDescription</key>
-    <string>App access </string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fontisto.ttf</string>
@@ -111,6 +110,11 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>FontAwesome6_Brands.ttf</string>
 		<string>MaterialIcons.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
