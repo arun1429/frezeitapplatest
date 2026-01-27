@@ -2,9 +2,9 @@ import { StyleSheet } from "react-native";
 import COLORS from "../constants/colors";
 
 export default styles = StyleSheet.create({
-    container:{
-        flex: 1,
-        // backgroundColor: COLORS.black
+     container: {
+    flex: 1,
+    backgroundColor: '#000', // match BootSplash background
     },
     content: {
         flex:1,

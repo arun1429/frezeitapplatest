@@ -48,7 +48,7 @@ import Intro from '../screens/Intro';
 import IntroHelp from '../screens/Intro/Webview/Help/';
 import IntroPrivacy from '../screens/Intro/Webview/Privacy/';
 import IntroFaq from '../screens/Intro/Webview/Faq/';
-import Maintenance from '../screens/Maintenance/';
+
 const Stack = createNativeStackNavigator();
 import DrawerNavigator from './DrawerNavigator';
 const defaultStackSettings = {
@@ -96,7 +96,7 @@ const AppNavigator  = (props) => {
       <Stack.Screen name="Support" component={Support} options={defaultStackSettings} />
       <Stack.Screen name="Order" component={OrderHistory} options={defaultStackSettings} />
       <Stack.Screen name="Plan" component={Plan} options={defaultStackSettings} />
-      <Stack.Screen name="Maintenance" component={Maintenance} options={defaultStackSettings} />
+     
       <Stack.Screen name="Intro" component={Intro} options={defaultStackSettings} />
       <Stack.Screen name="IntroHelp" component={IntroHelp} options={defaultStackSettings} />
       <Stack.Screen name="IntroPrivacy" component={IntroPrivacy} options={defaultStackSettings} />

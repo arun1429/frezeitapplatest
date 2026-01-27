@@ -52,22 +52,97 @@ export default class Alerts extends Component {
 
     return (
       <Portal>
-        <Dialog
-          visible={this.state.show}
-          dismissable={false}
-          style={styles.dialog}
-        >
-          <Dialog.Title>{title}</Dialog.Title>
+        <Dialog visible={this.state.show} dismissable={false} style={styles.dialog}>
+          
+          {/* RED ICON */}
+          <View style={styles.iconWrapper}>
+            <View style={styles.iconCircle}>
+              <Text style={styles.iconText}>✕</Text>
+            </View>
+          </View>
 
-          <Dialog.Content>
-            <Text>{subtitle}</Text>
-          </Dialog.Content>
+          {/* CONTENT */}
+          <View style={styles.content}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.subtitle}>{subtitle}</Text>
+          </View>
 
-          <Dialog.Actions>
-            <Button onPress={this.handleClose}>OK</Button>
-          </Dialog.Actions>
+          {/* BUTTON */}
+          <Button
+            mode="contained"
+            onPress={this.handleClose}
+            style={styles.button}
+            labelStyle={styles.buttonText}
+          >
+            Ok
+          </Button>
+
         </Dialog>
       </Portal>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  dialog: {
+    borderRadius: 20,
+    paddingTop: 40,
+    alignItems: 'center',
+  },
+
+  iconWrapper: {
+    position: 'absolute',
+    top: -60,
+    alignSelf: 'center',
+  },
+
+  iconCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderColor:"#fff",
+    borderWidth :2,
+    backgroundColor: '#E53935',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
+  },
+
+  iconText: {
+    color: '#fff',
+    fontSize: 36,
+    fontWeight: 'bold',
+  },
+
+  content: {
+    marginTop: 40,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+
+  title: {
+    fontSize: 22,
+    fontWeight: '700',
+    marginBottom: 10,
+  },
+
+  subtitle: {
+    fontSize: 16,
+    color: '#777',
+    textAlign: 'center',
+  },
+
+  button: {
+    marginTop: 40,
+    marginBottom: 10,
+    width: '90%',
+    padding:8,
+    borderRadius: 12,
+    backgroundColor: '#E53935',
+  },
+
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+});
