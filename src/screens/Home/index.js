@@ -1030,7 +1030,7 @@ class Home extends Component {
         <StatusBar hidden={false} />
         <View style={styles.rightContainer}>
           {/* Header */}
-          {this.state.showHeader && <HomeHeader {...this.props} />}
+         <HomeHeader {...this.props} />
           {!isDataFetched && isConnected && (
             <View style={styles.noResultContainer}>
               <View style={styles.loaderContainer}>

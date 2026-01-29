@@ -69,7 +69,7 @@ const AppNavigator  = (props) => {
       <Stack.Screen name="NewsDetail" component={NewsDetail} options={defaultStackSettings} />
       <Stack.Screen name="MoviesByLanguages" component={MovieLanguages} options={defaultStackSettings}/>
 
-      <Stack.Screen name="RecoverPassword" component={RecoverPassword} options={defaultStackSettings} />
+      <Stack.Screen name="forgotPassword" component={RecoverPassword} options={defaultStackSettings} />
       <Stack.Screen name="Subscriptions" component={Subscriptions} options={defaultStackSettings} />
       <Stack.Screen name="Movies" component={Movies} options={defaultStackSettings} />
       <Stack.Screen name="Live" component={Live} options={{ headerShown: false, gestureEnabled: false, orientation: 'landscape' }} />

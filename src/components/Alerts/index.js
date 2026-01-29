@@ -30,7 +30,7 @@ export default class Alerts extends Component {
 
     if (navigation && action !== undefined) {
       if (action === true) {
-        navigation.goBack();
+       this.props.navigation.goBack()
       } else if (action === 'UPDATE') {
         Linking.openURL(
           Platform.OS === 'android'

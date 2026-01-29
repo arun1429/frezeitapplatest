@@ -543,7 +543,7 @@ class Signin extends Component {
 
                   <TouchableOpacity
                     style={styles.forgotPassword}
-                    onPress={() => this.props.navigation.navigate('RecoverPassword')}
+                    onPress={() => this.props.navigation.navigate('forgotPassword')}
                   >
                     <Text style={styles.cardFooterText}>Forget password?</Text>
                   </TouchableOpacity>
