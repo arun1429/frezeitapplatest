@@ -452,7 +452,7 @@ class Download extends Component {
             <Image style={{height: 14, width: 14}} source={require('../../../assets/icons/sideMenu/toggle_icon.png')} />
           </TouchableOpacity>
           <Image style={{height: 25, width: 25}} source={require('../../../assets/logo_sidebar.png')} />
-          <Text style={{color: '#fff', paddingLeft: 15, fontSize: 20}}>Freizeit Media</Text>
+          <Text style={{color: '#fff', paddingLeft: 15, fontSize: 20}}>Jai Ho</Text>
           {/* <View style={{ backgroundColor: 'red', marginLeft: 15, justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ color: "#fff", fontSize: 8, textTransform: 'uppercase', padding: 3 }}>Subscribe</Text>
                     </View> */}
@@ -479,7 +479,7 @@ class Download extends Component {
               {!result && !isLoading && (
                 <View style={styles.noResultContainer}>
                   <Image style={styles.notFoundImage} source={require('../../../assets/img/downloads/Download2.png')} contentFit={'contain'} />
-                  <Text style={styles.headingText}>Never be without Freizeit</Text>
+                  <Text style={styles.headingText}>Never be without Jai Ho</Text>
                   <Text style={styles.bodyText}> Download shows and movies so you'll never be without something to watch - even when you're offline</Text>
                   <TouchableOpacity style={styles.downloadButton} onPress={() => this.props.navigation.navigate('Home')}>
                     <Text style={styles.downloadText}>See What You Can Download</Text>

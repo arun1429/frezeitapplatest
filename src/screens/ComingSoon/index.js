@@ -77,7 +77,7 @@ class ComingSoon extends Component {
                     })
                     Alert.alert(
                         'Network Error',
-                        `Failed to connect to Freizeit. Please check your device's network Connection.`,
+                        `Failed to connect to Jai Ho. Please check your device's network Connection.`,
                         [
                             { text: 'Cancel' , onPress: () => {
                                     this.setState({
@@ -116,7 +116,7 @@ class ComingSoon extends Component {
                 })
                 Alert.alert(
                     'Network Error',
-                    `Failed to connect to Freizeit. Please check your device's network Connection.`,
+                    `Failed to connect to Jai Ho. Please check your device's network Connection.`,
                     [
                         { text: 'Cancel' , onPress: () => {
                             this.setState({
@@ -235,7 +235,7 @@ class ComingSoon extends Component {
                 <Animatable.View animation={'slideInRight'} style={styles.resultContainer}>
                     { !isConnected && 
                     <View style={[{flexGrow:1,flexDirection:'column'},styles.noResultContainer]}>
-                        <Text style={{fontSize:16, fontWeight: '600', color:'#fff', textAlign:'center',margin: '5%'}} >There is a problem connecting to Freizeit. Please Try again later.</Text>
+                        <Text style={{fontSize:16, fontWeight: '600', color:'#fff', textAlign:'center',margin: '5%'}} >There is a problem connecting to Jai Ho. Please Try again later.</Text>
                         <Button title="Retry" color="#191a1f" onPress={() =>  this.checkNetworkConnectivity()} />
                     </View> 
                     }

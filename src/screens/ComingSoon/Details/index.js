@@ -59,7 +59,7 @@ handleDidFocus = (data) => {
     if (Platform.OS === 'android') {
       NetInfo.fetch().then(state => {
         if (!state.isConnected) {
-          Alert.alert('Network Error', `Failed to connect to Freizeit. Please check your device's network Connection.`, [
+          Alert.alert('Network Error', `Failed to connect to Jai Ho. Please check your device's network Connection.`, [
             {
               text: 'Cancel',
               onPress: () => {
@@ -94,7 +94,7 @@ handleDidFocus = (data) => {
     // Subscribe
     const unsubscribe = NetInfo.addEventListener(state => {
       if (!state.isConnected) {
-        Alert.alert('Network Error', `Failed to connect to Freizeit. Please check your device's network Connection.`, [
+        Alert.alert('Network Error', `Failed to connect to Jai Ho. Please check your device's network Connection.`, [
           {
             text: 'Cancel',
             onPress: () => {
@@ -237,7 +237,7 @@ handleDidFocus = (data) => {
     let {details} = this.state;
     let link = Platform.OS == 'android' ? 'https://play.google.com/store/apps/details?id=com.freizeitMedia&hl=en_US' : 'https://apps.apple.com/in/app/freizeit-media/id1529561669';
     Share.share({
-      message: 'Hey! Did you know that "' + details.name + '" is coming soon on Freizeit App. Check this out! ' + link,
+      message: 'Hey! Did you know that "' + details.name + '" is coming soon on Jai Ho App. Check this out! ' + link,
     })
       .then(result => console.log(result))
       .catch(errorMsg => console.log(errorMsg));
@@ -415,7 +415,7 @@ handleDidFocus = (data) => {
           <View style={styles.rightContainer}>
             {!isConnected && (
               <View style={{flexGrow: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '2%'}}>
-                <Text style={{fontSize: 16, fontWeight: '600', color: '#fff', textAlign: 'center', margin: '5%'}}>There is a problem connecting to Freizeit. Please Try again later.</Text>
+                <Text style={{fontSize: 16, fontWeight: '600', color: '#fff', textAlign: 'center', margin: '5%'}}>There is a problem connecting to Jai Ho. Please Try again later.</Text>
                 <Button title="Retry" color="#191a1f" onPress={() => this.checkNetworkConnectivity()} />
               </View>
             )}

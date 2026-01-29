@@ -25,14 +25,14 @@ class Chat extends Component {
         this.state = {
             messages: [
                 // { _id: 2, text: '', createdAt: '', user: '' },
-                // { _id: 1, text: "Welcome to Freizeit Media", createdAt: new Date(), user: FZ },
+                // { _id: 1, text: "Welcome to Jai Ho", createdAt: new Date(), user: FZ },
             ],
             id: 1,
             name: ''
         }
 
     }
-    // "Welcome to Freizeit Media. we'll get back to you soon !" new Date() FZ
+    // "Welcome to Jai Ho. we'll get back to you soon !" new Date() FZ
     componentDidMount() {
         console.log("msg", this.state.messages)
         eventBus.emit('videoPaused', {
@@ -92,7 +92,7 @@ class Chat extends Component {
     defaultResponse() {
         let msg = {
             _id: 2,
-            text: "Welcome to Freizeit Media. we'll get back to you soon !",
+            text: "Welcome to Jai Ho. we'll get back to you soon !",
             createdAt: new Date(),
             user: FZ
         }

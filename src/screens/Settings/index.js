@@ -75,7 +75,7 @@ class Settings extends Component {
       if (!state.isConnected) {
         Alert.alert(
           'Network Error',
-          "Failed to connect to Freizeit. Please check your device's network connection.",
+          "Failed to connect to Jai Ho. Please check your device's network connection.",
           [
             { text: 'Cancel', onPress: () => this.setState({ isConnected: false }) },
             { text: 'Retry', onPress: this.checkNetworkConnectivity },

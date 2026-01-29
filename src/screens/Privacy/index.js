@@ -44,7 +44,7 @@ export default class Privacy extends Component {
                 if (!state.isConnected) {
                     Alert.alert(
                         'Network Error',
-                        `Failed to connect to Freizeit. Please check your device's network Connection.`,
+                        `Failed to connect to Jai Ho. Please check your device's network Connection.`,
                         [
                             { text: 'Cancel' , onPress: () => {
                                     this.setState({
@@ -77,7 +77,7 @@ export default class Privacy extends Component {
             if (!state.isConnected) {
                 Alert.alert(
                     'Network Error',
-                    `Failed to connect to Freizeit. Please check your device's network Connection.`,
+                    `Failed to connect to Jai Ho. Please check your device's network Connection.`,
                     [
                         { text: 'Cancel' , onPress: () => {
                             this.setState({

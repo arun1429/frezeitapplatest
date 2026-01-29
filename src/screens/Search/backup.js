@@ -84,7 +84,7 @@ class Search extends Component {
                 if (!state.isConnected) {
                     Alert.alert(
                         'Network Error',
-                        `Failed to connect to Freizeit. Please check your device's network Connection.`,
+                        `Failed to connect to Jai Ho. Please check your device's network Connection.`,
                         [
                             { text: 'Cancel' , onPress: () => {
                                     this.setState({
@@ -119,7 +119,7 @@ class Search extends Component {
             if (state.isConnected === false) {
                 Alert.alert(
                     'Network Error',
-                    `Failed to connect to Freizeit. Please check your device's network Connection.`,
+                    `Failed to connect to Jai Ho. Please check your device's network Connection.`,
                     [
                         { text: 'Cancel' , onPress: () => {
                             this.setState({

@@ -152,7 +152,7 @@ class Home extends Component {
               this.readGames();
             } else {
               // console.log("Data Not Found.")
-              Alert.alert('Network Error', `Failed to connect to Freizeit. Please check your device's network Connection.`, [
+              Alert.alert('Network Error', `Failed to connect to Jai Ho. Please check your device's network Connection.`, [
                 {
                   text: 'Cancel',
                   onPress: () => {
@@ -213,7 +213,7 @@ class Home extends Component {
             this.readGames();
           } else {
             // console.log("Data Not Found.")
-            Alert.alert('Network Error', `Failed to connect to Freizeit. Please check your device's network Connection.`, [
+            Alert.alert('Network Error', `Failed to connect to Jai Ho. Please check your device's network Connection.`, [
               {
                 text: 'Cancel',
                 onPress: () => {

@@ -111,8 +111,8 @@ handleDidFocus = (data) => {
   requestStoragePermission = async id => {
     try {
       const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, {
-        title: 'Freizeit Storage Permission',
-        message: 'Freizeit App needs access to your storage ' + 'so that you can download .',
+        title: 'Jai Ho Storage Permission',
+        message: 'Jai Ho App needs access to your storage ' + 'so that you can download .',
         buttonNeutral: 'Ask Me Later',
         buttonNegative: 'Cancel',
         buttonPositive: 'OK',
