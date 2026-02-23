@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		1ABB34E51279D6975BA59883 /* libPods-FreizeitMedia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A0BECF838E8B0E2DFCD877 /* libPods-FreizeitMedia.a */; };
-		5F8BCEB72F2751140035E5E6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F8BCEB62F2751130035E5E6 /* GoogleService-Info.plist */; };
+		5F9A633C2F2DA4AB00E57104 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F9A633B2F2DA4AB00E57104 /* GoogleService-Info.plist */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		ACC7074EB392906E2C1AAB78 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
@@ -28,7 +28,8 @@
 		41E8A9EF96F4089D68E8F393 /* Pods-FreizeitMedia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreizeitMedia.debug.xcconfig"; path = "Target Support Files/Pods-FreizeitMedia/Pods-FreizeitMedia.debug.xcconfig"; sourceTree = "<group>"; };
 		4260F80FEF314176AD425B67 /* FontAwesome6_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome6_Solid.ttf"; sourceTree = "<group>"; };
 		5D9074173A624800B259244F /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		5F8BCEB62F2751130035E5E6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "FreizeitMedia/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5F4A25F12F2DDDC6006FEFBF /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		5F9A633B2F2DA4AB00E57104 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5FA241952F2765C4006BB3FB /* FreizeitMedia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = FreizeitMedia.entitlements; path = FreizeitMedia/FreizeitMedia.entitlements; sourceTree = "<group>"; };
 		72A0BECF838E8B0E2DFCD877 /* libPods-FreizeitMedia.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FreizeitMedia.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = FreizeitMedia/AppDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				5FA241952F2765C4006BB3FB /* FreizeitMedia.entitlements */,
+				5F9A633B2F2DA4AB00E57104 /* GoogleService-Info.plist */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -119,7 +121,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				5F8BCEB62F2751130035E5E6 /* GoogleService-Info.plist */,
+				5F4A25F12F2DDDC6006FEFBF /* Launch Screen.storyboard */,
 				13B07FAE1A68108700A75B9A /* FreizeitMedia */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -211,8 +213,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F8BCEB72F2751140035E5E6 /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				5F9A633C2F2DA4AB00E57104 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				ACC7074EB392906E2C1AAB78 /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -343,7 +345,7 @@
 				CODE_SIGN_ENTITLEMENTS = FreizeitMedia/FreizeitMedia.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = L9Q6B7NJLC;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = FreizeitMedia/Info.plist;
@@ -354,7 +356,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.52;
+				MARKETING_VERSION = 1.53;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -369,7 +371,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -384,7 +386,7 @@
 				CODE_SIGN_ENTITLEMENTS = FreizeitMedia/FreizeitMedia.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = L9Q6B7NJLC;
 				INFOPLIST_FILE = FreizeitMedia/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Jai Ho";
@@ -394,7 +396,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.52;
+				MARKETING_VERSION = 1.53;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -408,7 +410,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

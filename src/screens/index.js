@@ -156,10 +156,13 @@ const Splash = () => {
   return enabled;
 };
 const getFcmToken = async () => {
+  await messaging().registerDeviceForRemoteMessages();
+
+  // 2️⃣ Ask notification permission
   const hasPermission = await requestUserPermission();
+  if (!hasPermission) return null;
 
-  if (!hasPermission) return;
-
+  // 3️⃣ Now it's safe to get token
   const token = await messaging().getToken();
   console.log('🔥 FCM Token:', token);
 
