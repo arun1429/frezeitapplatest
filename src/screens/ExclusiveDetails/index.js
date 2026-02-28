@@ -33,7 +33,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import HeaderWithTittle from '../../components/Header/HeaderWithText';
 import colors from '../../constants/colors';
-
+import useIAP from '../../iap/useIAP';
 const localImage = require('../../../assets/img/fzlogo.jpg');
 const uuid = require('uuid');
 
@@ -91,7 +91,7 @@ class ExclusiveDetails extends Component {
     this.refreshScreen = this.refreshScreen.bind(this);
   }
 
-  componentDidMount() {
+async  componentDidMount() {
     console.log('details.showmoviestatus : ');
     // console.log("data of bundle ", this.props.route?.params?.bundle_Data.exclusiveamountbundel)
     eventBus.emit('videoPaused', {
@@ -102,6 +102,8 @@ class ExclusiveDetails extends Component {
     this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);
     this._toggleTrailer();
      eventBus.on('onDidFocus', this.handleDidFocus);
+      // initialize listeners
+    await useIAP.init(this.handleSuccess);
   }
   handleDidFocus = (data) => {
     this.refresh();
@@ -110,6 +112,8 @@ class ExclusiveDetails extends Component {
     this.setState({lastRefresh: Date(Date.now()).toString()});
   }
   componentWillUnmount() {
+     // cleanup
+    useIAP.end();
     this.setState({
       isStarted: true,
       isMuted: true,
@@ -795,11 +799,38 @@ class ExclusiveDetails extends Component {
   _play = (path, details) => {
     console.log({'details.showmoviestatus': details.showmoviestatus});
     if (details.showmoviestatus == 0) {
-      this.createOrder();
+      if(Platform.OS == 'ios'){
+        this.onSubscribePress()
+      }else {
+           this.createOrder();
+      }
+     
     } else {
       this._freePlay(path, details);
     }
   };
+  handleSuccess = async (receipt) => {
+    console.log("SEND RECEIPT TO SERVER");
+
+    const res = await fetch('https://fz.freizeitmedia.com/api/iosorderplace', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ receipt }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      Alert.alert("Premium Activated 🎉");
+    } else {
+      Alert.alert("Verification Failed");
+    }
+  };
+
+  onSubscribePress = () => {
+    useIAP.buySubscription();
+  };
+
 
   createOrder = () => {
     var OrderID = getNewOrderID();
