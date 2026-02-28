@@ -86,9 +86,9 @@ class Signup extends Component {
     else if (!reg.test(email))
       errors.email = 'Invalid Email Address Format.';
 
-    if (!phone) errors.phone = 'Should not be empty';
-    else if (phone.length < 10)
-      errors.phone = 'The phone must be between 9 and 10 digits.';
+    // if (!phone) errors.phone = 'Should not be empty';
+    // else if (phone.length < 10)
+    //   errors.phone = 'The phone must be between 9 and 10 digits.';
 
     if (!password) errors.password = 'Should not be empty';
     else if (password.length < 8)

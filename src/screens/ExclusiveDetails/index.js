@@ -810,21 +810,29 @@ async  componentDidMount() {
     }
   };
   handleSuccess = async (receipt) => {
-    console.log("SEND RECEIPT TO SERVER");
-
-    const res = await fetch('https://fz.freizeitmedia.com/api/iosorderplace', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ receipt }),
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      Alert.alert("Premium Activated 🎉");
-    } else {
-      Alert.alert("Verification Failed");
-    }
+   
+ let statusData = {
+       transaction_id:receipt,
+      bundel_id: this.props.bundleId,
+      user_id: this.props.info._id,
+    };
+      HttpRequest.placeIOSOrder(statusData)
+      .then(res => {
+        this.setState({isLoading: false});
+        const result = res.data;
+        if (result.error == false) {
+          console.log('Order Place order ', result.data);
+          this.getOrderStatus(result.data.payment_id, result.data.order_id, result.data.paymentstatus);
+        } else {
+         this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, false);
+        }
+      })
+      .catch(err => {
+        this.setState({isLoading: false});
+        console.log('Place Order Catch Exception: ', err);
+        this.notify('danger', 'Oops!', 'Something Went Worng!', false);
+      });
+  
   };
 
   onSubscribePress = () => {
@@ -1146,7 +1154,7 @@ async  componentDidMount() {
                               repeat={false}
                               paused={isPaused}
                               resizeMode={'contain'}
-                              style={{flex: 1, height: 500}}
+                              style={{width :"100%",height :"100%"}}
                               ignoreSilentSwitch="ignore"
                             />
                           </TouchableWithoutFeedback>
@@ -1186,11 +1194,7 @@ async  componentDidMount() {
                             ) : null}
                           </View>
                         ) : null}
-                        {isBuffering ? (
-                          <View style={{position: 'absolute', alignSelf: 'center'}}>
-                            <ActivityIndicator size="large" color="#fff" style={{justifySelf: 'center'}} />
-                          </View>
-                        ) : null}
+                       
                         {/*********************** videoQuality state to check which link to send ***************************/}
                         {details.type != 2 && (
                           <TouchableOpacity activeOpacity={0.7} onPress={() => this._play(details.link, details)} style={styles.videoButtonContainer}>

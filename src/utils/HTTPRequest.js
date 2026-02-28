@@ -14,6 +14,11 @@ export default {
     console.log('place Order', formData);
     return axios.post(`${liveUrl}/orderplace`, formData);
   },
+  // Place Order API
+  placeIOSOrder(formData) {
+    console.log('iosorderplace Order', formData);
+    return axios.post(`${liveUrl}/iosorderplace`, formData);
+  },
 
   // Create order on
   createOrderRazarpay(formData) {

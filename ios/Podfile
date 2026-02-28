@@ -17,7 +17,9 @@ target 'FreizeitMedia' do
   use_react_native!(
     :path => config[:reactNativePath],
     :app_path => "#{Pod::Config.instance.installation_root}/..",
-    :hermes_enabled => true  
+     # 🔥 IMPORTANT FOR IAP (prevents StoreKit crash)
+    :hermes_enabled => true,
+    :fabric_enabled => false
   )
 
 

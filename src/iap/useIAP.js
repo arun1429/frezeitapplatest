@@ -9,51 +9,45 @@ class IAPService {
   onSuccess = null;
 
   async init(onSuccessCallback) {
-    try {
-      this.onSuccess = onSuccessCallback;
+  try {
+    this.onSuccess = onSuccessCallback;
 
-      // connect store
-      await RNIap.initConnection();
+    await RNIap.initConnection();
 
-      // IMPORTANT for iOS pending transactions
-      await RNIap.clearTransactionIOS();
+    // iOS pending cleanup
+    await RNIap.clearTransactionIOS();
 
-      // get products
-      const products = await RNIap.getSubscriptions({ skus: [PRODUCT_ID] });
-      console.log('Products =>', products);
+    // ✅ NEW API (v14)
+    const { products } = await RNIap.fetchProducts({
+      skus: ['com.freizeit.exclusive.content'],
+    });
 
-      // SUCCESS LISTENER
-      this.purchaseUpdateSub = RNIap.purchaseUpdatedListener(async purchase => {
-        try {
-          console.log("PURCHASE OBJECT => ", purchase);
+    console.log('Products => ', products);
 
-          const receipt = purchase.transactionReceipt;
+    // SUCCESS LISTENER
+    this.purchaseUpdateSub = RNIap.purchaseUpdatedListener(async purchase => {
+      
+    //  console.log("purchase :2222",purchase)
+      var transaction_id = purchase.transactionId
+      if (!transaction_id) return;
 
-          if (!receipt) return;
+      await this.onSuccess(transaction_id);
 
-          // send receipt to backend
-          await this.onSuccess(receipt);
-
-          // FINISH TRANSACTION (MANDATORY)
-          await RNIap.finishTransaction({
-            purchase: purchase,
-            isConsumable: false,
-          });
-
-        } catch (e) {
-          console.log("Listener error", e);
-        }
+      await RNIap.finishTransaction({
+        purchase,
+        isConsumable: false,
       });
+    });
 
-      // ERROR LISTENER
-      this.purchaseErrorSub = RNIap.purchaseErrorListener(error => {
-        console.log('Purchase error => ', error);
-      });
+    // ERROR LISTENER
+    this.purchaseErrorSub = RNIap.purchaseErrorListener(error => {
+      console.log('Purchase error => ', error);
+    });
 
-    } catch (err) {
-      console.log('IAP init error => ', err);
-    }
+  } catch (err) {
+    console.log('IAP init error => ', err);
   }
+}
 
   // 🔥 NEW PURCHASE METHOD (v14)
   async buySubscription() {
