@@ -1224,9 +1224,6 @@ handleSuccess = async (receipt) => {
   render() {
     const { loadingAd, isConnected, isDataFetched, isDownloaded, details, isNotify, title, subtitle, type, action, isDownloading, progress, video, isStarted, isPaused, isMuted, isBuffering, videoQuality, showControls } = this.state;
     let videoPath = details.trailer;
-    if (videoPath && Platform.OS === 'android') {
-      videoPath = videoPath.replace('https://', 'http://');
-    }
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.backgroudColor }}>
         <StatusBar hidden={false} />

@@ -51,6 +51,9 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>257494005875143</string>
+  <key>FirebaseAppDelegateProxyEnabled</key>
+
+  <string>NO</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-1598339780627586~1896859152</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -70,6 +73,28 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+  <key>NSExceptionDomains</key>
+
+  <dict>
+
+    <key>localhost</key>
+
+    <dict>
+
+      <key>NSExceptionAllowsInsecureHTTPLoads</key>
+
+      <true/>
+
+    </dict>
+
+  </dict>
+  <key>NSLocationUsageDescription</key>
+
+  <string>Turning on location services allows us to show you your current address in app</string>
+
+  <key>NSLocationWhenInUseUsageDescription</key>
+
+  <string>Turning on location services allows us to show you your current address in app</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
