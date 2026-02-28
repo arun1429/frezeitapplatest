@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, {Component} from 'react';
-import {View, Text, ScrollView,Image, TouchableOpacity, AppState, ActivityIndicator, Alert, Platform, Dimensions, FlatList} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, ScrollView, Image, TouchableOpacity, AppState, ActivityIndicator, Alert, Platform, Dimensions, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
@@ -10,9 +10,9 @@ import NetInfo from '@react-native-community/netinfo';
 import HttpRequest from '../../utils/HTTPRequest';
 import LocalData from '../../utils/LocalData';
 //Redux
-import {connect} from 'react-redux';
-import {slider, recentlyWatched, latestMovies, latestEvents, bannerAds, videoAds, latestSeries, documentaries, comingSoon, trendingNow, vlogs, latestGame, Exclusive, storeBundleId} from '../../Redux/Actions/Actions';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { slider, recentlyWatched, latestMovies, latestEvents, bannerAds, videoAds, latestSeries, documentaries, comingSoon, trendingNow, vlogs, latestGame, Exclusive, storeBundleId } from '../../Redux/Actions/Actions';
+import { bindActionCreators } from 'redux';
 
 //components
 import StatusBar from '../../components/StatusBar';
@@ -20,16 +20,16 @@ import Slider from '../../components/Slider';
 import Alerts from '../../components/Alerts';
 import Banner from '../../components/AdMob/Banner';
 import ChatboxImage from '../../../assets/Chatbox.png';
- import withSequentialRendering from '../../components/withSequentialRendering';
+import withSequentialRendering from '../../components/withSequentialRendering';
 
 //style
 import styles from './styles';
 import colors from '../../constants/colors';
 import HomeHeader from '../../components/Header/HomeHeader';
-import {interstitial, bannerAdUnitId} from '../../utils/animations';
+import { interstitial, bannerAdUnitId } from '../../utils/animations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
- const SequentialBanner = withSequentialRendering(Banner);
+const SequentialBanner = withSequentialRendering(Banner);
 
 class Home extends Component {
   constructor(props) {
@@ -63,7 +63,7 @@ class Home extends Component {
       exclusiveDataNew: [],
       exclusiveBundle: [],
       exclusiveBundleNew: [],
-      position: {start: null, end: null},
+      position: { start: null, end: null },
       paused: false,
       adsData: [],
       adsStatus: 0,
@@ -72,7 +72,7 @@ class Home extends Component {
       isBuffering: false,
       insertitalAdsShowCount: 0,
       loaded: false,
-      
+
     };
     this.offset = 0;
     this.threshold = 150;
@@ -86,10 +86,11 @@ class Home extends Component {
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.setState({ paused: false, isMuted: false });
     });
-  
+
     this.blurListener = this.props.navigation.addListener('blur', () => {
       this.setState({ paused: true, isMuted: true });
     });
+      this.getUserAccountStatus()
   };
 
   componentWillUnmount() {
@@ -113,20 +114,21 @@ class Home extends Component {
   };
 
   onDetailPage = item => {
-    this.props.navigation.push('Details', {itemId: item.id, type: item.type, refresh: 1});
+    this.props.navigation.push('Details', { itemId: item.id, type: item.type, refresh: 1 });
   };
 
   onEventDetailsPage = item => {
     let { allEvents } = this.state;
     this.props.navigation.navigate('EventDetails', {
-      all_events: allEvents.filter(event => event.id !== item.id) || [],  
-      title: item.title, 
-      description: item.description, 
-      video_id: item.video_id});
+      all_events: allEvents.filter(event => event.id !== item.id) || [],
+      title: item.title,
+      description: item.description,
+      video_id: item.video_id
+    });
   }
 
   checkNetworkConnectivity = () => {
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     // For Android devices
     if (Platform.OS === 'android') {
       NetInfo.fetch().then(state => {
@@ -150,6 +152,7 @@ class Home extends Component {
               // this.readTrendingNow();
               this.readVlog();
               this.readGames();
+            
             } else {
               // console.log("Data Not Found.")
               Alert.alert('Network Error', `Failed to connect to Jai Ho. Please check your device's network Connection.`, [
@@ -211,6 +214,7 @@ class Home extends Component {
             // this.readTrendingNow();
             this.readVlog();
             this.readGames();
+          
           } else {
             // console.log("Data Not Found.")
             Alert.alert('Network Error', `Failed to connect to Jai Ho. Please check your device's network Connection.`, [
@@ -351,14 +355,14 @@ class Home extends Component {
 
   // Get Live Event Bundle
   getLiveEventBundle = () => {
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     HttpRequest.getLiveEvent(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         if (res.status == 200 && result.error == false) {
           // console.log('All Live Event Bundle data  : ', result.data);
-          this.setState({allEvents: result.data});
+          this.setState({ allEvents: result.data });
           this.props.latestEvents(result.data);
           LocalData.setLiveEvent(result.data);
         } else {
@@ -367,11 +371,34 @@ class Home extends Component {
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         console.log('All Live Event Bundle API Catch Exception: ', err);
         // this.notify('danger','Oops!','Something Went Worng!',false);
       });
     this.getBannerAdBundle();
+  };
+  // Get UserAccountStatus
+  getUserAccountStatus = () => {
+    console.log("UserAccountStatus 1")
+    let statusData = {
+      user_id: this.props.info._id,
+    };
+    console.log("UserAccountStatus",statusData)
+    HttpRequest.getUserStatus(statusData)
+      .then(res => {
+        const result = res.data;
+        if (result.account_status == "deleted") {
+          LocalData.setLoginToken('');
+          this.props.loginToken('');
+          LocalData.setUserInfo(null).then(() => {
+            this.props.navigation.navigate('Signin');
+          });
+          this.notify('danger','Oops!','Your account status has been changed',false);
+        }
+      })
+      .catch(err => {
+      });
+
   };
 
   // Get Banner Ad Bundle
@@ -415,22 +442,22 @@ class Home extends Component {
   // Get All Exclusive Bundle
   getExclusiveBundle = () => {
     // console.log('All exclusive Bundle data token : ', this.props.token);
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     HttpRequest.getEclusiveBundle(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         // console.log('All exclusive Bundle data  : ', JSON.stringify(result.data));
         if (res.status == 200 && result.error == false) {
-          this.setState({exclusiveBundle: result.data});
+          this.setState({ exclusiveBundle: result.data });
         } else {
           console.log('All Exclusive Bundle API Error : ', result);
-          this.setState({exclusiveBundle: []});
+          this.setState({ exclusiveBundle: [] });
           // this.notify('danger','Oops!',result.message != undefined ? result.message : result.status,result.message != undefined ? false : true);
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true, exclusiveBundle: []});
+        this.setState({ isDataFetched: true, exclusiveBundle: [] });
         console.log('All Exclusive Bundle API Catch Exception: ', err);
         // this.notify('danger','Oops!','Something Went Worng!',false);
       });
@@ -440,10 +467,10 @@ class Home extends Component {
   updateDeviceToken = async () => {
     let device_token = await AsyncStorage.getItem('DeviceToken');
     console.log('====================================');
-    console.log({chk12345: !!this.props.token && !!device_token});
+    console.log({ chk12345: !!this.props.token && !!device_token });
     console.log('====================================');
     if (!!device_token && !!this.props.token) {
-      let payload = {device_token, drviceType: Platform.OS};
+      let payload = { device_token, drviceType: Platform.OS };
       HttpRequest.postUpdateToken(this.props.token, payload)
         .then(res => {
           const result = res.data;
@@ -455,24 +482,24 @@ class Home extends Component {
         });
     } else {
       console.log('=================else===================');
-      console.log({device_token});
+      console.log({ device_token });
       console.log('====================================');
     }
   };
 
   //Get All Movies
   getAllMovies = () => {
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     // if (this.props.token !== '') {
     HttpRequest.getMovies(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         // console.log('login', res.status);
         const result = res.data;
         if (res.status == 200 && result.error == false) {
           const myNewData = result.data.filter(items => items.game_enter === null);
           // console.log('Trending Now data show ', myNewData);
-          this.setState({allMovies: myNewData});
+          this.setState({ allMovies: myNewData });
           this.props.latestMovies(myNewData);
           LocalData.setMovies(myNewData);
         } else {
@@ -484,7 +511,7 @@ class Home extends Component {
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         console.log('Latest Release API Catch Exception: ', err);
         // this.notify('danger','Oops!','Something Went Worng!', false);
       });
@@ -499,15 +526,15 @@ class Home extends Component {
 
   //Get All Series
   getSeries = () => {
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     // if (this.props.token !== '') {
     HttpRequest.getSeries(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         // console.log('All Series Status', res.status);
         const result = res.data;
         if (res.status == 200 && result.error == false) {
-          this.setState({allSeries: result.data});
+          this.setState({ allSeries: result.data });
           this.props.latestSeries(result.data);
           LocalData.setSeries(result.data);
         } else {
@@ -519,7 +546,7 @@ class Home extends Component {
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         console.log('All Series API Catch Exception: ', err);
         this.notify('danger', 'Oops!', 'Something Went Worng!', false);
       });
@@ -533,11 +560,11 @@ class Home extends Component {
 
   //Get Documentries
   getDocumentaries = () => {
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     // if (this.props.token !== '') {
     HttpRequest.getDocumentaries(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         if (res.status == 200 && result.error == false) {
           // console.log('Documentaries Data: ', result.data);
@@ -552,7 +579,7 @@ class Home extends Component {
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         console.log('Documentaries API Catch Exception: ', err);
         // this.notify('danger','Oops!','Something Went Worng!', false);
       });
@@ -566,11 +593,11 @@ class Home extends Component {
 
   //Get Coming Soon
   getComingSoon = () => {
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     // if (this.props.token !== '') {
     HttpRequest.getComingSoon(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         // console.log('Coming Soon Status', res.status);
         const result = res.data;
         if (res.status == 200 && result.error == false) {
@@ -585,7 +612,7 @@ class Home extends Component {
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         console.log('Coming Soon API Catch Exception: ', err);
         // this.notify('danger','Oops!','Something Went Worng!', false);
       });
@@ -601,11 +628,11 @@ class Home extends Component {
 
   //Get vlog
   getVlog = () => {
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     // if (this.props.token !== '') {
     HttpRequest.getVlogs(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         // console.log('Vlog Status', res.data);
         const result = res.data;
         if (res.status == 200 && result.error == false) {
@@ -616,7 +643,7 @@ class Home extends Component {
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         // console.log('vlog API Catch Exception: ', err);
       });
     // } else {
@@ -627,23 +654,23 @@ class Home extends Component {
   };
 
   getGenresAllMovies = () => {
-    this.setState({isDataFetched: false, activeGenre: '', allMovieData: []});
+    this.setState({ isDataFetched: false, activeGenre: '', allMovieData: [] });
     // if (this.props.token !== '') {
     HttpRequest.getGenresAllMovies(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         // console.log('All Movies length  : ', result.data.length);
         if (res.status == 200 && result.error == false) {
-          this.setState({allMovieData: result.data});
+          this.setState({ allMovieData: result.data });
         } else {
           // console.log('All Movies API Error : ', result);
-          this.setState({allMovieData: []});
+          this.setState({ allMovieData: [] });
           // this.notify('danger','Oops!',result.message != undefined ? result.message : result.status,result.message != undefined ? false : true);
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true, allMovieData: []});
+        this.setState({ isDataFetched: true, allMovieData: [] });
         console.log('All Movies API Catch Exception: ', err);
         // this.notify('danger','Oops!','Something Went Worng!',false);
       });
@@ -657,11 +684,11 @@ class Home extends Component {
 
   getRecentlyWatched = () => {
     // this.props.navigation.openDrawer();
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     // if (this.props.token !== '') {
     HttpRequest.getRecentlyWatched(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         // console.log("Recently Watched API DATA : ", result.data);
         if (res.status == 200 && result.error == false) {
@@ -675,7 +702,7 @@ class Home extends Component {
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         console.log('Recently Watched API Catch Exception: ', err);
         // this.notify('danger','Oops!','Something Went Worng!', false);
       });
@@ -691,24 +718,24 @@ class Home extends Component {
   // Get All Exclusive Bundle
   getExclusiveBundleNew = () => {
     // console.log('All exclusive Bundle new data token : ', this.props.token);
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     HttpRequest.getEclusiveBundleNew(this.props.token)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         // console.log('All exclusive Bundle new data  : ', JSON.stringify(result.data?.[0]._id));
         if (res.status == 200 && result.error == false) {
           LocalData.setExclusive(result.data?.[0]);
           this.props.storeBundleId(result.data?.[0]._id);
-          this.setState({exclusiveBundleNew: result.data});
+          this.setState({ exclusiveBundleNew: result.data });
         } else {
           // console.log('All Exclusive Bundle new API Error : ', result);
-          this.setState({exclusiveBundleNew: []});
+          this.setState({ exclusiveBundleNew: [] });
           // this.notify('danger','Oops!',result.message != undefined ? result.message : result.status,result.message != undefined ? false : true);
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true, exclusiveBundleNew: []});
+        this.setState({ isDataFetched: true, exclusiveBundleNew: [] });
         console.log('All Exclusive Bundle new API Catch Exception: ', err);
         // this.notify('danger','Oops!','Something Went Worng!',false);
       });
@@ -734,16 +761,16 @@ class Home extends Component {
   }
 
   onScroll(event) {
-    const {showHeader} = this.state;
+    const { showHeader } = this.state;
 
     let show = showHeader;
     const currentOffset = event.nativeEvent.contentOffset.y;
     show = currentOffset < this.offset;
 
     if (currentOffset <= 0) {
-      this.setState({showHeader: true});
+      this.setState({ showHeader: true });
     } else {
-      this.setState({showHeader: false});
+      this.setState({ showHeader: false });
     }
   }
 
@@ -751,9 +778,9 @@ class Home extends Component {
     if (type == '1') {
       return this.props.recentlywatched.slice(0, 10).map(item => {
         return (
-          <View style={[styles.thumbnailView, {borderBottomLeftRadius: 0, borderBottomRightRadius: 0}]} key={item.id}>
+          <View style={[styles.thumbnailView, { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }]} key={item.id}>
             <TouchableOpacity activeOpacity={0.7} onPress={() => this.onDetailPage(item)}>
-              <View style={[styles.thumbnailView, {justifyContent: 'center'}]}>
+              <View style={[styles.thumbnailView, { justifyContent: 'center' }]}>
                 <Image
                   style={styles.thumbnailImage}
                   source={{
@@ -763,10 +790,10 @@ class Home extends Component {
                   contentFit={'cover'}
                 />
                 <View style={styles.buttonPlay}>
-                  <FontAwesome5 name="play-circle" style={{fontSize: 25, color: '#fff'}} />
+                  <FontAwesome5 name="play-circle" style={{ fontSize: 25, color: '#fff' }} />
                 </View>
                 <View style={styles.progressContainer}>
-                  <View style={[styles.progress, {width: '' + item.progress + '%'}]} />
+                  <View style={[styles.progress, { width: '' + item.progress + '%' }]} />
                 </View>
               </View>
             </TouchableOpacity>
@@ -828,14 +855,14 @@ class Home extends Component {
       return this.props.comingsoon.slice(0, 10).map(item => {
         return (
           <View style={styles.thumbnailView} key={item.id}>
-            <TouchableOpacity activeOpacity={0.7} onPress={() => this.props.navigation.push('ComingSoonDetails', {itemId: item.id, type: item.type})}>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => this.props.navigation.push('ComingSoonDetails', { itemId: item.id, type: item.type })}>
               <Image
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
                   cache: 'force-cache',
                 }}
-                 contentFit={'cover'}
+                contentFit={'cover'}
               />
             </TouchableOpacity>
           </View>
@@ -852,11 +879,11 @@ class Home extends Component {
                   uri: item.thumbnail,
                   cache: 'force-cache',
                 }}
-                 contentFit={'cover'}
+                contentFit={'cover'}
               />
             </TouchableOpacity>
-            <View style={{position: 'absolute', top: 3, right: 5, padding: 5, backgroundColor: colors.brandPrimary, borderRadius: 5}}>
-              <Text style={{fontSize: 8, color: colors.white}}>Exclusive</Text>
+            <View style={{ position: 'absolute', top: 3, right: 5, padding: 5, backgroundColor: colors.brandPrimary, borderRadius: 5 }}>
+              <Text style={{ fontSize: 8, color: colors.white }}>Exclusive</Text>
             </View>
           </View>
         );
@@ -865,18 +892,18 @@ class Home extends Component {
       return this.state.exclusiveBundleNew[0].getMovieDetail.slice(0, 10).map(item => {
         return (
           <View style={styles.thumbnailView} key={item.id}>
-            <TouchableOpacity activeOpacity={0.7} onPress={() => this.props.navigation.push('Exclusive', {itemId: item.id, type: item.type})}>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => this.props.navigation.push('Exclusive', { itemId: item.id, type: item.type })}>
               <Image
                 style={styles.thumbnailImage}
                 source={{
                   uri: item.thumbnail,
                   cache: 'force-cache',
                 }}
-                 contentFit={'cover'}
+                contentFit={'cover'}
               />
             </TouchableOpacity>
-            <View style={{position: 'absolute', top: 3, right: 5, padding: 5, backgroundColor: colors.brandPrimary, borderRadius: 5}}>
-              <Text style={{fontSize: 8, color: colors.white}}>Exclusive</Text>
+            <View style={{ position: 'absolute', top: 3, right: 5, padding: 5, backgroundColor: colors.brandPrimary, borderRadius: 5 }}>
+              <Text style={{ fontSize: 8, color: colors.white }}>Exclusive</Text>
             </View>
           </View>
         );
@@ -892,11 +919,11 @@ class Home extends Component {
                   uri: item.thumbnail,
                   cache: 'force-cache',
                 }}
-                 contentFit={'cover'}
+                contentFit={'cover'}
               />
             </TouchableOpacity>
-            <View style={{position: 'absolute', top: 3, right: 5, padding: 5, backgroundColor: colors.brandPrimary, borderRadius: 5}}>
-              <Text style={{fontSize: 8, color: colors.white}}>LIVE</Text>
+            <View style={{ position: 'absolute', top: 3, right: 5, padding: 5, backgroundColor: colors.brandPrimary, borderRadius: 5 }}>
+              <Text style={{ fontSize: 8, color: colors.white }}>LIVE</Text>
             </View>
           </View>
         );
@@ -912,7 +939,7 @@ class Home extends Component {
                   uri: item.thumbnail,
                   cache: 'force-cache',
                 }}
-                 contentFit={'cover'}
+                contentFit={'cover'}
               />
             </TouchableOpacity>
           </View>
@@ -921,20 +948,20 @@ class Home extends Component {
     }
   };
 
-  renderItem = ({item, index}) => {
+  renderItem = ({ item, index }) => {
     if (item.content.length > 0) {
       return (
         <View style={styles.middleContainer} key={item?._id}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10 }}>
             <Text style={styles.thumbnailHeader}>{item.name + ' ' + this.state.activeGenre}</Text>
             {item.content.length > 3 && (
-              <TouchableOpacity onPress={() => this.props.navigation.push('SeeMore', {itemId: item})}>
-                <Text style={[styles.thumbnailHeader, {fontSize: 12}]}>See More</Text>
+              <TouchableOpacity onPress={() => this.props.navigation.push('SeeMore', { itemId: item })}>
+                <Text style={[styles.thumbnailHeader, { fontSize: 12 }]}>See More</Text>
               </TouchableOpacity>
             )}
           </View>
           <View
-            onLayout={({nativeEvent}) => {
+            onLayout={({ nativeEvent }) => {
               this.setState({
                 measuresSeason: nativeEvent.layout.y + 10,
               });
@@ -954,7 +981,7 @@ class Home extends Component {
                           uri: childItem.thumbnail,
                           cache: 'force-cache',
                         }}
-                         contentFit={'cover'}
+                        contentFit={'cover'}
                       />
                     </TouchableOpacity>
                   </View>
@@ -962,17 +989,17 @@ class Home extends Component {
               })}
             </ScrollView>
           </View>
-          {index % 2 == 0 && <SequentialBanner/>} 
+          {index % 2 == 0 && <SequentialBanner />}
         </View>
       );
     }
   };
 
   onVideoLayout = event => {
-    const {height} = Dimensions.get('window');
+    const { height } = Dimensions.get('window');
     let start = -(event.nativeEvent.layout.y - height + this.threshold);
     let end = event.nativeEvent.layout.y + event.nativeEvent.layout.height - this.threshold;
-    this.setState({position: start, end});
+    this.setState({ position: start, end });
   };
 
   callDetailsScreen = item => {
@@ -980,24 +1007,24 @@ class Home extends Component {
     if (item.isPaid == 2) {
       if (this.props.token != '') {
         console.log('Exclusive content');
-        this.props.navigation.navigate('Exclusive', {itemId: item.id, type: item.type, isFavourite: true, refresh: 1});
+        this.props.navigation.navigate('Exclusive', { itemId: item.id, type: item.type, isFavourite: true, refresh: 1 });
       } else {
         console.log('Details with exclusive content');
 
-        this.props.navigation.navigate('Details', {itemId: item.id, type: item.type, isFavourite: true, refresh: 1});
+        this.props.navigation.navigate('Details', { itemId: item.id, type: item.type, isFavourite: true, refresh: 1 });
       }
     } else {
       console.log('Details content');
-      this.props.navigation.navigate('Details', {itemId: item.id, type: item.type, isFavourite: true, refresh: 1});
+      this.props.navigation.navigate('Details', { itemId: item.id, type: item.type, isFavourite: true, refresh: 1 });
     }
   };
 
   _onLoadStart = () => {
-    this.setState({isBuffering: true});
+    this.setState({ isBuffering: true });
   };
 
   _onLoad = data => {
-    this.setState({isBuffering: false});
+    this.setState({ isBuffering: false });
   };
 
   _onProgress = progress => {
@@ -1007,8 +1034,8 @@ class Home extends Component {
   };
 
   render() {
-    let {isConnected, paused, isMuted, refreshing, isDataFetched, isNotify, title, subtitle, type, action, allMovies, allEvents, gameAll, getEnterAll, allMovieData, exclusiveData, exclusiveDataNew, exclusiveBundle, exclusiveBundleNew, allSeries, adsData, adsStatus} = this.state;
-    let {recentlywatched, latestmovies, latestseries, documentary, comingsoon, trendingnow, Vlogs, latestGame, Exclusive} = this.props;
+    let { isConnected, paused, isMuted, refreshing, isDataFetched, isNotify, title, subtitle, type, action, allMovies, allEvents, gameAll, getEnterAll, allMovieData, exclusiveData, exclusiveDataNew, exclusiveBundle, exclusiveBundleNew, allSeries, adsData, adsStatus } = this.state;
+    let { recentlywatched, latestmovies, latestseries, documentary, comingsoon, trendingnow, Vlogs, latestGame, Exclusive } = this.props;
     let sortedObj = [{}];
     let sortedObj1 = allMovieData.sort(function (a, b) {
       if (b.content != undefined) {
@@ -1026,11 +1053,11 @@ class Home extends Component {
       }
     });
     return (
-      <SafeAreaView edges={['top']}   style={styles.container}>
+      <SafeAreaView edges={['top']} style={styles.container}>
         <StatusBar hidden={false} />
         <View style={styles.rightContainer}>
           {/* Header */}
-         <HomeHeader {...this.props} />
+          <HomeHeader {...this.props} />
           {!isDataFetched && isConnected && (
             <View style={styles.noResultContainer}>
               <View style={styles.loaderContainer}>
@@ -1044,7 +1071,7 @@ class Home extends Component {
               scrollEventThrottle={16}
               showsVerticalScrollIndicator={false}
               style={styles.scrollView}>
-              <View style={{height: 180, borderRadius: 10}}>
+              <View style={{ height: 180, borderRadius: 10 }}>
                 <Slider navigation={this.props.navigation} isPaused={paused} isMuted={isMuted} />
                 {isNotify && <Alerts show={isNotify} type={type} title={title} subtitle={subtitle} navigation={this.props.navigation} action={action} onRef={ref => (this.parentReference = ref)} parentReference={this.updateNotify.bind(this)} />}
               </View>
@@ -1055,7 +1082,7 @@ class Home extends Component {
                     <Text style={styles.thumbnailHeader}>Recently Watched</Text>
                   </View>
                   <View
-                    onLayout={({nativeEvent}) => {
+                    onLayout={({ nativeEvent }) => {
                       this.setState({
                         measuresSeason: nativeEvent.layout.y + 10,
                       });
@@ -1074,7 +1101,7 @@ class Home extends Component {
                         <Text style={styles.thumbnailHeader}>Exclusive</Text>
                       </View>
                       <View
-                        onLayout={({nativeEvent}) => {
+                        onLayout={({ nativeEvent }) => {
                           this.setState({
                             measuresSeason: nativeEvent.layout.y + 10,
                           });
@@ -1094,7 +1121,7 @@ class Home extends Component {
                         <Text style={styles.thumbnailHeader}>Exclusive</Text>
                       </View>
                       <View
-                        onLayout={({nativeEvent}) => {
+                        onLayout={({ nativeEvent }) => {
                           this.setState({
                             measuresSeason: nativeEvent.layout.y + 10,
                           });
@@ -1107,22 +1134,22 @@ class Home extends Component {
                   )}
                 </View>
               )}
-              {<SequentialBanner/>}
+              {<SequentialBanner />}
 
               {trendingnow.length > 0 && (
-                <View animation={this.state.isSideBarHidden ? 'slideInLeft' : 'slideInLeft'} delay={4} style={[styles.middleContainer, {margin: 10}]}>
+                <View animation={this.state.isSideBarHidden ? 'slideInLeft' : 'slideInLeft'} delay={4} style={[styles.middleContainer, { margin: 10 }]}>
                   <View style={styles.row}>
                     <Text style={styles.thumbnailHeader} onPress={() => this.props.navigation.navigate('TrendingNow')}>
                       Trending Now
                     </Text>
                     {trendingnow.length > 4 ? (
-                      <Text style={[styles.thumbnailHeader, {fontSize: 12}]} onPress={() => this.props.navigation.navigate('TrendingNow')}>
+                      <Text style={[styles.thumbnailHeader, { fontSize: 12 }]} onPress={() => this.props.navigation.navigate('TrendingNow')}>
                         See More
                       </Text>
                     ) : null}
                   </View>
                   <View
-                    onLayout={({nativeEvent}) => {
+                    onLayout={({ nativeEvent }) => {
                       this.setState({
                         measuresSeason: nativeEvent.layout.y + 10,
                       });
@@ -1141,7 +1168,7 @@ class Home extends Component {
                   </View>
 
                   <View
-                    onLayout={({nativeEvent}) => {
+                    onLayout={({ nativeEvent }) => {
                       this.setState({
                         measuresSeason: nativeEvent.layout.y + 10,
                       });
@@ -1157,11 +1184,11 @@ class Home extends Component {
                                   uri: item.thumbnail,
                                   cache: 'force-cache',
                                 }}
-                                 contentFit={'cover'}
+                                contentFit={'cover'}
                               />
                             </TouchableOpacity>
-                            <View style={{position: 'absolute', top: 3, right: 5, padding: 5, backgroundColor: colors.brandPrimary, borderRadius: 5}}>
-                              <Text style={{fontSize: 8, color: colors.white}}>LIVE</Text>
+                            <View style={{ position: 'absolute', top: 3, right: 5, padding: 5, backgroundColor: colors.brandPrimary, borderRadius: 5 }}>
+                              <Text style={{ fontSize: 8, color: colors.white }}>LIVE</Text>
                             </View>
                           </View>
                         );
@@ -1178,14 +1205,14 @@ class Home extends Component {
                       Movies
                     </Text>
                     {allMovies.length > 4 ? (
-                      <Text style={[styles.thumbnailHeader, {fontSize: 12}]} onPress={() => this.props.navigation.navigate('Movies')}>
+                      <Text style={[styles.thumbnailHeader, { fontSize: 12 }]} onPress={() => this.props.navigation.navigate('Movies')}>
                         See More
                       </Text>
                     ) : null}
                   </View>
 
                   <View
-                    onLayout={({nativeEvent}) => {
+                    onLayout={({ nativeEvent }) => {
                       this.setState({
                         measuresSeason: nativeEvent.layout.y + 10,
                       });
@@ -1204,13 +1231,13 @@ class Home extends Component {
                       Web Series
                     </Text>
                     {allSeries.length > 4 ? (
-                      <Text style={[styles.thumbnailHeader, {fontSize: 12}]} onPress={() => this.props.navigation.navigate('Series')}>
+                      <Text style={[styles.thumbnailHeader, { fontSize: 12 }]} onPress={() => this.props.navigation.navigate('Series')}>
                         See More
                       </Text>
                     ) : null}
                   </View>
                   <View
-                    onLayout={({nativeEvent}) => {
+                    onLayout={({ nativeEvent }) => {
                       this.setState({
                         measuresSeason: nativeEvent.layout.y + 10,
                       });
@@ -1229,13 +1256,13 @@ class Home extends Component {
                       Coming Soon
                     </Text>
                     {comingsoon.length > 4 ? (
-                      <Text style={[styles.thumbnailHeader, {fontSize: 12}]} onPress={() => this.props.navigation.navigate('ComingSoon')}>
+                      <Text style={[styles.thumbnailHeader, { fontSize: 12 }]} onPress={() => this.props.navigation.navigate('ComingSoon')}>
                         See More
                       </Text>
                     ) : null}
                   </View>
                   <View
-                    onLayout={({nativeEvent}) => {
+                    onLayout={({ nativeEvent }) => {
                       this.setState({
                         measuresSeason: nativeEvent.layout.y + 10,
                       });
@@ -1247,8 +1274,8 @@ class Home extends Component {
                 </View>
               )}
 
-              {<SequentialBanner/>}
-              
+              {<SequentialBanner />}
+
               {allMovieData != 0 ? null : (
                 <Animatable.View animation={'slideInRight'} style={styles.noResultContainer}>
                   <View style={styles.loaderContainer}>
@@ -1260,7 +1287,7 @@ class Home extends Component {
                 <FlatList
                   // keyExtractor={(index, item) => index}
                   data={sortedObj}
-                  style={{height: '100%'}}
+                  style={{ height: '100%' }}
                   renderItem={this.renderItem}
                 />
               )}
@@ -1279,6 +1306,7 @@ const mapStateToProps = state => {
   // console.log(`map state to props home `, state);
   return {
     token: state.token,
+      info: state.info,
     sliderImages: state.slider,
     recentlywatched: state.recentlywatched,
     latestmovies: state.latestmovies,
@@ -1295,7 +1323,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({slider, recentlyWatched, latestMovies, bannerAds, videoAds, latestSeries, documentaries, comingSoon, trendingNow, latestEvents, vlogs, latestGame, Exclusive, storeBundleId}, dispatch);
+  return bindActionCreators({ slider, recentlyWatched, latestMovies, bannerAds, videoAds, latestSeries, documentaries, comingSoon, trendingNow, latestEvents, vlogs, latestGame, Exclusive, storeBundleId }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

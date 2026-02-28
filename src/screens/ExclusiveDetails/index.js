@@ -822,7 +822,7 @@ async  componentDidMount() {
         const result = res.data;
         if (result.error == false) {
           console.log('Order Place order ', result.data);
-          this.getOrderStatus(result.data.payment_id, result.data.order_id, result.data.paymentstatus);
+          this.navigate(this.props.route?.params?.itemId, this.props.route?.params?.type || '1');
         } else {
          this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, false);
         }

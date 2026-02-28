@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {View, Alert, Text,Image,  ScrollView, TouchableOpacity, Share, PermissionsAndroid, Platform, ActivityIndicator, TouchableWithoutFeedback, AppState, Button} from 'react-native';
+import React, { Component } from 'react';
+import { View, Alert, Text, Image, ScrollView, TouchableOpacity, Share, PermissionsAndroid, Platform, ActivityIndicator, TouchableWithoutFeedback, AppState, Button } from 'react-native';
 //Library
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
@@ -14,9 +14,9 @@ import RazorpayCheckout from 'react-native-razorpay';
 import HttpRequest from '../../utils/HTTPRequest';
 import LocalData from '../../utils/LocalData';
 //Redux
-import {connect} from 'react-redux';
-import {userInfo, loginToken, latestMovies, comingSoon} from '../../Redux/Actions/Actions';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { userInfo, loginToken, latestMovies, comingSoon } from '../../Redux/Actions/Actions';
+import { bindActionCreators } from 'redux';
 //components
 import BottomLine from '../../components/BottomHorizontalLine/';
 import Episodes from '../../components/Episodes/';
@@ -33,11 +33,11 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import HeaderWithTittle from '../../components/Header/HeaderWithText';
-import {TestIds, AdEventType, BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
-import {interstitial, bannerAdUnitId} from '../../utils/animations';
+import { TestIds, AdEventType, BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
+import { interstitial, bannerAdUnitId } from '../../utils/animations';
 import colors from '../../constants/colors';
 const localImage = require('../../../assets/img/fzlogo.jpg');
-
+import useIAP from '../../iap/useIAP';
 function getNewOrderID() {
   var update = '';
   var r = Math.random() * new Date().getMilliseconds();
@@ -96,20 +96,21 @@ class Details extends Component {
     });
     Orientation.lockToPortrait();
     this.checkConnectivity();
+     await useIAP.init(this.handleSuccess);
     this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);
     this._toggleTrailer();
-    this.Listener = interstitial.addAdEventsListener(({type, payload}) => {
+    this.Listener = interstitial.addAdEventsListener(({ type, payload }) => {
       if ([AdEventType.LOADED, AdEventType.ERROR].includes(type)) {
-        this.setState({loadingAd: false});
+        this.setState({ loadingAd: false });
       }
 
       console.log('====================================');
-      console.log({LOADED: AdEventType.LOADED});
+      console.log({ LOADED: AdEventType.LOADED });
       console.log('====================================');
       if (type === AdEventType.LOADED) {
         // Alert.alert(JSON.stringify(payload));
         setTimeout(() => {
-          this.setState({loaded: true});
+          this.setState({ loaded: true });
           this.showAds();
         }, 2000);
       } else if (type === AdEventType.CLOSED || type === AdEventType.ERROR) {
@@ -122,12 +123,12 @@ class Details extends Component {
   }
   _toggleVideoPlayer = (path, details, series_id = null) => {
     this.setState({
-        loaded: false,
-        path: path,
-        play_details: details,
-        series_id: series_id,
-        loadingAd: true,
-        isPaused: true,
+      loaded: false,
+      path: path,
+      play_details: details,
+      series_id: series_id,
+      loadingAd: true,
+      isPaused: true,
     });
     if (path && details) {
       if (series_id) {
@@ -142,7 +143,7 @@ class Details extends Component {
     }
   }
   refreshScreen() {
-    this.setState({lastRefresh: Date(Date.now()).toString()});
+    this.setState({ lastRefresh: Date(Date.now()).toString() });
   }
   componentWillUnmount() {
     this.setState({
@@ -154,6 +155,8 @@ class Details extends Component {
     if (this.Listener !== null) {
       this.Listener();
     }
+     // cleanup
+        useIAP.end();
   }
   loadAd = (path, details, id = null) => {
     this.setState(
@@ -232,9 +235,9 @@ class Details extends Component {
   //Handle App State Foreground/Background
   _handleAppStateChange = nextAppState => {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      this.setState({appState: nextAppState, isStarted: true, isMuted: true});
+      this.setState({ appState: nextAppState, isStarted: true, isMuted: true });
     } else {
-      this.setState({appState: nextAppState, isStarted: true, isMuted: true});
+      this.setState({ appState: nextAppState, isStarted: true, isMuted: true });
     }
   };
   //Check Internet Connectivity
@@ -350,7 +353,7 @@ class Details extends Component {
         }
       })
       .catch(err => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
         console.log('Setting Detail API Catch Exception: ', err);
       });
     // } else {
@@ -359,14 +362,14 @@ class Details extends Component {
     // }
   };
   //Initial Background Downloader To check any pending Dowloads for respective movies
- 
+
   // Get Details of Movie From Server
   getMovieDetails = () => {
-    this.setState({isDataFetched: false, isDownloaded: 0, details: {}});
+    this.setState({ isDataFetched: false, isDownloaded: 0, details: {} });
     // if(this.props.token !== ''){
     HttpRequest.getMovieDetails(this.props.token, this.props.route?.params?.itemId)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         // console.log('====================================');
         // console.log({'res.status': result.data});
@@ -381,13 +384,13 @@ class Details extends Component {
           this.getDownloads(result.data);
           this.getRelatedMovies();
         } else {
-          this.setState({details: {}, isDownloaded: 0});
+          this.setState({ details: {}, isDownloaded: 0 });
           console.log('Movie Detail API Error : ', result);
           this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, result.message != undefined ? true : true);
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true, details: {}, isDownloaded: 0});
+        this.setState({ isDataFetched: true, details: {}, isDownloaded: 0 });
         console.log('Movie Detail API Catch Exception: ', err);
         this.notify('danger', 'Oops!', 'Something Went Worng!', false);
       });
@@ -399,11 +402,11 @@ class Details extends Component {
   };
 
   getUserMovieDetails = () => {
-    this.setState({isDataFetched: false, isDownloaded: 0, details: {}});
+    this.setState({ isDataFetched: false, isDownloaded: 0, details: {} });
     // if(this.props.token !== ''){
     HttpRequest.getMovieDetails(this.props.token, this.props.route?.params?.itemId)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         if (res.status == 200 && result.error == false) {
           this.setState({
@@ -415,13 +418,13 @@ class Details extends Component {
           this.getDownloads(result.data);
           this.getRelatedMovies();
         } else {
-          this.setState({details: {}, isDownloaded: 0});
+          this.setState({ details: {}, isDownloaded: 0 });
           console.log('Movie Detail API Error : ', result);
           this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, result.message != undefined ? true : true);
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true, details: {}, isDownloaded: 0});
+        this.setState({ isDataFetched: true, details: {}, isDownloaded: 0 });
         console.log('Movie Detail API Catch Exception: ', err);
         this.notify('danger', 'Oops!', 'Something Went Worng!', false);
       });
@@ -433,16 +436,16 @@ class Details extends Component {
   };
 
   getTVMovieDetails = () => {
-    this.setState({isDataFetched: false, isDownloaded: 0, details: {}});
+    this.setState({ isDataFetched: false, isDownloaded: 0, details: {} });
     HttpRequest.getTVMovieDetails(this.props.token, this.props.route?.params?.itemId)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         if (result.error == false) {
           if (result.data?.id)
             this.setState({
               isDownloaded: result.isDownloaded,
-              details: {...result.data, exclusiveamount: result?.exclusiveamountbundel || result?.data?.exclusiveamount || 0},
+              details: { ...result.data, exclusiveamount: result?.exclusiveamountbundel || result?.data?.exclusiveamount || 0 },
               isFavourite: result.favorite == 1 ? true : false,
             });
           console.log(' user Details movies: ', result.data);
@@ -452,13 +455,13 @@ class Details extends Component {
           });
           // this.getRelatedMovies();
         } else {
-          this.setState({details: {}, isDownloaded: 0});
+          this.setState({ details: {}, isDownloaded: 0 });
           console.log('Movien User Detail API Error : ', result);
           this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, result.message != undefined ? true : true);
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true, details: {}, isDownloaded: 0});
+        this.setState({ isDataFetched: true, details: {}, isDownloaded: 0 });
         console.log('Movie User Detail API Catch Exception: ', err);
         this.notify('danger', 'Oops!', 'Something Went Worng!', false);
       });
@@ -490,11 +493,11 @@ class Details extends Component {
   };
   //Get Details of Series from Server
   getSeriesDetails = () => {
-    this.setState({isDataFetched: false, details: {}});
+    this.setState({ isDataFetched: false, details: {} });
     // if(this.props.token !== ''){
     HttpRequest.getSeriesDetails(this.props.token, this.props.route?.params?.itemId)
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         if (res.status == 200 && result.error == false) {
           console.log('Get Series Details', JSON.stringify(result.data));
@@ -505,13 +508,13 @@ class Details extends Component {
 
           this.getRelatedSeries();
         } else {
-          this.setState({details: {}});
+          this.setState({ details: {} });
           // console.log("Series Detail API Error : ",result);
           this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, result.message != undefined ? true : true);
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true, details: {}});
+        this.setState({ isDataFetched: true, details: {} });
         // console.log("Series Detail API Catch Exception: ",err);
         this.notify('danger', 'Oops!', 'Something Went Worng!', false);
       });
@@ -523,11 +526,11 @@ class Details extends Component {
   };
 
   getUserSeriesDetails = () => {
-    this.setState({isDataFetched: false, details: {}});
+    this.setState({ isDataFetched: false, details: {} });
     if (this.props.token !== '') {
       HttpRequest.getUserSeriesDetails(this.props.token, this.props.route?.params?.itemId)
         .then(res => {
-          this.setState({isDataFetched: true});
+          this.setState({ isDataFetched: true });
           const result = res.data;
           if (res.status == 200 && result.error == false) {
             console.log('Get Series Details', JSON.stringify(result.data));
@@ -538,18 +541,18 @@ class Details extends Component {
 
             this.getRelatedSeries();
           } else {
-            this.setState({details: {}});
+            this.setState({ details: {} });
             // console.log("Series Detail API Error : ",result);
             this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, result.message != undefined ? true : true);
           }
         })
         .catch(err => {
-          this.setState({isDataFetched: true, details: {}});
+          this.setState({ isDataFetched: true, details: {} });
           // console.log("Series Detail API Catch Exception: ",err);
           this.notify('danger', 'Oops!', 'Something Went Worng!', false);
         });
     } else {
-      this.setState({isDataFetched: true, details: {}});
+      this.setState({ isDataFetched: true, details: {} });
       // console.log("Series Detail Error: Token not found");
       this.notify('danger', 'Oops!', 'We are unable to process your request at the moment! Please try again later.');
     }
@@ -582,7 +585,7 @@ class Details extends Component {
   };
   //Add To Wishlist on Server
   addToWishlist = () => {
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     if (this.props.token !== '' && this.props.route?.params?.itemId) {
       if (this.props.route?.params?.itemId) {
         HttpRequest.addToWishlist(this.props.token, {
@@ -590,10 +593,10 @@ class Details extends Component {
           type: this.state.details.type,
         })
           .then(res => {
-            this.setState({isDataFetched: true});
+            this.setState({ isDataFetched: true });
             const result = res.data;
             if (res.status == 200 && result.error == false) {
-              this.setState({isFavourite: !this.state.isFavourite});
+              this.setState({ isFavourite: !this.state.isFavourite });
               this.notify('success', 'Great!', 'Successfully added to your Wishlist.', false);
             } else {
               // console.log("Add Wishlist API Error : ",result);
@@ -601,33 +604,33 @@ class Details extends Component {
             }
           })
           .catch(err => {
-            this.setState({isDataFetched: true});
+            this.setState({ isDataFetched: true });
             console.log('Add Wishlist API Catch Exception: ', err);
             this.notify('danger', 'Oops!', 'Something Went Worng!', false);
           });
       } else {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         console.log('Add Wishlist Error: Token not found');
         this.notify('danger', 'Oops!', 'We are unable to process your request at the moment! Please try again later.', false);
       }
     } else {
-      this.setState({isDataFetched: true});
+      this.setState({ isDataFetched: true });
       console.log('Add Wishlist Error: Token not found');
       alert('Please login first');
     }
   };
   //Remove Wishlist from Server
   removeFromWishlist = () => {
-    this.setState({isDataFetched: false});
+    this.setState({ isDataFetched: false });
     // if(this.props.token !== '' && this.props.route?.params?.itemId ){
 
     if (this.props.route?.params?.itemId) {
       HttpRequest.removeFromWishlist(this.props.token, this.props.route?.params?.itemId)
         .then(res => {
-          this.setState({isDataFetched: true});
+          this.setState({ isDataFetched: true });
           const result = res.data;
           if (res.status == 200 && result.error == false) {
-            this.setState({isFavourite: !this.state.isFavourite});
+            this.setState({ isFavourite: !this.state.isFavourite });
             this.notify('success', 'Great!', 'Successfully removed from your Wishlist.', false);
           } else {
             // alert(result.message);
@@ -636,19 +639,19 @@ class Details extends Component {
           }
         })
         .catch(err => {
-          this.setState({isDataFetched: true});
+          this.setState({ isDataFetched: true });
           console.log('Remove Wishlist API Catch Exception: ', err);
           this.notify('danger', 'Oops!', 'Something Went Worng!', false);
         });
     } else {
-      this.setState({isDataFetched: true});
+      this.setState({ isDataFetched: true });
       console.log('Remove Wishlist Error: Token not found');
       this.notify('danger', 'Oops!', 'We are unable to process your request at the moment! Please try again later.', false);
     }
   };
   //Share Button Press
   shareButton = () => {
-    let {details} = this.state;
+    let { details } = this.state;
     let link = Platform.OS == 'android' ? 'https://play.google.com/store/apps/details?id=com.freizeitMedia&hl=en_US' : 'https://apps.apple.com/in/app/freizeit-media/id1529561669';
     Share.share({
       message: 'Seen "' + details.name + '" on Jai Ho yet? ' + link,
@@ -658,7 +661,7 @@ class Details extends Component {
   };
   //Wishlist Button Press
   wishlistButton = () => {
-    const {isFavourite} = this.state;
+    const { isFavourite } = this.state;
     console.log('isFavourite movies details ', isFavourite);
     if (isFavourite) {
       this.removeFromWishlist();
@@ -669,7 +672,7 @@ class Details extends Component {
   /************************* Methods For Download ****************************************************/
   //Download Button Press
   downloadtButton = id => {
-    let {details} = this.state;
+    let { details } = this.state;
     if (details.isSubscribed == 0) {
       if (details.isPaid == 1) {
         this.props.navigation.navigate('Subscriptions');
@@ -689,8 +692,8 @@ class Details extends Component {
   };
 
   freeDownload = id => {
-    const {details} = this.state;
-    let {wifi} = this.props;
+    const { details } = this.state;
+    let { wifi } = this.props;
     //Check for setting before download begins if download allowed only over wifi or not
     if (wifi == 0) {
       //Proceed to check permission
@@ -751,55 +754,55 @@ class Details extends Component {
     }
   };
   //Initiat Donwload
- backgroundDownloader = id => {
-  const { details } = this.state;
+  backgroundDownloader = id => {
+    const { details } = this.state;
 
-  this.setState({
-    isDownloading: true,
-    isDownloaded: 0,
-    progress: 0,
-  });
-
-  const videoDest =
-    RNBlobUtil.fs.dirs.DocumentDir +
-    `/content/data/util/sync/.dir/${id}.mp4`;
-
-  this.downloadTask = RNBlobUtil.config({
-    path: videoDest,
-    fileCache: true,
-    overwrite: true,
-  })
-    .fetch('GET', details.link)
-    .progress({ interval: 500 }, (received, total) => {
-      const percent = (received / total) * 100;
-      this.setState({ progress: percent });
-    })
-    .then(res => {
-      this.setState({
-        isDownloading: false,
-        isDownloaded: 1,
-        progress: 100,
-        video: videoDest,
-      });
-
-      this.downloadDetailsToServer(id, videoDest);
-      this.storeInLocalStorage(videoDest);
-    })
-    .catch(err => {
-      console.log('Download error:', err);
-      this.setState({
-        isDownloading: false,
-        isDownloaded: 0,
-        progress: 0,
-        video: '',
-      });
+    this.setState({
+      isDownloading: true,
+      isDownloaded: 0,
+      progress: 0,
     });
-};
+
+    const videoDest =
+      RNBlobUtil.fs.dirs.DocumentDir +
+      `/content/data/util/sync/.dir/${id}.mp4`;
+
+    this.downloadTask = RNBlobUtil.config({
+      path: videoDest,
+      fileCache: true,
+      overwrite: true,
+    })
+      .fetch('GET', details.link)
+      .progress({ interval: 500 }, (received, total) => {
+        const percent = (received / total) * 100;
+        this.setState({ progress: percent });
+      })
+      .then(res => {
+        this.setState({
+          isDownloading: false,
+          isDownloaded: 1,
+          progress: 100,
+          video: videoDest,
+        });
+
+        this.downloadDetailsToServer(id, videoDest);
+        this.storeInLocalStorage(videoDest);
+      })
+      .catch(err => {
+        console.log('Download error:', err);
+        this.setState({
+          isDownloading: false,
+          isDownloaded: 0,
+          progress: 0,
+          video: '',
+        });
+      });
+  };
 
   //Store Downloaded File Details on Server
   downloadDetailsToServer = (file_name, path) => {
-    let {details} = this.state;
-    this.setState({isDataFetched: false});
+    let { details } = this.state;
+    this.setState({ isDataFetched: false });
     // if(this.props.token !== ''){
     HttpRequest.downloadSpecificVideo(this.props.token, {
       content_id: this.props.route?.params?.itemId,
@@ -808,7 +811,7 @@ class Details extends Component {
       path: path,
     })
       .then(res => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         const result = res.data;
         if (res.status == 200 && result.error == false) {
           console.log('Download Specific Video API Success : ', result.message);
@@ -817,7 +820,7 @@ class Details extends Component {
         }
       })
       .catch(err => {
-        this.setState({isDataFetched: true});
+        this.setState({ isDataFetched: true });
         console.log('Download Specific VideoAPI Catch Exception: ', err);
       });
     // } else {
@@ -827,7 +830,7 @@ class Details extends Component {
   };
   //Store Details of downloaded File in Async Store( Local Data )
   storeInLocalStorage = path => {
-    let {details} = this.state;
+    let { details } = this.state;
     //Reset
     // LocalData.setDownloads('');
     //Fetch Local Storage Data
@@ -854,15 +857,15 @@ class Details extends Component {
           this.stopDownload();
         },
       },
-      {text: 'No'},
+      { text: 'No' },
     ]);
   };
   //Stop Download Progress completely
   stopDownload = () => {
     // console.log("Stopped");
     if (this.downloadTask) {
-    RNBlobUtil.cancelFetch(this.downloadTask.taskId);
-  }
+      RNBlobUtil.cancelFetch(this.downloadTask.taskId);
+    }
 
     this.setState({
       isDownloading: false,
@@ -887,7 +890,7 @@ class Details extends Component {
   };
   //Push To Details of Related movies
   navigate = (itemId, itemType) => {
-    const {isPushed} = this.state;
+    const { isPushed } = this.state;
     if (!isPushed) {
       this.setState({
         isStarted: true,
@@ -907,7 +910,7 @@ class Details extends Component {
       return (
         <View style={styles.thumbnailView} key={item.id}>
           <TouchableOpacity onPress={() => this.navigate(item.id, item.type)}>
-            <Image style={styles.thumbnailImage} source={{uri: item.thumbnail}} contentFit={'cover'} />
+            <Image style={styles.thumbnailImage} source={{ uri: item.thumbnail }} contentFit={'cover'} />
           </TouchableOpacity>
         </View>
       );
@@ -944,6 +947,34 @@ class Details extends Component {
     this._toggleVideoPlayer(path, details, id);
     // this.loadAd(path, details, id);
   };
+handleSuccess = async (receipt) => {
+   
+ let statusData = {
+       transaction_id:receipt,
+      bundel_id: this.props.bundleId,
+      user_id: this.props.info._id,
+    };
+      HttpRequest.placeIOSOrder(statusData)
+      .then(res => {
+        this.setState({isLoading: false});
+        const result = res.data;
+        if (result.error == false) {
+          console.log('Order Place order ', result.data);
+        } else {
+         this.notify('danger', 'Oops!', result.message != undefined ? result.message : result.status, false);
+        }
+      })
+      .catch(err => {
+        this.setState({isLoading: false});
+        console.log('Place Order Catch Exception: ', err);
+        this.notify('danger', 'Oops!', 'Something Went Worng!', false);
+      });
+  
+  };
+
+  onSubscribePress = () => {
+    useIAP.buySubscription();
+  };
 
   _play = (path, details) => {
     if (details.isSubscribed == 0) {
@@ -952,7 +983,11 @@ class Details extends Component {
       } else if (details.isPaid == 2) {
         // console.log('Exclusive video', this.props.info);
         if (this.props.token !== '') {
-          this.getPlaceOrder();
+          if (Platform.OS == 'ios') {
+            this.onSubscribePress()
+          } else {
+            this.getPlaceOrder();
+          }
         } else {
           this.props.navigation.navigate('Signin');
         }
@@ -969,7 +1004,7 @@ class Details extends Component {
   };
 
   getPlaceOrder = () => {
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
     var OrderID = getNewOrderID();
     let order_Data = {
       order_id: OrderID,
@@ -987,7 +1022,7 @@ class Details extends Component {
     };
     HttpRequest.placeOrder(order_Data)
       .then(res => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
         const result = res.data;
         if (res.status == 200 && result.error == false) {
           console.log('Order Place order ', result);
@@ -998,14 +1033,14 @@ class Details extends Component {
         }
       })
       .catch(err => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
         console.log('Place Order Catch Exception: ', err);
         this.notify('danger', 'Oops!', 'Something Went Worng!', false);
       });
     //   console.log('result:', user);
   };
   getExclusive = OrderID => {
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
 
     var options = {
       description: 'Order id :' + OrderID + ' Payment',
@@ -1020,18 +1055,18 @@ class Details extends Component {
         contact: this.props.info.phone,
         name: this.props.info.name,
       },
-      theme: {color: '#D65050'},
+      theme: { color: '#D65050' },
     };
     RazorpayCheckout.open(options)
       .then(data => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
         // handle success
         console.log('SUccess data', JSON.stringify(data));
         // alert(`Success: ${data.razorpay_payment_id}`);
         this.getOrderStatus(data.razorpay_payment_id, OrderID);
       })
       .catch(error => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
         // handle failure
         console.log('Failure data', error);
         alert(`Error: ${error.code} | ${error.description}`);
@@ -1039,14 +1074,14 @@ class Details extends Component {
   };
 
   getOrderStatus = (paymentid, orderid) => {
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
     let statusData = {
       razorpay_payment_id: paymentid,
       order_id: orderid,
     };
     HttpRequest.getOrderStatus(statusData)
       .then(res => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
         const result = res.data;
         if (res.status == 200 && result.error == false) {
           console.log('Get order status true ', result);
@@ -1056,7 +1091,7 @@ class Details extends Component {
         }
       })
       .catch(err => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
         console.log('Get Order staus Catch Exception: ', err);
         this.notify('danger', 'Oops!', 'Something Went Worng!', false);
       });
@@ -1068,21 +1103,21 @@ class Details extends Component {
       isStarted: true,
       isPaused: false,
     });
-  
+
     const navigationParams = {
       videoPath: path,
       details: details
     };
-  
+
     if (type === 'series') {
       navigationParams.series_id_details = series_id;
     }
-   
+
     this.props.navigation.navigate('Video', navigationParams);
   }
 
   _toggleTrailer = () => {
-    const {isStarted, isMuted, isPaused} = this.state;
+    const { isStarted, isMuted, isPaused } = this.state;
     if (isStarted) {
       this.setState({
         isStarted: false,
@@ -1109,16 +1144,16 @@ class Details extends Component {
     }
   };
   _toggleVolume = () => {
-    const {isMuted} = this.state;
+    const { isMuted } = this.state;
     this.setState({
       isMuted: !isMuted,
     });
   };
   _onLoadStart = () => {
-    this.setState({isBuffering: true});
+    this.setState({ isBuffering: true });
   };
   _onLoad = data => {
-    this.setState({isBuffering: false, videoDuration: data.duration});
+    this.setState({ isBuffering: false, videoDuration: data.duration });
     if (this.state.showControls) {
       this.setControlTimeout();
     }
@@ -1143,10 +1178,10 @@ class Details extends Component {
     }
   };
   _onError = err => {
-    this.setState({isBuffering: false});
+    this.setState({ isBuffering: false });
   };
   _replay = async () => {
-    const {isConnected, details, isDataFetched, isStarted} = this.state;
+    const { isConnected, details, isDataFetched, isStarted } = this.state;
     if ((details.trailer !== null || details.trailer != undefined) && isDataFetched && isConnected) {
       try {
         this.setState({
@@ -1187,16 +1222,16 @@ class Details extends Component {
 
   // Render Details View
   render() {
-    const {loadingAd, isConnected, isDataFetched, isDownloaded, details, isNotify, title, subtitle, type, action, isDownloading, progress, video, isStarted, isPaused, isMuted, isBuffering, videoQuality, showControls} = this.state;
+    const { loadingAd, isConnected, isDataFetched, isDownloaded, details, isNotify, title, subtitle, type, action, isDownloading, progress, video, isStarted, isPaused, isMuted, isBuffering, videoQuality, showControls } = this.state;
     let videoPath = details.trailer;
     if (videoPath && Platform.OS === 'android') {
       videoPath = videoPath.replace('https://', 'http://');
     }
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroudColor}}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.backgroudColor }}>
         <StatusBar hidden={false} />
         {isNotify && <Alerts show={true} type={type} title={title} subtitle={subtitle} navigation={this.props.navigation} action={action} onRef={ref => (this.parentReference = ref)} parentReference={this.updateNotify.bind(this)} />}
-        <LinearGradient colors={['rgba(0,0,0,1)', 'rgba(50,52,54,1)', 'rgba(0,0,0,1)']} style={{flex: 1}}>
+        <LinearGradient colors={['rgba(0,0,0,1)', 'rgba(50,52,54,1)', 'rgba(0,0,0,1)']} style={{ flex: 1 }}>
           <View style={styles.rightContainer}>
             {!isConnected && (
               <View
@@ -1225,18 +1260,18 @@ class Details extends Component {
                 <Animatable.View animation={'slideInLeft'} style={styles.bannerContainer}>
                   <HeaderWithTittle name={details.name} navigation={this.props.navigation} />
                   {details.trailer !== null ? (
-                    <LinearGradient colors={['rgba(0,0,0,1)', 'rgba(0,0,0,1)', 'rgba(0,0,0,1)']} style={{flex: 1, justifyContent: 'center'}}>
+                    <LinearGradient colors={['rgba(0,0,0,1)', 'rgba(0,0,0,1)', 'rgba(0,0,0,1)']} style={{ flex: 1, justifyContent: 'center' }}>
                       {!isStarted ? (
-                        <TouchableWithoutFeedback onPress={this._onScreenTouch} style={{flex: 1, height: 500}}>
+                        <TouchableWithoutFeedback onPress={this._onScreenTouch} style={{ flex: 1, height: 500 }}>
                           <Video
-                            source={{uri: videoPath}}
+                            source={{ uri: videoPath }}
                             ref={e => (this.playbackObject = e)}
                             onBuffer={this._onBuffer}
                             onProgress={this._onProgress}
                             onLoadStart={this._onLoadStart}
                             onError={this._onError}
                             onLoad={this._onLoad}
-                            onEnd={() => this.setState({isStarted: true, isMuted: true})}
+                            onEnd={() => this.setState({ isStarted: true, isMuted: true })}
                             bufferConfig={{
                               minBufferMs: 5000,
                               maxBufferMs: 10000,
@@ -1245,20 +1280,20 @@ class Details extends Component {
                             volume={1}
                             muted={isMuted}
                             poster={details.Image}
-                             posterResizeMode={'cover'}
+                            posterResizeMode={'cover'}
                             repeat={false}
                             paused={isPaused} //true
                             resizeMode={'contain'}
-                            style={{flex: 1, height: 500}}
+                            style={{ flex: 1, height: 500 }}
                             ignoreSilentSwitch="ignore"
                           />
                         </TouchableWithoutFeedback>
                       ) : (
-                        <View style={{flex: 1}}>
-                          <Image blurRadius={Platform.OS == 'ios' ? 10 : 5} source={{uri: details.thumbnail}} style={{flex: 1}} />
-                          <View style={[styles.episodeImageView, {position: 'absolute'}]}>
+                        <View style={{ flex: 1 }}>
+                          <Image blurRadius={Platform.OS == 'ios' ? 10 : 5} source={{ uri: details.thumbnail }} style={{ flex: 1 }} />
+                          <View style={[styles.episodeImageView, { position: 'absolute' }]}>
                             <View style={styles.episodeImageView}>
-                              <Image source={{uri: details.thumbnail}} style={styles.episodeImage} />
+                              <Image source={{ uri: details.thumbnail }} style={styles.episodeImage} />
                             </View>
                             {details.isSubscribed == 0 ? (
                               details.isPaid == 1 ? (
@@ -1278,8 +1313,8 @@ class Details extends Component {
                             alignSelf: 'center',
                           }}>
                           {showControls && this.state.progressPlayer > 1 ? (
-                            <TouchableOpacity activeOpacity={0.4} onPress={() => this._onForworBackword('Backword')} style={{marginRight: 20, flexDirection: 'row'}}>
-                              <AntDesign  name="doubleleft" style={{fontSize: 30, color: '#fff'}} />
+                            <TouchableOpacity activeOpacity={0.4} onPress={() => this._onForworBackword('Backword')} style={{ marginRight: 20, flexDirection: 'row' }}>
+                              <AntDesign name="doubleleft" style={{ fontSize: 30, color: '#fff' }} />
                               <Text
                                 style={{
                                   fontSize: 18,
@@ -1292,10 +1327,10 @@ class Details extends Component {
                             </TouchableOpacity>
                           ) : null}
                           <TouchableOpacity activeOpacity={0.4} onPress={() => this._toggleTrailer()}>
-                            {isStarted || isPaused ? <FontAwesome5  name="play" style={{fontSize: 30, color: '#fff'}} /> : showControls ? <AntDesign  name="pause" style={{fontSize: 30, color: '#fff'}} /> : null}
+                            {isStarted || isPaused ? <FontAwesome5 name="play" style={{ fontSize: 30, color: '#fff' }} /> : showControls ? <AntDesign name="pause" style={{ fontSize: 30, color: '#fff' }} /> : null}
                           </TouchableOpacity>
                           {showControls && this.state.progressPlayer > 1 ? (
-                            <TouchableOpacity activeOpacity={0.4} onPress={() => this._onForworBackword('Forword')} style={{marginLeft: 20, flexDirection: 'row'}}>
+                            <TouchableOpacity activeOpacity={0.4} onPress={() => this._onForworBackword('Forword')} style={{ marginLeft: 20, flexDirection: 'row' }}>
                               <Text
                                 style={{
                                   fontSize: 18,
@@ -1305,20 +1340,20 @@ class Details extends Component {
                                 }}>
                                 10
                               </Text>
-                              <AntDesign name="doubleright" style={{fontSize: 30, color: '#fff'}} />
+                              <AntDesign name="doubleright" style={{ fontSize: 30, color: '#fff' }} />
                             </TouchableOpacity>
                           ) : null}
                         </View>
                       ) : null}
                       {isBuffering ? (
-                        <View style={{position: 'absolute', alignSelf: 'center'}}>
-                          <ActivityIndicator size="large" color="#fff" style={{justifySelf: 'center'}} />
+                        <View style={{ position: 'absolute', alignSelf: 'center' }}>
+                          <ActivityIndicator size="large" color="#fff" style={{ justifySelf: 'center' }} />
                         </View>
                       ) : null}
                       {/*********************** videoQuality state to check which link to send ***************************/}
                       {details.type != 2 && (
                         <TouchableOpacity activeOpacity={0.7} onPress={() => this._play(details.link, details)} style={styles.videoButtonContainer}>
-                          <Entypo  name="controller-play" style={{fontSize: 30, color: '#fff'}} />
+                          <Entypo name="controller-play" style={{ fontSize: 30, color: '#fff' }} />
                           <Text
                             style={{
                               fontSize: 18,
@@ -1338,25 +1373,25 @@ class Details extends Component {
                           style={styles.zoomButtonContainer}
                           // style={{ justifyContent:'center',alignItems:'center', position: 'absolute', bottom: 15, right: 25 }}
                           onPress={() => this.onToggleMute()}>
-                          <FontAwesome5 name="volume-mute" style={{fontSize: 20, color: '#fff'}} />
+                          <FontAwesome5 name="volume-mute" style={{ fontSize: 20, color: '#fff' }} />
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity
                           activeOpacity={0.4}
                           style={styles.zoomButtonContainer}
                           onPress={() => this.onToggleMute()}
-                          // style={{ justifyContent:'center',alignItems:'center', position: 'absolute', bottom: 15, right: 25 }}
+                        // style={{ justifyContent:'center',alignItems:'center', position: 'absolute', bottom: 15, right: 25 }}
                         >
-                          <FontAwesome5 name="volume-up" style={{fontSize: 20, color: '#fff'}} />
+                          <FontAwesome5 name="volume-up" style={{ fontSize: 20, color: '#fff' }} />
                         </TouchableOpacity>
                       )}
                     </LinearGradient>
                   ) : (
-                    <View style={{flex: 1}}>
-                      <Image blurRadius={Platform.OS == 'ios' ? 10 : 5} source={{uri: details.thumbnail}} style={{flex: 1}} />
-                      <View style={[styles.episodeImageView, {position: 'absolute'}]}>
+                    <View style={{ flex: 1 }}>
+                      <Image blurRadius={Platform.OS == 'ios' ? 10 : 5} source={{ uri: details.thumbnail }} style={{ flex: 1 }} />
+                      <View style={[styles.episodeImageView, { position: 'absolute' }]}>
                         <View style={styles.episodeImageView}>
-                          <Image source={{uri: details.thumbnail}} style={styles.episodeImage} />
+                          <Image source={{ uri: details.thumbnail }} style={styles.episodeImage} />
                         </View>
                         {details.isSubscribed == 0 ? (
                           details.isPaid == 1 ? (
@@ -1371,7 +1406,7 @@ class Details extends Component {
                       </View>
                       {details.type != 2 && (
                         <TouchableOpacity activeOpacity={0.7} onPress={() => this._play(details.link, details)} style={styles.videoButtonContainer}>
-                          <Entypo name="controller-play" style={{fontSize: 30, color: '#fff'}} />
+                          <Entypo name="controller-play" style={{ fontSize: 30, color: '#fff' }} />
                           <Text
                             style={{
                               fontSize: 18,
@@ -1389,7 +1424,7 @@ class Details extends Component {
                 </Animatable.View>
                 <Animatable.View animation={'slideInRight'} delay={4} style={styles.iconContainer}>
                   <View style={styles.iconView}>
-                    <Text style={[styles.headerText, {flex: 1}]} numberOfLines={1}>
+                    <Text style={[styles.headerText, { flex: 1 }]} numberOfLines={1}>
                       {details.name}
                     </Text>
                     <TouchableOpacity
@@ -1399,7 +1434,7 @@ class Details extends Component {
                         justifyContent: 'center',
                         alignItems: 'flex-end',
                       }}>
-                      <AntDesign name="sharealt" style={{fontSize: 25, color: '#fff'}} />
+                      <AntDesign name="sharealt" style={{ fontSize: 25, color: '#fff' }} />
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => this.wishlistButton()}
@@ -1409,7 +1444,7 @@ class Details extends Component {
                         alignItems: 'flex-end',
                       }}>
                       {/* <Entypo name={this.state.isFavourite ? "star" : "star-outlined"}  style={{fontSize: 25, color: '#fff'}} size={this.state.isFavourite ? 22 : 25} color={this.state.isFavourite ? '#FFDF00' : '#fff'} /> */}
-                      <Entypo name={this.state.isFavourite ? 'star' : 'star-outlined'} style={{fontSize: 25, color: '#fff'}} />
+                      <Entypo name={this.state.isFavourite ? 'star' : 'star-outlined'} style={{ fontSize: 25, color: '#fff' }} />
                     </TouchableOpacity>
                     {!isDownloading && this.props.route?.params?.type == 1 && isDownloaded == 0 && (
                       <TouchableOpacity
@@ -1419,7 +1454,7 @@ class Details extends Component {
                           justifyContent: 'center',
                           alignItems: 'flex-end',
                         }}>
-                        <FontAwesome name="cloud-download" style={{fontSize: 25, color: '#fff'}} />
+                        <FontAwesome name="cloud-download" style={{ fontSize: 25, color: '#fff' }} />
                       </TouchableOpacity>
                     )}
 
@@ -1445,7 +1480,7 @@ class Details extends Component {
                           justifyContent: 'center',
                           alignItems: 'flex-end',
                         }}>
-                        <Entypo  name="thumbs-up" style={{fontSize: 30, color: '#fff'}} />
+                        <Entypo name="thumbs-up" style={{ fontSize: 30, color: '#fff' }} />
                       </View>
                     )}
                   </View>
@@ -1462,7 +1497,7 @@ class Details extends Component {
                   </View>
                   <View style={styles.statsView}>
                     <Text style={styles.statsHeader}>LANGUAGE</Text>
-                    <Text ellipsizeMode="tail" numberOfLines={1} style={[styles.statsText, {width: '63%'}]}>
+                    <Text ellipsizeMode="tail" numberOfLines={1} style={[styles.statsText, { width: '63%' }]}>
                       {details.language != null ? details.language : 'None'}
                     </Text>
                   </View>

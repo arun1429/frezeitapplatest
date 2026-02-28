@@ -129,6 +129,11 @@ export default {
   
   },
 
+  
+  getUserStatus(formData) {
+    return axios.post(`${liveUrl}/check-user-status`, formData);
+  },
+
   getBannerAds(USER_TOKEN) {
     // console.log("Token", USER_TOKEN)
     return axios.get(`${liveUrl}/ads/banner/list`, {headers: {Authorization: 'Bearer '.concat(USER_TOKEN)}});
