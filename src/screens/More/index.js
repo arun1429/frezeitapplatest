@@ -47,10 +47,11 @@ const MENU_AUTH = [
   { id: 4, name: 'SETTINGS', route: 'Settings', icon: 'player-settings', type: 'Fontisto' },
   { id: 5, name: 'HELP', route: 'Help', image: require('../../../assets/icons/help.png') },
   { id: 6, name: 'PRIVACY', route: 'Privacy', image: require('../../../assets/icons/privacy.png') },
-  { id: 7, name: 'CONNECT TV', route: 'ConnectDevices', icon: 'devices', type: 'MaterialIcons' },
+  { id: 7, name: 'DELETE ACCOUNT', route: 'DeleteAccount',  icon: 'delete', type: 'MaterialIcons' },
+  { id: 8, name: 'CONNECT TV', route: 'ConnectDevices', icon: 'devices', type: 'MaterialIcons' },
 ];
 
-const MENU_GUEST = MENU_AUTH.filter(i => i.id !== 7);
+const MENU_GUEST = MENU_AUTH.filter(i => i.id !== 8);
 
 /* ---------------- COMPONENT ---------------- */
 

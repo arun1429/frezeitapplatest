@@ -1,5 +1,5 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Settings from '../screens/Settings/index';
 import NewsDetail from '../screens/NewsDetail/index';
@@ -26,6 +26,7 @@ import VideoPlayer from '../screens/VideoPlayer/';
 //Other Screens
 import Wishlist from '../screens/Wishlist/';
 import Download from '../screens/Downloads/';
+import DeleteAccount from '../screens/DeleteAccount/';
 import Help from '../screens/Help/';
 import Privacy from '../screens/Privacy/';
 import TermsConditions from '../screens/TermsCondition/';
@@ -55,20 +56,20 @@ const defaultStackSettings = {
   headerShown: false,
   gestureEnabled: false,
 };
-const AppNavigator  = (props) => {
+const AppNavigator = (props) => {
 
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-       <Stack.Screen name="Home" component={DrawerNavigator} options={defaultStackSettings} />
-        <Stack.Screen name="Signup" component={Signup} options={defaultStackSettings} />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={DrawerNavigator} options={defaultStackSettings} />
+      <Stack.Screen name="Signup" component={Signup} options={defaultStackSettings} />
       <Stack.Screen name="Signin" component={Signin} options={defaultStackSettings} />
       <Stack.Screen name="Profile" component={Profile} options={defaultStackSettings} />
-       <Stack.Screen name="Search" component={Search} options={defaultStackSettings} />
-       <Stack.Screen name="Details" component={Details} options={defaultStackSettings} />
+      <Stack.Screen name="Search" component={Search} options={defaultStackSettings} />
+      <Stack.Screen name="Details" component={Details} options={defaultStackSettings} />
       <Stack.Screen name="Settings" component={Settings} options={defaultStackSettings} />
       <Stack.Screen name="NewsDetail" component={NewsDetail} options={defaultStackSettings} />
-      <Stack.Screen name="MoviesByLanguages" component={MovieLanguages} options={defaultStackSettings}/>
-
+      <Stack.Screen name="MoviesByLanguages" component={MovieLanguages} options={defaultStackSettings} />
+      <Stack.Screen name="DeleteAccount" component={DeleteAccount} options={defaultStackSettings} />
       <Stack.Screen name="forgotPassword" component={RecoverPassword} options={defaultStackSettings} />
       <Stack.Screen name="Subscriptions" component={Subscriptions} options={defaultStackSettings} />
       <Stack.Screen name="Movies" component={Movies} options={defaultStackSettings} />
@@ -96,12 +97,12 @@ const AppNavigator  = (props) => {
       <Stack.Screen name="Support" component={Support} options={defaultStackSettings} />
       <Stack.Screen name="Order" component={OrderHistory} options={defaultStackSettings} />
       <Stack.Screen name="Plan" component={Plan} options={defaultStackSettings} />
-     
+
       <Stack.Screen name="Intro" component={Intro} options={defaultStackSettings} />
       <Stack.Screen name="IntroHelp" component={IntroHelp} options={defaultStackSettings} />
       <Stack.Screen name="IntroPrivacy" component={IntroPrivacy} options={defaultStackSettings} />
       <Stack.Screen name="IntroFaq" component={IntroFaq} options={defaultStackSettings} />
-      
+
 
     </Stack.Navigator>
   );

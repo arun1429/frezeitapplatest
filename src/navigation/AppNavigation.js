@@ -24,6 +24,7 @@ import Download from '../screens/Downloads/';
 import Profile from '../screens/MyProfile/';
 import Help from '../screens/Help/';
 import Privacy from '../screens/Privacy/';
+import DeleteAccount from '../screens/DeleteAccount/';
 import TermsConditions from '../screens/TermsCondition/';
 import Settings from '../screens/Settings/';
 import SideMenu from '../components/SideMenu/';
@@ -81,6 +82,7 @@ const AppNavigation = props => {
       <Stack.Screen name="Help" component={Help} options={defaultStackSettings} />
       <Stack.Screen name="ConnectDevices" component={ConnectDevices} options={defaultStackSettings} />
       <Stack.Screen name="Privacy" component={Privacy} options={defaultStackSettings} />
+      <Stack.Screen name="DeleteAccount" component={DeleteAccount} options={defaultStackSettings} />
       <Stack.Screen name="TermsConditions" component={TermsConditions} options={defaultStackSettings} />
       <Stack.Screen name="Settings" component={Settings} options={defaultStackSettings} />
       <Stack.Screen name="SideMenu" component={SideMenu} options={defaultStackSettings} />
