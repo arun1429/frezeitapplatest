@@ -151,7 +151,9 @@ class Details extends Component {
       isMuted: true,
     });
     this.onBlur();
+    if (this.appStateSubscription && this.appStateSubscription.remove) {
     this.appStateSubscription.remove();
+  }
     if (this.Listener !== null) {
       this.Listener();
     }

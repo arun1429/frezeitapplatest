@@ -1035,7 +1035,7 @@ class Home extends Component {
 
   render() {
     let { isConnected, paused, isMuted, refreshing, isDataFetched, isNotify, title, subtitle, type, action, allMovies, allEvents, gameAll, getEnterAll, allMovieData, exclusiveData, exclusiveDataNew, exclusiveBundle, exclusiveBundleNew, allSeries, adsData, adsStatus } = this.state;
-    let { recentlywatched, latestmovies, latestseries, documentary, comingsoon, trendingnow, Vlogs, latestGame, Exclusive } = this.props;
+    let { token,recentlywatched, latestmovies, latestseries, documentary, comingsoon, trendingnow, Vlogs, latestGame, Exclusive } = this.props;
     let sortedObj = [{}];
     let sortedObj1 = allMovieData.sort(function (a, b) {
       if (b.content != undefined) {
@@ -1076,7 +1076,7 @@ class Home extends Component {
                 {isNotify && <Alerts show={isNotify} type={type} title={title} subtitle={subtitle} navigation={this.props.navigation} action={action} onRef={ref => (this.parentReference = ref)} parentReference={this.updateNotify.bind(this)} />}
               </View>
 
-              {recentlywatched.length > 0 && (
+              { token && recentlywatched.length > 0 && (
                 <View animation={this.state.isSideBarHidden ? 'slideInLeft' : 'slideInLeft'} delay={4} style={styles.middleContainer}>
                   <View style={styles.row}>
                     <Text style={styles.thumbnailHeader}>Recently Watched</Text>

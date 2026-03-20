@@ -9,7 +9,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-
+import Alerts from '../../components/Alerts';
 import { Appbar, Button, List, Divider } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -47,7 +47,7 @@ const MENU_AUTH = [
   { id: 4, name: 'SETTINGS', route: 'Settings', icon: 'player-settings', type: 'Fontisto' },
   { id: 5, name: 'HELP', route: 'Help', image: require('../../../assets/icons/help.png') },
   { id: 6, name: 'PRIVACY', route: 'Privacy', image: require('../../../assets/icons/privacy.png') },
-  { id: 7, name: 'DELETE ACCOUNT', route: 'DeleteAccount',  icon: 'delete', type: 'MaterialIcons' },
+  { id: 7, name: 'DELETE ACCOUNT', route: 'DeleteAccount', icon: 'delete', type: 'MaterialIcons' },
   { id: 8, name: 'CONNECT TV', route: 'ConnectDevices', icon: 'devices', type: 'MaterialIcons' },
 ];
 
@@ -56,6 +56,17 @@ const MENU_GUEST = MENU_AUTH.filter(i => i.id !== 8);
 /* ---------------- COMPONENT ---------------- */
 
 class More extends Component {
+   constructor(props) {
+      super(props);
+      this.state = {
+        isNotify: false,
+        title: '',
+        subtitle: '',
+        type: '',
+        
+     };
+  }
+   
   componentDidMount() {
     eventBus.emit('videoPaused', { isClosed: 'false' });
   }
@@ -66,7 +77,23 @@ class More extends Component {
       { text: 'Logout', onPress: this.logoutAPI },
     ]);
   };
+ //Notification Alerts Open
+  notify = (type, title, subtitle, action) => {
+    this.setState({
+      isNotify: true,
+      title: title,
+      subtitle: subtitle,
+      type: type,
+      action: action,
+    });
+  };
 
+  //Notification Alerts CLose
+  updateNotify() {
+    this.setState({
+      isNotify: false,
+    });
+  }
   logoutAPI = () => {
     const { token } = this.props;
 
@@ -78,7 +105,8 @@ class More extends Component {
           LocalData.setLoginToken('');
           this.props.loginToken('');
           LocalData.setUserInfo(null).then(() => {
-            this.props.navigation.navigate('Signin');
+             Alert.alert('Oops', 'Logout successful');
+            this.props.navigation.navigate('Splash');
           });
         } else {
           Alert.alert('Oops', 'Unable to logout');
@@ -86,7 +114,42 @@ class More extends Component {
       })
       .catch(() => Alert.alert('Oops', 'Unable to logout'));
   };
+    callUserDelete = (item) => {
+    Alert.alert('Delete Account', 'Are you sure you want to delete your account?', [
+      { text: 'Cancel' },
+      { text: 'Delete', onPress: () => this.callUserDeleteAccount(item) },
+    ]);
+  };
+  callUserDeleteAccount = (item) => {
+    const { token } = this.props;
+    if (!token) {
+      this.props.navigation.navigate(item.route, { auth: true })
+    } else {
+      var userData = {
+        user_id: this.props.info._id,
+      };
+      HttpRequest.deleteAccount(userData)
+        .then(res => {
+          if (res.status === 200 && res.data.status) {
+            LocalData.setLoginToken('');
+            this.props.loginToken('');
+            LocalData.setUserInfo(null).then(() => {
+             
+              this.props.navigation.navigate('Splash');
+            });
+            this.notify('danger','Oops!',res.data.message,false);
+          }else {
+             this.notify('danger','Oops!',res.data.message,false);
+          }
+        })
+        .catch((e) => {
+          console.log("deleteAccount error", e);
+            Alert.alert('Oops', 'Unable to delete account');
+        });
+    }
 
+
+  };
   referAFriend = () => {
     const link =
       Platform.OS === 'android'
@@ -117,9 +180,9 @@ class More extends Component {
   render() {
     const { token, info } = this.props;
     const menuData = token ? MENU_AUTH : MENU_GUEST;
-
+    let {isNotify, title, subtitle, type, action, } = this.state;
     return (
-      <SafeAreaView  edges={['top']}  style={{ flex: 1, backgroundColor: colors.backgroudColor }}>
+      <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: colors.backgroudColor }}>
         <HomeHeader {...this.props} />
         <StatusBar hidden={false} />
 
@@ -127,7 +190,7 @@ class More extends Component {
           {/* PROFILE HEADER */}
           <View style={styles.drawerHeader}>
             <Image source={drawerImage} style={styles.customerPicture} />
-            <Text style={styles.headerText}>{info?.name}</Text>
+            <Text style={styles.headerText}>{token ? info?.name : ''}</Text>
           </View>
 
           {/* PROFILE BUTTON */}
@@ -151,7 +214,7 @@ class More extends Component {
                 titleStyle={styles.text}
                 left={() => this.renderIcon(item)}
                 onPress={() =>
-                  this.props.navigation.navigate(item.route, { auth: true })
+                 this.callUserDelete(item)
                 }
                 style={styles.items}
               />
@@ -196,6 +259,7 @@ class More extends Component {
               <Text style={styles.text}>LOGOUT</Text>
             </TouchableOpacity>
           ) : null}
+           {isNotify && <Alerts show={isNotify} type={type} title={title} subtitle={subtitle} navigation={this.props.navigation} action={action} onRef={ref => (this.parentReference = ref)} parentReference={this.updateNotify.bind(this)} />}
         </ScrollView>
       </SafeAreaView>
     );

@@ -65,7 +65,11 @@ export default {
     // console.log("FORGOT PASSWORD", formData);
     return axios.post(`${liveUrl}/forget-password`, formData);
   },
-
+// Delete User Account
+  deleteAccount(formData) {
+    console.log("deleteAccount", formData);
+    return axios.post(`${liveUrl}/delete-user-account`, formData);
+  },
   viewCount(formData) {
     // console.log("FORGOT PASSWORD", formData);
     return axios.post(`${liveUrl}/Viewse`, formData);

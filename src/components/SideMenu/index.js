@@ -42,9 +42,10 @@ class SideMenu extends Component {
   };
 
   render() {
+        const { token, info } = this.props;
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroudColor}}>
-        {this.props?.info?.name ? (
+        {token && this.props?.info?.name ? (
           <TouchableOpacity onPress={() => this.gotoProfile()} style={{flexDirection: 'row', padding: 15, alignItems: 'center', marginTop: 50, marginBottom: 30}}>
             <FontAwesome name={'user-circle-o'} color={'#fff'} size={30} />
             <Text style={{color: '#fff', fontSize: 14, paddingLeft: 15}}>{this.props?.info?.name}</Text>
