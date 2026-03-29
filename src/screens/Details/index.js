@@ -51,6 +51,7 @@ class Details extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isFocused: true,
       isDataFetched: false,
       isModalVisible: false,
       isFavourite: false,
@@ -120,6 +121,14 @@ class Details extends Component {
         console.log('Ad event: ', type);
       }
     });
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+    this.setState({ isFocused: true });
+  });
+
+  this.blurListener = this.props.navigation.addListener('blur', () => {
+    // Kill the video immediately when we navigate away
+    this.setState({ isFocused: false, isStarted: true, isPaused: true });
+  });
   }
   _toggleVideoPlayer = (path, details, series_id = null) => {
     this.setState({
@@ -146,10 +155,7 @@ class Details extends Component {
     this.setState({ lastRefresh: Date(Date.now()).toString() });
   }
   componentWillUnmount() {
-    this.setState({
-      isStarted: true,
-      isMuted: true,
-    });
+   
     this.onBlur();
     if (this.appStateSubscription && this.appStateSubscription.remove) {
     this.appStateSubscription.remove();
@@ -159,6 +165,15 @@ class Details extends Component {
     }
      // cleanup
         useIAP.end();
+
+        if (this.focusListener) this.focusListener();
+  if (this.blurListener) this.blurListener();
+  
+  this.setState({
+    isStarted: true,
+    isMuted: true,
+    isFocused: false // Ensure focus is killed
+  });
   }
   loadAd = (path, details, id = null) => {
     this.setState(
@@ -701,7 +716,6 @@ class Details extends Component {
       //Proceed to check permission
       if (Platform.OS == 'android') {
         this.requestStoragePermission(id);
-        this.backgroundDownloader(id);
       } else {
         //Download Process
         this.backgroundDownloader(id);
@@ -737,7 +751,12 @@ class Details extends Component {
   //Check if Permission is granted for storing media in storage
   requestStoragePermission = async id => {
     try {
-      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, {
+      const permission =
+      Platform.Version >= 33
+        ? PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO
+        : PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+
+    const granted = await PermissionsAndroid.request(permission, {
         title: 'Jai Ho Storage Permission',
         message: 'Jai Ho App needs access to your storage ' + 'so that you can download .',
         buttonNeutral: 'Ask Me Later',
@@ -749,7 +768,7 @@ class Details extends Component {
         this.backgroundDownloader(id);
         //ALso check if WIFI or not
       } else {
-        console.log('Storage permission denied');
+         Alert.alert('Permission Denied', 'Storage permission is required to download video.');
       }
     } catch (err) {
       console.warn(err);
@@ -765,10 +784,7 @@ class Details extends Component {
       progress: 0,
     });
 
-    const videoDest =
-      RNBlobUtil.fs.dirs.DocumentDir +
-      `/content/data/util/sync/.dir/${id}.mp4`;
-
+    const videoDest = `${RNBlobUtil.fs.dirs.DownloadDir}/${id}.mp4`;
     this.downloadTask = RNBlobUtil.config({
       path: videoDest,
       fileCache: true,
@@ -1260,7 +1276,7 @@ handleSuccess = async (receipt) => {
                   <HeaderWithTittle name={details.name} navigation={this.props.navigation} />
                   {details.trailer !== null ? (
                     <LinearGradient colors={['rgba(0,0,0,1)', 'rgba(0,0,0,1)', 'rgba(0,0,0,1)']} style={{ flex: 1, justifyContent: 'center' }}>
-                      {!isStarted ? (
+                      {this.state.isFocused && isStarted ? (
                         <TouchableWithoutFeedback onPress={this._onScreenTouch} style={{ flex: 1, height: 500 }}>
                           <Video
                             source={{ uri: videoPath }}
@@ -1281,7 +1297,7 @@ handleSuccess = async (receipt) => {
                             poster={details.Image}
                             posterResizeMode={'cover'}
                             repeat={false}
-                            paused={isPaused} //true
+                            paused={isStarted || isPaused}
                             resizeMode={'contain'}
                             style={{ flex: 1, height: 500 }}
                             ignoreSilentSwitch="ignore"

@@ -530,7 +530,6 @@ async  componentDidMount() {
       //Proceed to check permission
       if (Platform.OS == 'android') {
         this.requestStoragePermission(id);
-        this.backgroundDownloader(id);
       } else {
         //Download Process
         this.backgroundDownloader(id);
@@ -566,7 +565,12 @@ async  componentDidMount() {
   //Check if Permission is granted for storing media in storage
   requestStoragePermission = async id => {
     try {
-      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, {
+      const permission =
+           Platform.Version >= 33
+             ? PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO
+             : PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+     
+         const granted = await PermissionsAndroid.request(permission, {
         title: 'Jai Ho Storage Permission',
         message: 'Jai Ho App needs access to your storage ' + 'so that you can download .',
         buttonNeutral: 'Ask Me Later',
@@ -578,7 +582,7 @@ async  componentDidMount() {
         this.backgroundDownloader(id);
         //ALso check if WIFI or not
       } else {
-        console.log('Storage permission denied');
+       Alert.alert('Permission Denied', 'Storage permission is required to download video.');
       }
     } catch (err) {
       console.warn(err);
@@ -594,9 +598,7 @@ async  componentDidMount() {
     progress: 0,
   });
 
-  const videoDest =
-    RNBlobUtil.fs.dirs.DocumentDir +
-    `/content/data/util/sync/.dir/${id}.mp4`;
+    const videoDest = `${RNBlobUtil.fs.dirs.DownloadDir}/${id}.mp4`;
 
   this.downloadTask = RNBlobUtil.config({
     path: videoDest,

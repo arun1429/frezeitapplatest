@@ -1,11 +1,11 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {View, Alert, Platform, Linking, StyleSheet} from 'react-native';
+import {View, Alert, Platform, Linking, StyleSheet, Dimensions} from 'react-native';
 
 import GetLocation from 'react-native-get-location';
 import Geocoder from 'react-native-geocoding';
 import HttpRequest from '../utils/HTTPRequest';
 import LocalData from '../utils/LocalData';
-
+import Video from 'react-native-video';
 import {useDispatch, useSelector} from 'react-redux';
 import {userInfo, loginToken} from '../Redux/Actions/Actions';
 import {useNavigation} from '@react-navigation/native';
@@ -13,7 +13,6 @@ import messaging, {firebase} from '@react-native-firebase/messaging';
 import DeviceInfo from 'react-native-device-info';
 import NetInfo from '@react-native-community/netinfo';
 import Orientation from 'react-native-orientation-locker';
-import RNBootSplash from 'react-native-bootsplash';
 import LottieView from 'lottie-react-native';
 
 import StatusBar from '../components/StatusBar/';
@@ -60,7 +59,6 @@ const Splash = () => {
       });
 
     Orientation.lockToPortrait();
-    RNBootSplash.hide();
     begin();
 
     return () => {};
@@ -245,6 +243,13 @@ const getFcmToken = async () => {
         resizeMode="cover"
         style={StyleSheet.absoluteFillObject}
       />
+       {/* <Video
+        source={require('../../assets/animations/splash2.mp4')}
+        style={{width :"100%",height :"100%"}}
+        resizeMode="cover"
+        repeat
+        muted
+      /> */}
     </View>
   );
 };

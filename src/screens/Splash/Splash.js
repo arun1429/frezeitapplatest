@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import RNBootSplash from 'react-native-bootsplash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
@@ -13,11 +12,10 @@ const Splash = () => {
 
   useEffect(() => {
     // ✅ Hide native splash immediately
-    RNBootSplash.hide({fade: false});
 
     const bootstrap = async () => {
       // ⏳ Show animation for 5 seconds
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, 15000));
 
       const token = await AsyncStorage.getItem('loginToken');
       const info = await AsyncStorage.getItem('userInfo');
